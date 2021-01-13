@@ -1,9 +1,9 @@
-import 'package:erpapp/qualityinspection/ui/qiform1.dart';
-import 'package:erpapp/qualityinspection/ui/qiform2.dart';
-import 'package:erpapp/qualityinspection/ui/qiform3.dart';
-import 'package:erpapp/qualityinspection/ui/qiform4.dart';
-import 'package:erpapp/qualityinspection/ui/qiform5.dart';
-import 'package:erpapp/qualityinspection/ui/quality_inspection_list_ui.dart';
+import 'package:ebuzz/qualityinspection/ui/qiform1.dart';
+import 'package:ebuzz/qualityinspection/ui/qiform2.dart';
+import 'package:ebuzz/qualityinspection/ui/qiform3.dart';
+import 'package:ebuzz/qualityinspection/ui/qiform4.dart';
+import 'package:ebuzz/qualityinspection/ui/qiform5.dart';
+import 'package:ebuzz/qualityinspection/ui/quality_inspection_list_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

@@ -1,4 +1,4 @@
-import 'package:erpapp/home/ui/home.dart';
+import 'package:ebuzz/home/ui/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

@@ -1,4 +1,4 @@
-import 'package:erpapp/leavebalance/ui/leave_balance_ui.dart';
+import 'package:ebuzz/leavebalance/ui/leave_balance_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

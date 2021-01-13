@@ -1,4 +1,4 @@
-import 'package:erpapp/widgets/unique_warehouse_list.dart';
+import 'package:ebuzz/widgets/unique_warehouse_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

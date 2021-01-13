@@ -1,4 +1,4 @@
-import 'package:erpapp/bom/ui/bom.dart';
+import 'package:ebuzz/bom/ui/bom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
