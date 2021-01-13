@@ -4,7 +4,7 @@
 ### To run code
 Clone the source code<br/>
 ```sh
-git clone https://github.com/Ambibuzz/erpnext-flutter-app.git
+git clone https://github.com/Ambibuzz/ebuzz.git
 ```
 Then go to cloned directory<br/>
 For installing packages<br/>
