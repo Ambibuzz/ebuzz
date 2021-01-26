@@ -73,7 +73,9 @@ Fifth screen displays quality inspection template and takes input in form of rea
 Stock Entry displays list of stock entries which shows stock entry type ,posting date and status in list tiles and when user clicks on particlar entry tile it shows complete detail of that stock entry.<br/><br/>
 
 ### Future Plans
-Configuration for ios 
+* Configuration for iOS and Web
+* Sales Order - Invoice Cycle
+* Standard Reports
 
 ### License
 MIT
