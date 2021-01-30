@@ -443,7 +443,7 @@ class _SOItemsFormState extends State<SOItemsForm> {
                   width: 3,
                 ),
                 Container(
-                  width: displayWidth(context) * 0.22,
+                  width: displayWidth(context) * 0.2,
                   child: TextFormField(
                     controller: quantityController,
                     decoration: InputDecoration(
