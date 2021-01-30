@@ -115,13 +115,7 @@ class SalesOrderItems {
         'item_code': itemcode,
         'qty': qty,
       };
-      // Map toJson() => {
-      //   // 'amount': amount,
-      //   'delivery_date': deliverydate,
-      //   'item_code': itemcode,
-      //   'qty': qty,
-      //   // 'rate': rate,
-      // };
+     
 }
 
 class SalesOrderPaymentSchedule {

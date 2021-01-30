@@ -100,29 +100,21 @@ class _SalesOrderForm1State extends State<SalesOrderForm1> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: blueAccent,
         onPressed: () {
-          pushScreen(
-              context,
-              SalesOrderForm2(
-                company: companyController.text,
-                customer: customerController.text,
-                date: dateController.text,
-                purchaseorder: purchaseOrderController.text,
-                warehouse: warehouseController.text,
-                orderType: ordertype,
-                portOfDischarge: portOfDischarge,
-              ));
-          // if (referenceNameController.text.isNotEmpty)
-          //   pushScreen(
-          //       context,
-          //       QiForm3(
-          //         date: widget.date,
-          //         inspectionType: widget.inspectionType,
-          //         referenceName: referenceNameController.text,
-          //         referenceType: widget.referenceType,
-          //       ));
-          // else
-          //   fluttertoast(
-          //       whiteColor, blueAccent, 'Reference Name should not be empty');
+          if (customerController.text.isNotEmpty &&
+              companyController.text.isNotEmpty &&
+              dateController.text.isNotEmpty) {
+            pushScreen(
+                context,
+                SalesOrderForm2(
+                  company: companyController.text,
+                  customer: customerController.text,
+                  date: dateController.text,
+                  purchaseorder: purchaseOrderController.text,
+                  warehouse: warehouseController.text,
+                  orderType: ordertype,
+                  portOfDischarge: portOfDischarge,
+                ));
+          }
         },
         child: Icon(
           Icons.arrow_forward,

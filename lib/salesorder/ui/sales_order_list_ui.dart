@@ -71,7 +71,6 @@ class _SalesOrderListUiState extends State<SalesOrderListUi> {
 }
 
 //SOTileUi class is a reusable widget which contains ui of list of sales order
-
 class SOTileUi extends StatelessWidget {
   final SalesOrder soData;
   const SOTileUi({this.soData});
@@ -137,13 +136,7 @@ class SOTileUi extends StatelessWidget {
                 SizedBox(
                   width: 5,
                 ),
-                // Container(
-                //   width: displayWidth(context) > 600 ? 30 : 15,
-                //   height: displayWidth(context) > 600 ? 30 : 15,
-                //   decoration: BoxDecoration(
-                //       shape: BoxShape.circle,
-                //       color: soData.status == 'Draft' ? redColor : blackColor),
-                // ),
+               
               ],
             ),
           ),
