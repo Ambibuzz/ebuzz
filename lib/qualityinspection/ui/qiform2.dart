@@ -304,6 +304,8 @@ class _QiForm2State extends State<QiForm2> {
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: TypeAheadFormField(
         key: Key('reference-name-field-form2'),
+                        hideSuggestionsOnKeyboardHide: false,
+
         textFieldConfiguration: TextFieldConfiguration(
           controller: referenceNameController,
           style: displayWidth(context) > 600

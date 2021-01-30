@@ -357,6 +357,8 @@ class _QiForm3State extends State<QiForm3> {
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: TypeAheadFormField(
         key: Key('item-name-field-form3'),
+                        hideSuggestionsOnKeyboardHide: false,
+
         textFieldConfiguration: TextFieldConfiguration(
           controller: itemCodeController,
           style: displayWidth(context) > 600

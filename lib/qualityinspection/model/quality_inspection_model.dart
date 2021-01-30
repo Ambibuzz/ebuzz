@@ -54,6 +54,7 @@ class QualityInspectionModel {
       sampleSize: json['sample_size'] ?? '',
       remarks: json['remarks'] ?? '',
       status: json['status'] ?? '',
+      
     );
   }
   //For converting model to json format for storing it in quality inspection model

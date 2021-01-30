@@ -14,6 +14,14 @@ String barcodeUrl(String text) {
   return '/api/method/erpnext.stock.doctype.quick_stock_balance.quick_stock_balance.get_stock_item_details?warehouse=&date=&barcode=$text';
 }
 
+String companyListUrl(){
+  return '/api/resource/Company?fields=["*"]&limit_page_length=*';
+}
+
+String customerListUrl(){
+  return '/api/resource/Customer?fields=["*"]&limit_page_length=*';
+}
+
 String deliveryNoteUrl() {
   return '/api/resource/Delivery%20Note/?fields=["*"]&filters=[["Delivery%20Note","status","like","%Completed%"]]&limit_page_length=*';
 }
@@ -118,6 +126,18 @@ String salesInvoiceDataUrl(String text) {
   return '/api/resource/Sales%20Invoice/$text';
 }
 
+String salesOrderListUrl(){
+  return '/api/resource/Sales%20Order?fields=["*"]&limit_page_length=*';
+}
+
+String salesOrderDetailUrl(String text){
+  return '/api/resource/Sales%20Order/$text';
+}
+
+String salesOrderUrl(){
+  return '/api/resource/Sales%20Order';
+}
+
 String sampleApiCheckUrl(String text) {
   return '/api/resource/Item/$text';
 }
@@ -160,4 +180,8 @@ String usernameUrl() {
 
 String workOrderUrl(String text) {
   return '/api/resource/Work%20Order/$text';
+}
+
+String warehouseList(String text) {
+  return 'http://agfsandbox.ambibuzz.com/api/resource/Warehouse/?fields=["*"]&filters=[["Warehouse","disabled","=","0"],["Warehouse","company","=","$text"]]&limit_page_length=*';
 }

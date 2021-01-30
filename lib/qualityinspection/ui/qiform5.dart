@@ -9,7 +9,6 @@ import 'package:ebuzz/qualityinspection/service/quality_inspection_service.dart'
 import 'package:flutter/material.dart';
 
 List<QualityInspectionReadings> qir = [];
-
 //Quality Inspection form 5
 class QiForm5 extends StatefulWidget {
   final String date;
@@ -575,7 +574,7 @@ class _QIReadingsFormState extends State<QIReadingsForm> {
 //       children: [
 //         TextFormField(
 //           decoration: InputDecoration(
-//             labelText: 'Reading ${widget.c}',
+//             hintText: 'Reading ${widget.c}',
 //             border: OutlineInputBorder(
 //               borderRadius: BorderRadius.circular(10),
 //             ),

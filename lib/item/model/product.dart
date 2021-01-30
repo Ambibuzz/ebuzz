@@ -11,8 +11,10 @@ class Product {
   final String image;
   final String itemCode;
   final int sampleSize;
+  final double valuationRate;
 
   Product({
+    this.valuationRate,
     this.itemCode,
     this.image,
     this.slideShow,
@@ -38,6 +40,7 @@ class Product {
       slideShow: json['data']['slideshow'] ?? '',
       image: json['data']['image'],
       sampleSize: json['data']['sample_quantity'] ?? 0,
+      valuationRate: json['data']['valuation_rate'] ?? 0,
     );
   }
 }

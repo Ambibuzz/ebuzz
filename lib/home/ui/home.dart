@@ -9,6 +9,7 @@ import 'package:ebuzz/leavebalance/ui/leave_balance_ui.dart';
 import 'package:ebuzz/logout/service/logout_api_service.dart';
 import 'package:ebuzz/purchaseorder/ui/purchase_order_ui.dart';
 import 'package:ebuzz/qualityinspection/ui/quality_inspection_list_ui.dart';
+import 'package:ebuzz/salesorder/ui/sales_order_list_ui.dart';
 import 'package:ebuzz/settings/ui/settings.dart';
 import 'package:ebuzz/stockentry/ui/stock_entry_list.dart';
 import 'package:ebuzz/util/preference.dart';
@@ -206,6 +207,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
           cardUi('Work Order', WorkOrderUi()),
           cardUi('Quality Inspection', QualityInspectionListUi()),
           cardUi('Stock Entry', StockEntryList()),
+          cardUi('Sales Order', SalesOrderListUi()),
         ],
       ),
     );

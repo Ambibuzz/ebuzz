@@ -114,6 +114,7 @@ class _LoginState extends State<Login> {
 
   Widget baseurlTextField() {
     return TypeAheadFormField(
+      hideSuggestionsOnKeyboardHide: false,
       textFieldConfiguration: TextFieldConfiguration(
         controller: apiBaseUrlController,
         style: displayWidth(context) > 600
