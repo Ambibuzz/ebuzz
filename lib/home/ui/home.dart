@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ebuzz/common/circular_progress.dart';
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/navigations.dart';
+import 'package:ebuzz/fileupload/file_upload.dart';
 import 'package:ebuzz/home/service/home_service.dart';
 import 'package:ebuzz/item/ui/item_ui.dart';
 import 'package:ebuzz/leavebalance/ui/leave_balance_ui.dart';
@@ -208,6 +209,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
           cardUi('Quality Inspection', QualityInspectionListUi()),
           cardUi('Stock Entry', StockEntryList()),
           cardUi('Sales Order', SalesOrderListUi()),
+          cardUi('File Upload', FileUpload()),
         ],
       ),
     );

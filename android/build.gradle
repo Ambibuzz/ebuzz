@@ -4,9 +4,8 @@ buildscript {
         google()
         jcenter()
     }
-
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.android.tools.build:gradle:4.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -25,7 +24,6 @@ subprojects {
 subprojects {
     project.evaluationDependsOn(':app')
 }
-
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

@@ -81,7 +81,6 @@ class _QiForm2State extends State<QiForm2> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      resizeToAvoidBottomPadding: true,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(displayWidth(context) > 600 ? 80 : 55),
         child: CustomAppBar(

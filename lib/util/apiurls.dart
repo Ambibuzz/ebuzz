@@ -14,11 +14,11 @@ String barcodeUrl(String text) {
   return '/api/method/erpnext.stock.doctype.quick_stock_balance.quick_stock_balance.get_stock_item_details?warehouse=&date=&barcode=$text';
 }
 
-String companyListUrl(){
+String companyListUrl() {
   return '/api/resource/Company?fields=["*"]&limit_page_length=*';
 }
 
-String customerListUrl(){
+String customerListUrl() {
   return '/api/resource/Customer?fields=["*"]&limit_page_length=*';
 }
 
@@ -29,6 +29,15 @@ String deliveryNoteUrl() {
 String deliveryNoteDataUrl(String text) {
   return '/api/resource/Delivery%20Note/$text';
 }
+
+String fileUploadUrl2() {
+  return '/api/resource/Image%20Upload';
+}
+
+String fileUploadUrl() {
+  return '/api/method/upload_file';
+}
+
 
 String employeeListUrl() {
   return '/api/resource/Leave%20Application/?fields=["employee_name"]&limit_page_length=*';
@@ -126,15 +135,15 @@ String salesInvoiceDataUrl(String text) {
   return '/api/resource/Sales%20Invoice/$text';
 }
 
-String salesOrderListUrl(){
+String salesOrderListUrl() {
   return '/api/resource/Sales%20Order?fields=["*"]&limit_page_length=*';
 }
 
-String salesOrderDetailUrl(String text){
+String salesOrderDetailUrl(String text) {
   return '/api/resource/Sales%20Order/$text';
 }
 
-String salesOrderUrl(){
+String salesOrderUrl() {
   return '/api/resource/Sales%20Order';
 }
 

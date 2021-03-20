@@ -105,7 +105,6 @@ class ItemApiService {
   Future<Product> getData(String text) async {
     try {
       Dio _dio = await BaseDio().getBaseDio();
-
       final String url = itemDataUrl(text);
       final response = await _dio.get(
         url,

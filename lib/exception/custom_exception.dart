@@ -12,7 +12,7 @@ exception(e) {
     if (e is DioError) {
       switch (e.type) {
         case DioErrorType.SEND_TIMEOUT:
-          fluttertoast(whiteColor, blueAccent, 'Send Timeout');
+          fluttertoast(whiteColor, blueAccent, 'Send Timeout',);
           break;
         case DioErrorType.CANCEL:
           fluttertoast(whiteColor, blueAccent, 'Request Cancelled');

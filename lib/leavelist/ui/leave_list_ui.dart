@@ -21,7 +21,6 @@ class _EmployeeLeaveUiState extends State<EmployeeLeaveUi> {
   List<String> employeeList = [];
   TextEditingController searchController = TextEditingController();
   GlobalKey<AutoCompleteTextFieldState<String>> key = GlobalKey();
-
   bool apicall = false;
   List<EmployeeLeave> employeeLeaveList;
   EmployeeApiService _employeeApiService = EmployeeApiService();
