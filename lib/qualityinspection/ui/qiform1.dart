@@ -5,7 +5,6 @@ import 'package:ebuzz/common/custom_appbar.dart';
 import 'package:ebuzz/common/custom_toast.dart';
 import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/common/navigations.dart';
-import 'package:ebuzz/qualityinspection/service/quality_inspection_service.dart';
 import 'package:ebuzz/qualityinspection/ui/qiform2.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

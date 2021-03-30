@@ -292,7 +292,7 @@ class _QiForm2State extends State<QiForm2> {
   }
 
   List<String> _getSuggestionsReferenceName(String query) {
-    List<String> matches = List();
+    List<String> matches = [];
     matches.addAll(list);
     matches.retainWhere((s) => s.toLowerCase().contains(query.toLowerCase()));
     return matches;

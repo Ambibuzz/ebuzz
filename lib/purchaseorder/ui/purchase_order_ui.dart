@@ -28,18 +28,11 @@ class _PurchaseOrderUiState extends State<PurchaseOrderUi> {
   }
 
   //For fetching list of sorted purchase order names
-  getNameList() async {
+  void getNameList() async { 
     setState(() {
       loading = true;
     });
-    List list = await _purchaseApiService.getNameList();
-    for (int i = 0; i < list.length; i++) {
-      unsortedName.add(list[i]['name']);
-    }
-    unsortedName.sort();
-    for (int i = unsortedName.length - 1; i >= 0; i--) {
-      name.add(unsortedName[i]);
-    }
+     name = await _purchaseApiService.getNameList();
     setState(() {
       loading = false;
     });
@@ -100,9 +93,11 @@ class _PurchaseOrderInfoState extends State<PurchaseOrderInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return purchaseModelData.supplier == ''
-        ? CircularProgress()
-        : Card(
+    return
+    //  purchaseModelData.supplier == ''
+    //     ? CircularProgress()
+    //     : 
+        Card(
             elevation: 1,
             child: ListTile(
               onTap: () {

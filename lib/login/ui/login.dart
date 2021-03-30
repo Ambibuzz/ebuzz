@@ -2,6 +2,7 @@ import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:ebuzz/common/circular_progress.dart';
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/display_helper.dart';
+import 'package:ebuzz/common/round_button.dart';
 import 'package:ebuzz/common/textstyles.dart';
 import 'package:ebuzz/login/service/login_api_service.dart';
 import 'package:ebuzz/util/preference.dart';
@@ -61,7 +62,7 @@ class _LoginState extends State<Login> {
   }
 
   List<String> _getSuggestions(String query) {
-    List<String> matches = List();
+    List<String> matches = [];
     matches.addAll(list);
     matches.retainWhere((s) => s.toLowerCase().contains(query.toLowerCase()));
     return matches;
@@ -192,24 +193,34 @@ class _LoginState extends State<Login> {
     return Container(
       height: displayWidth(context) > 600 ? 80 : 50,
       width: displayWidth(context) > 600 ? 170 : 120,
-      child: RaisedButton(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        color: blueAccent,
+      child: RoundButton(
+        child: Text('Login'),
         onPressed: () async {
           if (_formKey.currentState.validate()) {
             login();
           }
         },
-        child: Text(
-          'Login',
-          style: displayWidth(context) > 600
-              ? TextStyle(
-                  color: whiteColor,
-                  fontSize: 30,
-                )
-              : TextStyles.t20White,
-        ),
+        onPrimaryColor: whiteColor,
+        primaryColor: blueAccent,
       ),
+      //  RaisedButton(
+      //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      //   color: blueAccent,
+      //   onPressed: () async {
+      //     if (_formKey.currentState.validate()) {
+      //       login();
+      //     }
+      //   },
+      //   child: Text(
+      //     'Login',
+      //     style: displayWidth(context) > 600
+      //         ? TextStyle(
+      //             color: whiteColor,
+      //             fontSize: 30,
+      //           )
+      //         : TextStyles.t20White,
+      //   ),
+      // ),
     );
   }
 

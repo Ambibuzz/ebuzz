@@ -3,12 +3,13 @@ import 'dart:io';
 import 'package:ebuzz/common/circular_progress.dart';
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/display_helper.dart';
-import 'package:ebuzz/common/textstyles.dart';
+import 'package:ebuzz/common/round_button.dart';
 import 'package:ebuzz/qualityinspection/model/quality_inspection_model.dart';
 import 'package:ebuzz/qualityinspection/service/quality_inspection_service.dart';
 import 'package:flutter/material.dart';
 
 List<QualityInspectionReadings> qir = [];
+
 //Quality Inspection form 5
 class QiForm5 extends StatefulWidget {
   final String date;
@@ -96,17 +97,23 @@ class _QiForm5State extends State<QiForm5> {
               decoration: BoxDecoration(
                   border: Border.all(color: whiteColor, width: 1),
                   borderRadius: BorderRadius.circular(10)),
-              child: RaisedButton(
-                color: _postButtonDisabled ? greyColor : blueAccent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                onPressed: _postButtonDisabled ? null : onSave,
-                child: Text(
-                  'Save',
-                  style: TextStyle(color: whiteColor, fontSize: 16),
-                ),
+              child: RoundButton(
+                onPressed: _postButtonDisabled ? null : save,
+                child: Text('Save'),
+                onPrimaryColor: whiteColor,
+                primaryColor: _postButtonDisabled ? greyColor : blueAccent,
               ),
+              //  RaisedButton(
+              //   color: _postButtonDisabled ? greyColor : blueAccent,
+              //   shape: RoundedRectangleBorder(
+              //     borderRadius: BorderRadius.circular(10),
+              //   ),
+              //   onPressed: _postButtonDisabled ? null : onSave,
+              //   child: Text(
+              //     'Save',
+              //     style: TextStyle(color: whiteColor, fontSize: 16),
+              //   ),
+              // ),
             ),
           )
         ],
@@ -241,17 +248,23 @@ class _QiForm5State extends State<QiForm5> {
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Container(
           height: 50,
-          child: RaisedButton(
-            color: _postButtonDisabled ? greyColor : blueAccent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            onPressed: _postButtonDisabled ? null : onSave,
-            child: Text(
-              'Save',
-              style: TextStyles.t16White,
-            ),
+          child: RoundButton(
+            onPressed: _postButtonDisabled ? null : save,
+            child: Text('Save'),
+            onPrimaryColor: whiteColor,
+            primaryColor: _postButtonDisabled ? greyColor : blueAccent,
           ),
+          //  RaisedButton(
+          //   color: _postButtonDisabled ? greyColor : blueAccent,
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.circular(10),
+          //   ),
+          //   onPressed: _postButtonDisabled ? null : onSave,
+          //   child: Text(
+          //     'Save',
+          //     style: TextStyles.t16White,
+          //   ),
+          // ),
         ),
       ),
     );

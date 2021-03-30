@@ -8,7 +8,7 @@ import 'package:ebuzz/util/apiurls.dart';
 class EmployeeApiService {
   //For fetching employee leave list from leave application api
   Future<List<EmployeeLeave>> fetchEmployeeLeavelist(String text) async {
-    List<EmployeeLeave> list = List<EmployeeLeave>();
+    List<EmployeeLeave> list = [];
     try {
       Dio dio = await BaseDio().getBaseDio();
       final String employeeleavelisturl = particularEmployeeListUrl(text);
@@ -22,7 +22,7 @@ class EmployeeApiService {
           list.add(EmployeeLeave.fromJson(listJson));
         }
       } else {
-        return List<EmployeeLeave>();
+        return [];
       }
       return list;
     } catch (e) {

@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   var usernameField = find.byKey(Key('username-field'));
   var passwordField = find.byKey(Key('password-field'));
-  var baseurlField = find.byKey(Key('baseurl-field'));
+  // var baseurlField = find.byKey(Key('baseurl-field'));
   var loginButton = find.text('Login');
   testWidgets('login page widgets test', (WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(home: Scaffold(body: Login())));

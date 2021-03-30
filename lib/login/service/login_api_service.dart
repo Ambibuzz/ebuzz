@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_toast.dart';
 import 'package:ebuzz/common/navigations.dart';

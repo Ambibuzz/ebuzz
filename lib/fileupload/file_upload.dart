@@ -3,7 +3,6 @@ import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/common/round_button.dart';
 import 'package:ebuzz/fileupload/file_upload_service.dart';
-import 'package:ebuzz/item/service/item_api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';

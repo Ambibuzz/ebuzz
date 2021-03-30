@@ -5,6 +5,7 @@ import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_appbar.dart';
 import 'package:ebuzz/common/custom_toast.dart';
 import 'package:ebuzz/common/display_helper.dart';
+import 'package:ebuzz/common/round_button.dart';
 import 'package:ebuzz/common/textstyles.dart';
 import 'package:ebuzz/item/service/item_api_service.dart';
 import 'package:ebuzz/widgets/unique_warehouse_list.dart';
@@ -40,10 +41,7 @@ class _BomState extends State<Bom> {
     setState(() {
       loading = true;
     });
-    List listData = await _bomApiService.getItemCodeList();
-    for (int i = 0; i < listData.length; i++) {
-      listItemCode.add(listData[i]['item_code']);
-    }
+    listItemCode = await _bomApiService.getItemCodeList();
     setState(() {
       loading = false;
     });
@@ -131,22 +129,28 @@ class _BomState extends State<Bom> {
       padding: EdgeInsets.only(bottom: 20),
       child: Container(
         height: displayWidth(context) > 600 ? 80 : 50,
-        child: RaisedButton(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          color: blueAccent,
+        child: RoundButton(
+          child: Text('Search'),
           onPressed: _loading ? null : search,
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: displayWidth(context) > 600 ? 29 : 10),
-            child: Text(
-              'Search',
-              style: displayWidth(context) > 600
-                  ? TextStyle(fontSize: 28, color: whiteColor)
-                  : TextStyles.t16White,
-            ),
-          ),
+          primaryColor: blueAccent,
+          onPrimaryColor: whiteColor,
         ),
+        //  RaisedButton(
+        //   shape:
+        //       RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        //   color: blueAccent,
+        //   onPressed: _loading ? null : search,
+        //   child: Padding(
+        //     padding: EdgeInsets.symmetric(
+        //         horizontal: displayWidth(context) > 600 ? 29 : 10),
+        //     child: Text(
+        //       'Search',
+        //       style: displayWidth(context) > 600
+        //           ? TextStyle(fontSize: 28, color: whiteColor)
+        //           : TextStyles.t16White,
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }

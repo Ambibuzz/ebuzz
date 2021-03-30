@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ebuzz/b2b/items/ui/items_ui.dart';
 import 'package:ebuzz/common/circular_progress.dart';
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/navigations.dart';
@@ -102,7 +103,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                     : TextStyle(fontSize: 16),
               ),
               actions: [
-                FlatButton(
+                TextButton(
                   onPressed: () async {
                     Navigator.pop(dialogContext);
                     await logout(context);
@@ -114,7 +115,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                         : TextStyle(fontSize: 16, color: blueAccent),
                   ),
                 ),
-                FlatButton(
+                TextButton(
                   onPressed: () {
                     Navigator.pop(dialogContext);
                   },
@@ -210,6 +211,9 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
           cardUi('Stock Entry', StockEntryList()),
           cardUi('Sales Order', SalesOrderListUi()),
           cardUi('File Upload', FileUpload()),
+          cardUi('Quotation', ItemsUi()),
+
+
         ],
       ),
     );

@@ -83,8 +83,9 @@ class BomApiService {
   }
 
   //For fetching itemcode list
-  Future<List> getItemCodeList() async {
+  Future<List<String>> getItemCodeList() async {
     List listData = [];
+    List<String> itemCodeList=[];
     try {
       final String itemList = itemListUrl();
       Dio _dio = await BaseDio().getBaseDio();
@@ -93,10 +94,14 @@ class BomApiService {
       );
       var data = response.data;
       listData = data['data'];
-      return listData;
+      for (int i = 0; i < listData.length; i++) {
+        itemCodeList.add(listData[i]['item_code']);
+      }
+      print(itemCodeList.length);
+      return itemCodeList;
     } catch (e) {
       exception(e);
     }
-    return listData;
+    return itemCodeList;
   }
 }

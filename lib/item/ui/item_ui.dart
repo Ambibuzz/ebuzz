@@ -7,6 +7,7 @@ import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_appbar.dart';
 import 'package:ebuzz/common/custom_toast.dart';
 import 'package:ebuzz/common/display_helper.dart';
+import 'package:ebuzz/common/round_button.dart';
 import 'package:ebuzz/common/textstyles.dart';
 import 'package:ebuzz/exception/custom_exception.dart';
 import 'package:ebuzz/item/service/item_api_service.dart';
@@ -289,21 +290,28 @@ class _ItemUiState extends State<ItemUi> {
   Widget searchButton() {
     return Container(
       height: displayWidth(context) > 600 ? 80 : 50,
-      child: RaisedButton(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        color: blueAccent,
-        onPressed: searchButtonDisabled ? null : search,
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: displayWidth(context) > 600 ? 29 : 10),
-          child: Text(
-            'Search',
-            style: displayWidth(context) > 600
-                ? TextStyle(fontSize: 28, color: whiteColor)
-                : TextStyles.t16White,
-          ),
+      child:
+      RoundButton(
+          child: Text("Search"),
+          onPressed: searchButtonDisabled ? null : search,
+          primaryColor: blueAccent,
+          onPrimaryColor: whiteColor,
         ),
-      ),
+      //  RaisedButton(
+      //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      //   color: blueAccent,
+      //   onPressed: searchButtonDisabled ? null : search,
+      //   child: Padding(
+      //     padding: EdgeInsets.symmetric(
+      //         horizontal: displayWidth(context) > 600 ? 29 : 10),
+      //     child: Text(
+      //       'Search',
+      //       style: displayWidth(context) > 600
+      //           ? TextStyle(fontSize: 28, color: whiteColor)
+      //           : TextStyles.t16White,
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

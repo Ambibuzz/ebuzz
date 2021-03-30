@@ -45,8 +45,10 @@ class PurchaseApiService {
   }
 
   //For fetching names list
-  Future<List> getNameList() async {
+  Future<List<String>> getNameList() async {
     List list = [];
+    List<String> unsortedName=[];
+    List<String> name=[];
     try {
       final String itemList = purchaseOrderListUrl();
 
@@ -55,10 +57,18 @@ class PurchaseApiService {
       var response = await dio.get(itemList);
       var data = response.data;
       list = data['data'];
-      return list;
+      for (int i = 0; i < list.length; i++) {
+        unsortedName.add(list[i]['name']);
+      }
+      unsortedName.sort();
+      for (int i = unsortedName.length - 1; i >= 0; i--) {
+        name.add(unsortedName[i]);
+      }
+      print(name.length);
+      return name;
     } catch (e) {
       exception(e);
     }
-    return list;
+    return name;
   }
 }
