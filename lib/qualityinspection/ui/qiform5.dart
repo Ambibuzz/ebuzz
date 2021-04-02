@@ -4,6 +4,7 @@ import 'package:ebuzz/common/circular_progress.dart';
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/common/round_button.dart';
+import 'package:ebuzz/common/textstyles.dart';
 import 'package:ebuzz/qualityinspection/model/quality_inspection_model.dart';
 import 'package:ebuzz/qualityinspection/service/quality_inspection_service.dart';
 import 'package:flutter/material.dart';
@@ -99,7 +100,7 @@ class _QiForm5State extends State<QiForm5> {
                   borderRadius: BorderRadius.circular(10)),
               child: RoundButton(
                 onPressed: _postButtonDisabled ? null : save,
-                child: Text('Save'),
+                child: Text('Save', style: TextStyles.t16WhiteBold),
                 onPrimaryColor: whiteColor,
                 primaryColor: _postButtonDisabled ? greyColor : blueAccent,
               ),
@@ -250,7 +251,7 @@ class _QiForm5State extends State<QiForm5> {
           height: 50,
           child: RoundButton(
             onPressed: _postButtonDisabled ? null : save,
-            child: Text('Save'),
+            child: Text('Save', style: TextStyles.t16WhiteBold),
             onPrimaryColor: whiteColor,
             primaryColor: _postButtonDisabled ? greyColor : blueAccent,
           ),

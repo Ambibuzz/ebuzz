@@ -14,6 +14,15 @@ String barcodeUrl(String text) {
   return '/api/method/erpnext.stock.doctype.quick_stock_balance.quick_stock_balance.get_stock_item_details?warehouse=&date=&barcode=$text';
 }
 
+String brandDataUrl(String text) {
+  return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","brand","=","$text"]]&limit_page_length=*';
+}
+
+String brandListUrl() {
+  return '/api/resource/Brand?fields=["name"]&limit_page_length=*';
+}
+
+
 String companyListUrl() {
   return '/api/resource/Company?fields=["*"]&limit_page_length=*';
 }
@@ -38,7 +47,6 @@ String fileUploadUrl() {
   return '/api/method/upload_file';
 }
 
-
 String employeeListUrl() {
   return '/api/resource/Leave%20Application/?fields=["employee_name"]&limit_page_length=*';
 }
@@ -55,13 +63,35 @@ String qualityInspectionDetailUrl(String text) {
   return '/api/resource/Quality%20Inspection/$text';
 }
 
+String itemDataUrl(String text) {
+  return '/api/resource/Item/$text';
+}
+
+String itemGroupDataUrl(String text) {
+  return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","item_group","=","$text"]]&limit_page_length=*';
+}
+
+String itemGroupandWeightDataUrl(String groupText,String weight) {
+  return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","item_group","=","$groupText"],["Item","weight_per_unit","=","$weight"]]&limit_page_length=*';
+}
+
+String itemBrandandWeightDataUrl(String brand, String weight) {
+  return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","brand","=","$brand"],["Item","weight_per_unit","=","$weight"]]&limit_page_length=*';
+}
+
+String itemGroupUrl() {
+  return '/api/resource/Item%20Group?fields=["name"]&limit_page_length=*';
+}
+
+
 String itemNameSearchUrl(String text) {
   return '/api/resource/Item/?fields=["item_code","item_name"]&filters=[["Item","item_name","like","%$text%"]]';
 }
 
-String itemDataUrl(String text) {
-  return '/api/resource/Item/$text';
+String itemWeightUrl(String text) {
+  return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","weight_per_unit","=","$text"]]&limit_page_length=*';
 }
+
 
 String itemListUrl() {
   return '/api/resource/Item/?fields=["item_code","item_name"]&limit_page_length=*';
@@ -152,7 +182,7 @@ String sampleApiCheckUrl(String text) {
 }
 
 String specificItemNameSearchUrl(String text) {
-  return '/api/resource/Item/?fields=["item_code","item_name"]&filters=[["Item","item_name","like","$text"]]';
+  return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","item_name","like","$text"]]';
 }
 
 String specificItemNameDataUrl(String text) {

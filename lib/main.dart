@@ -1,3 +1,4 @@
+import 'package:ebuzz/b2b/search/search_page.dart';
 import 'package:ebuzz/home/ui/home.dart';
 import 'package:ebuzz/login/ui/login.dart';
 import 'package:ebuzz/util/preference.dart';
@@ -11,6 +12,7 @@ void main() async {
   bool loggedIn;
   loggedIn = login == null ? false : login;
   runApp(GetMaterialApp(home: loggedIn == true ? Home() : Login()));
+  // runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

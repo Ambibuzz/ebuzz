@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/common/round_button.dart';
+import 'package:ebuzz/common/textstyles.dart';
 import 'package:ebuzz/fileupload/file_upload_service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -86,7 +87,6 @@ class _FileUploadState extends State<FileUpload> {
     return thumb;
   }
 
-
   void fileUpload() async {
     if (_file != null) {
       await _fileUploadService.postFileData(_file);
@@ -110,8 +110,7 @@ class _FileUploadState extends State<FileUpload> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Column(
-            children: [
-            ],
+            children: [],
           ),
           SizedBox(
             height: displayHeight(context) * 0.05,
@@ -154,12 +153,12 @@ class _FileUploadState extends State<FileUpload> {
             children: [
               RoundButton(
                   onPressed: getImageFromCamera,
-                  child: Text('Pick Image'),
+                  child: Text('Pick Image', style: TextStyles.t16WhiteBold),
                   primaryColor: blueAccent,
                   onPrimaryColor: whiteColor),
               RoundButton(
                   onPressed: getVideoFromCamera,
-                  child: Text('Pick Video'),
+                  child: Text('Pick Video', style: TextStyles.t16WhiteBold),
                   primaryColor: blueAccent,
                   onPrimaryColor: whiteColor),
             ],
@@ -172,7 +171,7 @@ class _FileUploadState extends State<FileUpload> {
             children: [
               RoundButton(
                   onPressed: _uploadDisabled ? null : fileUpload,
-                  child: Text('Upload'),
+                  child: Text('Upload', style: TextStyles.t16WhiteBold),
                   primaryColor: _uploadDisabled ? greyColor : blueAccent,
                   onPrimaryColor: whiteColor),
               RoundButton(
@@ -183,7 +182,7 @@ class _FileUploadState extends State<FileUpload> {
                     _uploadDisabled = true;
                     setState(() {});
                   },
-                  child: Text('Clear'),
+                  child: Text('Clear', style: TextStyles.t16WhiteBold),
                   primaryColor: blueAccent,
                   onPrimaryColor: whiteColor),
             ],

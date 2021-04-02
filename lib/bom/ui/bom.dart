@@ -130,7 +130,7 @@ class _BomState extends State<Bom> {
       child: Container(
         height: displayWidth(context) > 600 ? 80 : 50,
         child: RoundButton(
-          child: Text('Search'),
+          child: Text('Search',style: TextStyles.t16WhiteBold),
           onPressed: _loading ? null : search,
           primaryColor: blueAccent,
           onPrimaryColor: whiteColor,

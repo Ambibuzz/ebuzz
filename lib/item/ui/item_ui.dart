@@ -206,7 +206,6 @@ class _ItemUiState extends State<ItemUi> {
                                     style: TextStyle(fontSize: 20),
                                   )));
                             }
-
                             if (snapshot.hasData) {
                               return Column(
                                 children: [
@@ -292,7 +291,7 @@ class _ItemUiState extends State<ItemUi> {
       height: displayWidth(context) > 600 ? 80 : 50,
       child:
       RoundButton(
-          child: Text("Search"),
+          child: Text("Search", style: TextStyles.t16WhiteBold),
           onPressed: searchButtonDisabled ? null : search,
           primaryColor: blueAccent,
           onPrimaryColor: whiteColor,

@@ -194,7 +194,7 @@ class _LoginState extends State<Login> {
       height: displayWidth(context) > 600 ? 80 : 50,
       width: displayWidth(context) > 600 ? 170 : 120,
       child: RoundButton(
-        child: Text('Login'),
+        child: Text('Login', style: TextStyles.t16WhiteBold),
         onPressed: () async {
           if (_formKey.currentState.validate()) {
             login();
