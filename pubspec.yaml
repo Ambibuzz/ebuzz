@@ -27,6 +27,11 @@ dependencies:
   path_provider: ^1.6.11
   shared_preferences: ^0.5.10
   thumbnails: ^1.0.1
+  flutter_riverpod: ^0.13.1
+  badges: any
+  flutter_elegant_number_button: any
+  flutter_secure_storage: any
+  flutter_slidable: any
 
 dev_dependencies:
   flutter_driver:

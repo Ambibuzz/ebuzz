@@ -1,7 +1,5 @@
-import 'package:ebuzz/b2b/items/ui/items_ui.dart';
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/display_helper.dart';
-import 'package:ebuzz/common/navigations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 

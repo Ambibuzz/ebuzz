@@ -69,19 +69,18 @@ class ItemsApiService {
 
   Future<List<String>> getAllItemsList() async {
     List<String> fullItemList = [];
-    List<ItemsModel> itemList = await itemsList();
-    // List<ItemGroupModel> itemGroupList = await _itemsApiService.itemGroupList();
-    for (ItemsModel itemCode in itemList) {
-      fullItemList.add(itemCode.itemCode);
+    try {
+     List<ItemsModel> itemList = await itemsList();
+      for (ItemsModel itemCode in itemList) {
+        fullItemList.add(itemCode.itemCode);
+      }
+      for (ItemsModel itemName in itemList) {
+        fullItemList.add(itemName.itemName);
+      }
+      return fullItemList;
+    } catch (e) {
+      exception(e);
     }
-    for (ItemsModel itemName in itemList) {
-      fullItemList.add(itemName.itemName);
-    }
-    // for (ItemGroupModel itemGroup in itemGroupList) {
-    //   fullItemList.add(itemGroup.name);
-    //   setState(() {});
-    // }
-    print(fullItemList.length);
     return fullItemList;
   }
 }

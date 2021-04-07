@@ -1,19 +1,28 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:badges/badges.dart';
+import 'package:ebuzz/b2b/cart/model/cart.dart';
+import 'package:ebuzz/b2b/cart/state/state_manager.dart';
+import 'package:ebuzz/b2b/cart/ui/cart_page.dart';
 import 'package:ebuzz/b2b/items/model/brand_model.dart';
 import 'package:ebuzz/b2b/items/model/item_group.dart';
 import 'package:ebuzz/b2b/items/model/items_model.dart';
 import 'package:ebuzz/b2b/items/service/items_api_service.dart';
+import 'package:ebuzz/b2b/items/ui/items_detail_widget.dart';
 import 'package:ebuzz/b2b/search/search_page.dart';
 import 'package:ebuzz/common/circular_progress.dart';
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/display_helper.dart';
+import 'package:ebuzz/common/navigations.dart';
 import 'package:ebuzz/common/round_button.dart';
 import 'package:ebuzz/common/textstyles.dart';
 import 'package:ebuzz/util/apiurls.dart';
+import 'package:ebuzz/util/constants.dart';
 import 'package:ebuzz/util/preference.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ItemsUi extends StatefulWidget {
   @override
@@ -23,15 +32,24 @@ class ItemsUi extends StatefulWidget {
 class _ItemsUiState extends State<ItemsUi> {
   List<ItemsModel> itemsList = [];
   ItemsApiService _itemsApiService = ItemsApiService();
-  String baseurl;
   List<String> fullItemList = [];
   bool _loading = false;
   List<ItemGroupModel> itemGroupList = [];
   List<BrandModel> brandList = [];
   String groupText = '';
   String brandText = '';
+  String weightText;
   bool reset = false;
   final weightController = TextEditingController();
+  String zeroToTwoFifty = "0 to 250";
+  String twoFiftyToFiveHundred = "250 to 500";
+  String fiveHundredToSevenFifty = "500 to 750";
+  String sevenFiftyToOneThousand = "750 to 1000";
+  String greaterThanOneThousand = "1000 and above";
+  List<String> weightList = [];
+  String firstWeightText;
+  String secondWeightText;
+  
 
   @override
   void initState() {
@@ -41,11 +59,6 @@ class _ItemsUiState extends State<ItemsUi> {
 
   void getItem(String item) async {
     itemsList.clear();
-    // Dio _dio = await BaseDio().getBaseDio();
-    // String itemCodeUrl = itemDataUrl(item);
-    // String itemNameUrl = itemNameSearchUrl(item);
-    // var itemCodeResponse = await _dio.get(itemCodeUrl);
-    // var itemNameResponse = await _dio.get(itemNameUrl);
     final String cookie = await getCookie();
     Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
@@ -60,11 +73,6 @@ class _ItemsUiState extends State<ItemsUi> {
 
     final itemCodeResponse =
         await http.get(itemCodeUrl, headers: requestHeaders);
-
-    // final String itemgroup = itemGroupDataUrl(item);
-    // final String itemGroupUrl = baseurl + itemgroup;
-    // final itemGroupResponse =
-    //     await http.get(itemGroupUrl, headers: requestHeaders);
     if (itemCodeResponse.statusCode == 200) {
       print('Item Code');
       var data = jsonDecode(itemCodeResponse.body);
@@ -85,17 +93,6 @@ class _ItemsUiState extends State<ItemsUi> {
         itemsList.add(ItemsModel(itemName, itemCode, image));
         setState(() {});
       }
-
-      // print("Item Group");
-      // var data = jsonDecode(itemGroupResponse.body);
-      // List list = data['data'];
-      // list.forEach((item) {
-      //   String itemName = item['item_name'];
-      //   String itemCode = item['item_code'];
-      //   String image = item['image'];
-      //   itemsList.add(ItemsModel(itemName, itemCode, image));
-      //   setState(() {});
-      // });
     }
   }
 
@@ -116,6 +113,8 @@ class _ItemsUiState extends State<ItemsUi> {
       _loading = true;
     });
     await getItemsList();
+
+    setState(() {});
     setState(() {
       _loading = false;
     });
@@ -367,24 +366,58 @@ class _ItemsUiState extends State<ItemsUi> {
                       SizedBox(
                         height: displayHeight(context) * 0.015,
                       ),
-                      Text('Search by Weight (Grams)'),
+                      Text('Search by Weight'),
                       SizedBox(
                         height: displayHeight(context) * 0.015,
                       ),
-                      TextFormField(
-                        controller: weightController,
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) {
-                          // groupText = itemGroupList[0].name;
-                          // brandText = brandList[0].name;
-
-                          reset = false;
-                        },
-                        decoration: InputDecoration(
-                            labelText: 'Weight in Grams',
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10))),
+                      DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          hint: Text('Weight'),
+                          value: weightText,
+                          icon: Icon(Icons.keyboard_arrow_down),
+                          iconSize: 24,
+                          elevation: 16,
+                          underline: Container(
+                            height: 2,
+                            color: Colors.blueAccent,
+                          ),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              weightText = newValue;
+                              List<String> splitString = [];
+                              splitString = newValue.split(" ");
+                              firstWeightText = splitString[0];
+                              secondWeightText = splitString[2];
+                              reset = false;
+                            });
+                          },
+                          items:
+                              weightList.map<DropdownMenuItem<String>>((value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value.toString(),
+                                style: TextStyles.t14Black,
+                              ),
+                            );
+                          }).toList(),
+                        ),
                       ),
+                      // TextFormField(
+                      //   controller: weightController,
+                      //   keyboardType: TextInputType.number,
+                      //   onChanged: (value) {
+                      //     // groupText = itemGroupList[0].name;
+                      //     // brandText = brandList[0].name;
+                      //     reset = false;
+                      //   },
+                      //   decoration: InputDecoration(
+                      //     labelText: 'Weight in Grams',
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(10),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                   SizedBox(
@@ -470,12 +503,20 @@ class _ItemsUiState extends State<ItemsUi> {
     print(itemGroupList.length);
     itemsList = await _itemsApiService.itemsList();
     brandList = await _itemsApiService.brandList();
+    weightList = [
+      zeroToTwoFifty,
+      twoFiftyToFiveHundred,
+      fiveHundredToSevenFifty,
+      sevenFiftyToOneThousand,
+      greaterThanOneThousand
+    ];
     print(brandList.length);
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    var storage = FlutterSecureStorage();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: blueAccent,
@@ -490,12 +531,27 @@ class _ItemsUiState extends State<ItemsUi> {
                 ),
                 onPressed: navigateToSearchPage),
           ),
-          IconButton(
-              icon: Icon(
-                Icons.shopping_cart_outlined,
-                color: whiteColor,
+          Consumer(builder: (context, watch, _) {
+            return Badge(
+              position: BadgePosition(top: 0, end: 1),
+              animationDuration: Duration(
+                milliseconds: 500,
               ),
-              onPressed: () {}),
+              animationType: BadgeAnimationType.scale,
+              showBadge: true,
+              badgeColor: Colors.red,
+              child: IconButton(
+                  icon: Icon(
+                    Icons.shopping_cart_outlined,
+                    color: whiteColor,
+                  ),
+                  onPressed: () {
+                    pushScreen(context, CartPage());
+                  }),
+              badgeContent: Text('${watch(cartListProvider.state).length}',style: TextStyle(color: whiteColor),),
+            );
+          }),
+          
           IconButton(
               icon: Icon(
                 Icons.filter_list,
@@ -521,6 +577,7 @@ class _ItemsUiState extends State<ItemsUi> {
               : ListView.builder(
                   itemCount: itemsList.length,
                   itemBuilder: (context, index) {
+                    ItemsModel item = itemsList[index];
                     return Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
@@ -543,14 +600,52 @@ class _ItemsUiState extends State<ItemsUi> {
                           // )
                           // : NetworkImage(baseurl + itemsList[index].image)
                           // ,
-                          title: Text(itemsList[index].itemCode),
-                          subtitle: Text(itemsList[index].itemName),
-                          trailing:
-                              Icon(Icons.add_shopping_cart, color: blueAccent),
+                          title: Text(item.itemName),
+                          subtitle: Text(item.itemCode),
+                          trailing: GestureDetector(
+                            onTap: () async {
+                              final cartItem = Cart(
+                                  id: item.itemCode,
+                                  imageUrl: item.image,
+                                  itemName: item.itemName,
+                                  quantity: item.quantity);
+                              var cartInstance = context.read(cartListProvider);
+                              if (isExistsInCart(cartInstance.state, cartItem))
+                                context
+                                    .read(cartListProvider)
+                                    .edit(cartItem, 1);
+                              else {
+                                context.read(cartListProvider).add(cartItem);
+                                var string = json.encode(
+                                    context.read(cartListProvider).state);
+                                await storage.write(
+                                    key: cartKey, value: string);
+                              }
+                            },
+                            child: Icon(Icons.add_shopping_cart,
+                                color: blueAccent),
+                          ),
+                          onTap: () async {
+                            String baseurl = await getApiUrl();
+                            pushScreen(
+                                context,
+                                ItemsDetailWidget(
+                                  itemCode: item.itemCode,
+                                  apiurl: baseurl,
+                                ));
+                          },
                         ),
                       ),
                     );
                   }),
     );
   }
+}
+
+bool isExistsInCart(List<Cart> state, Cart cartItem) {
+  bool found = false;
+  state.forEach((element) {
+    if (element.id == cartItem.id) found = true;
+  });
+  return found;
 }

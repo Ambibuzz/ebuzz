@@ -1,17 +1,22 @@
-import 'package:ebuzz/b2b/search/search_page.dart';
 import 'package:ebuzz/home/ui/home.dart';
 import 'package:ebuzz/login/ui/login.dart';
 import 'package:ebuzz/util/preference.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // final database = await
   bool login = await getLoggedIn();
   bool loggedIn;
   loggedIn = login == null ? false : login;
-  runApp(GetMaterialApp(home: loggedIn == true ? Home() : Login()));
+  runApp(ProviderScope(
+    child: GetMaterialApp(
+      home: loggedIn == true ? Home() : Login(),
+    ),
+  ));
   // runApp(MyApp());
 }
 

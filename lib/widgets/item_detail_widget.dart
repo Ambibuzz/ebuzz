@@ -108,7 +108,7 @@ class ItemDetailWidget extends StatelessWidget {
                     Container(
                       height: 35,
                       child: Text(
-                        'Shell Life In Days',
+                        'Shell Life (Days)',
                         style: displayWidth(context) > 600
                             ? TextStyle(
                                 fontSize: 28,

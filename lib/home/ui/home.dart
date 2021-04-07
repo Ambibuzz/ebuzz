@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:ebuzz/b2b/cart/model/cart.dart';
+import 'package:ebuzz/b2b/cart/state/state_manager.dart';
 import 'package:ebuzz/b2b/items/ui/items_ui.dart';
 import 'package:ebuzz/common/circular_progress.dart';
 import 'package:ebuzz/common/colors.dart';
@@ -14,12 +17,15 @@ import 'package:ebuzz/qualityinspection/ui/quality_inspection_list_ui.dart';
 import 'package:ebuzz/salesorder/ui/sales_order_list_ui.dart';
 import 'package:ebuzz/settings/ui/settings.dart';
 import 'package:ebuzz/stockentry/ui/stock_entry_list.dart';
+import 'package:ebuzz/util/constants.dart';
 import 'package:ebuzz/util/preference.dart';
 import 'package:ebuzz/workorder/ui/workorder_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:ebuzz/bom/ui/bom.dart';
 import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/leavelist/ui/leave_list_ui.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //Home class displays ui of different functionalities in form of cards
 class Home extends StatefulWidget {
@@ -34,6 +40,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   String name;
   bool loading = false;
   Choice _selectedChoice = choices[0];
+  var storage = FlutterSecureStorage();
 
   //List of choices when user clicks on menu button in top right
   static List<Choice> choices = <Choice>[
@@ -45,6 +52,17 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      String cartSave = await storage.read(key: cartKey);
+      if (cartSave != null && cartSave.isNotEmpty) {
+        final listCart = json.decode(cartSave) as List<dynamic>;
+        final listCartParsed =
+            listCart.map((model) => Cart.fromJson(model)).toList();
+        if (listCartParsed != null && listCartParsed.length > 0) {
+          context.read(cartListProvider).state = listCartParsed;
+        }
+      }
+    });
     getPrefs();
   }
 
@@ -211,9 +229,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
           cardUi('Stock Entry', StockEntryList()),
           cardUi('Sales Order', SalesOrderListUi()),
           cardUi('File Upload', FileUpload()),
-          cardUi('Quotation', ItemsUi()),
-
-
+          cardUi('Catalogue', ItemsUi()),
         ],
       ),
     );

@@ -83,7 +83,6 @@ String itemGroupUrl() {
   return '/api/resource/Item%20Group?fields=["name"]&limit_page_length=*';
 }
 
-
 String itemNameSearchUrl(String text) {
   return '/api/resource/Item/?fields=["item_code","item_name"]&filters=[["Item","item_name","like","%$text%"]]';
 }
@@ -92,6 +91,9 @@ String itemWeightUrl(String text) {
   return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","weight_per_unit","=","$text"]]&limit_page_length=*';
 }
 
+String itemWeightInSeriesUrl(String text1,String text2) {
+  return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","weight_per_unit",">=","$text1"], ["Item","weight_per_unit","<=","$text2"]]&limit_page_length=*';
+}
 
 String itemListUrl() {
   return '/api/resource/Item/?fields=["item_code","item_name"]&limit_page_length=*';
