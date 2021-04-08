@@ -4,7 +4,7 @@ class ItemsModel {
   final int quantity;
   final String image;
 
-  ItemsModel(this.itemName, this.itemCode, this.image, {this.quantity});
+  ItemsModel(this.itemName, this.itemCode, this.image, {this.quantity=1});
 
   factory ItemsModel.fromJson(Map<String, dynamic> json) {
     return ItemsModel(json['item_name'] ?? '', json['item_code'] ?? '',json['image']??'',quantity:1);

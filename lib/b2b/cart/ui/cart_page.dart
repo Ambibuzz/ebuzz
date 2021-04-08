@@ -40,6 +40,7 @@ class _CartPageState extends State<CartPage> {
               child: ListView.builder(
                   itemCount: items.length,
                   itemBuilder: (context, index) {
+                    print('item $index is ${items[index].quantity}');
                     return Slidable(
                       actionPane: SlidableDrawerActionPane(),
                       actionExtentRatio: 0.25,
@@ -133,16 +134,16 @@ class _CartPageState extends State<CartPage> {
                     );
                   }),
             ),
-            Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                RoundButton(
-                    onPressed: () {},
-                    child: Text('Get Quotation'),
-                    primaryColor: blueAccent,
-                    onPrimaryColor: whiteColor),
-              ],
-            ),
+            // Stack(
+            //   alignment: Alignment.bottomCenter,
+            //   children: [
+            //     RoundButton(
+            //         onPressed: () {},
+            //         child: Text('Get Quotation'),
+            //         primaryColor: blueAccent,
+            //         onPrimaryColor: whiteColor),
+            //   ],
+            // ),
           ],
         );
       }),

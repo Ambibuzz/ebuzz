@@ -119,11 +119,7 @@ class _ItemUiState extends State<ItemUi> {
       });
     } catch (e) {
       exception(e);
-      if (e is SocketException) {
-        fluttertoast(whiteColor, blueAccent, 'No Internet Connection');
-      } else {
-        fluttertoast(whiteColor, blueAccent, 'Unexpected Error');
-      }
+      
     }
   }
 

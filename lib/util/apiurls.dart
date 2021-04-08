@@ -22,7 +22,6 @@ String brandListUrl() {
   return '/api/resource/Brand?fields=["name"]&limit_page_length=*';
 }
 
-
 String companyListUrl() {
   return '/api/resource/Company?fields=["*"]&limit_page_length=*';
 }
@@ -71,12 +70,34 @@ String itemGroupDataUrl(String text) {
   return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","item_group","=","$text"]]&limit_page_length=*';
 }
 
-String itemGroupandWeightDataUrl(String groupText,String weight) {
+String itemGroupandWeightDataUrl(String groupText, String weight) {
   return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","item_group","=","$groupText"],["Item","weight_per_unit","=","$weight"]]&limit_page_length=*';
 }
 
-String itemBrandandWeightDataUrl(String brand, String weight) {
-  return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","brand","=","$brand"],["Item","weight_per_unit","=","$weight"]]&limit_page_length=*';
+String itemGroupandWeight1DataUrl(String groupText, String weight1) {
+  return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","item_group","=","$groupText"],["Item","weight_per_unit",">=","$weight1"]]&limit_page_length=*';
+}
+
+String itemGroupandWeight2DataUrl(String groupText, String weight2) {
+  return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","item_group","=","$groupText"],["Item","weight_per_unit","<=","$weight2"]]&limit_page_length=*';
+}
+
+String itemBrandandWeight1DataUrl(String brandText, String weight1) {
+  return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","brand","=","$brandText"],["Item","weight_per_unit",">=","$weight1"]]&limit_page_length=*';
+}
+
+String itemBrandandWeight2DataUrl(String brandText, String weight2) {
+  return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","brand","=","$brandText"],["Item","weight_per_unit","<=","$weight2"]]&limit_page_length=*';
+}
+
+String itemGroupAndWeightDataSeriesUrl(
+    String groupText, String weight1, String weight2) {
+  return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","weight_per_unit",">=","$weight1"],["Item","weight_per_unit","<=","$weight2"],["Item","item_group","=","$groupText"]]&limit_page_length=*';
+}
+
+String itemBrandAndWeightDataSeriesUrl(
+    String brand, String weight1, String weight2) {
+  return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","weight_per_unit",">=","$weight1"],["Item","weight_per_unit","<=","$weight2"],["Item","brand","=","$brand"]]&limit_page_length=*';
 }
 
 String itemGroupUrl() {
@@ -87,12 +108,12 @@ String itemNameSearchUrl(String text) {
   return '/api/resource/Item/?fields=["item_code","item_name"]&filters=[["Item","item_name","like","%$text%"]]';
 }
 
-String itemWeightUrl(String text) {
-  return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","weight_per_unit","=","$text"]]&limit_page_length=*';
+String itemWeightUrl(String weight1, String weight2) {
+  return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","weight_per_unit",">=","$weight1"],["Item","weight_per_unit","<=","$weight2"]]&limit_page_length=*';
 }
 
-String itemWeightInSeriesUrl(String text1,String text2) {
-  return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","weight_per_unit",">=","$text1"], ["Item","weight_per_unit","<=","$text2"]]&limit_page_length=*';
+String itemWeightInSeriesUrl(String text1, String text2) {
+  return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","weight_per_unit",">=","$text1"],["Item","weight_per_unit","<=","$text2"]]&limit_page_length=*';
 }
 
 String itemListUrl() {

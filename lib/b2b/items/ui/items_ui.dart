@@ -16,11 +16,9 @@ import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/common/navigations.dart';
 import 'package:ebuzz/common/round_button.dart';
 import 'package:ebuzz/common/textstyles.dart';
-import 'package:ebuzz/util/apiurls.dart';
 import 'package:ebuzz/util/constants.dart';
 import 'package:ebuzz/util/preference.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -40,16 +38,14 @@ class _ItemsUiState extends State<ItemsUi> {
   String brandText = '';
   String weightText;
   bool reset = false;
-  final weightController = TextEditingController();
+  final weight1Controller = TextEditingController();
+  final weight2Controller = TextEditingController();
   String zeroToTwoFifty = "0 to 250";
   String twoFiftyToFiveHundred = "250 to 500";
   String fiveHundredToSevenFifty = "500 to 750";
   String sevenFiftyToOneThousand = "750 to 1000";
   String greaterThanOneThousand = "1000 and above";
   List<String> weightList = [];
-  String firstWeightText;
-  String secondWeightText;
-  
 
   @override
   void initState() {
@@ -57,43 +53,11 @@ class _ItemsUiState extends State<ItemsUi> {
     getData();
   }
 
+  //TODO: TEST
   void getItem(String item) async {
     itemsList.clear();
-    final String cookie = await getCookie();
-    Map<String, String> requestHeaders = {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-      'Cookie': cookie
-    };
-    String baseurl = await getApiUrl();
-    final String codeurl = itemDataUrl(item);
-    final String nameurl = specificItemNameSearchUrl(item);
-    final String itemCodeUrl = baseurl + codeurl;
-    final String itemNameUrl = baseurl + nameurl;
-
-    final itemCodeResponse =
-        await http.get(itemCodeUrl, headers: requestHeaders);
-    if (itemCodeResponse.statusCode == 200) {
-      print('Item Code');
-      var data = jsonDecode(itemCodeResponse.body);
-      String itemCode = data['data']['item_code'];
-      String itemName = data['data']['item_name'];
-      String image = data['data']['image'];
-      itemsList.add(ItemsModel(itemName, itemCode, image));
-      setState(() {});
-    } else {
-      print("Item Name");
-      final itemNameResponse =
-          await http.get(itemNameUrl, headers: requestHeaders);
-      if (itemNameResponse.statusCode == 200) {
-        var data = jsonDecode(itemNameResponse.body);
-        String itemName = data['data'][0]['item_name'];
-        String itemCode = data['data'][0]['item_code'];
-        String image = data['data'][0]['image'];
-        itemsList.add(ItemsModel(itemName, itemCode, image));
-        setState(() {});
-      }
-    }
+    itemsList = await _itemsApiService.getItem(item);
+    setState(() {});
   }
 
   void navigateToSearchPage() async {
@@ -113,7 +77,6 @@ class _ItemsUiState extends State<ItemsUi> {
       _loading = true;
     });
     await getItemsList();
-
     setState(() {});
     setState(() {
       _loading = false;
@@ -131,77 +94,20 @@ class _ItemsUiState extends State<ItemsUi> {
 
   void getItemGroupData(String itemGroupName) async {
     itemsList.clear();
-    final String cookie = await getCookie();
-    Map<String, String> requestHeaders = {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-      'Cookie': cookie
-    };
-    String baseurl = await getApiUrl();
-    final String itemgroup = itemGroupDataUrl(itemGroupName);
-    final String itemGroupUrl = baseurl + itemgroup;
-    final itemGroupResponse =
-        await http.get(itemGroupUrl, headers: requestHeaders);
-    var data = jsonDecode(itemGroupResponse.body);
-    List list = data['data'];
-    list.forEach((item) {
-      String itemName = item['item_name'];
-      String itemCode = item['item_code'];
-      String image = item['image'];
-      itemsList.add(ItemsModel(itemName, itemCode, image));
-    });
-    print(itemsList.length);
+    itemsList = await _itemsApiService.getItemGroupData(itemGroupName);
     setState(() {});
   }
 
   void getItemBrandData(String brandName) async {
     itemsList.clear();
-    final String cookie = await getCookie();
-    Map<String, String> requestHeaders = {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-      'Cookie': cookie
-    };
-    String baseurl = await getApiUrl();
-    final String itemBrand = brandDataUrl(brandName);
-    final String brandUrl = baseurl + itemBrand;
-    final itemBrandResponse = await http.get(brandUrl, headers: requestHeaders);
-    var data = jsonDecode(itemBrandResponse.body);
-    List list = data['data'];
-    list.forEach((item) {
-      String itemName = item['item_name'];
-      String itemCode = item['item_code'];
-      String image = item['image'];
-      itemsList.add(ItemsModel(itemName, itemCode, image));
-    });
-    print(itemsList.length);
+    itemsList = await _itemsApiService.getItemBrandData(brandName);
     setState(() {});
   }
 
   void getItemWeightData() async {
     itemsList.clear();
-    final String cookie = await getCookie();
-    Map<String, String> requestHeaders = {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-      'Cookie': cookie
-    };
-    double weightInGrams = double.parse(weightController.text.toString());
-    String weightInKg = (weightInGrams / 1000).toString();
-    String baseurl = await getApiUrl();
-    final String itemweight = itemWeightUrl(weightInKg);
-    final String weightUrl = baseurl + itemweight;
-    final itemWeightResponse =
-        await http.get(weightUrl, headers: requestHeaders);
-    var data = jsonDecode(itemWeightResponse.body);
-    List list = data['data'];
-    list.forEach((item) {
-      String itemName = item['item_name'];
-      String itemCode = item['item_code'];
-      String image = item['image'];
-      itemsList.add(ItemsModel(itemName, itemCode, image));
-    });
-    print(itemsList.length);
+    itemsList = await _itemsApiService.getItemWeightData(
+        weight1Controller.text, weight2Controller.text);
     setState(() {});
   }
 
@@ -210,63 +116,45 @@ class _ItemsUiState extends State<ItemsUi> {
     setState(() {});
   }
 
-  void getItemGroupAndWeightData(String itemGroup, String weight) async {
-    print(itemGroup);
-    print(weight);
-    print('itemgroupandweight');
+  void getItemGroupAndWeightData(
+      String itemGroup, String weight1, String weight2) async {
     itemsList.clear();
-    final String cookie = await getCookie();
-    Map<String, String> requestHeaders = {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-      'Cookie': cookie
-    };
-    double weightInGrams = double.parse(weight.toString());
-    String weightInKg = (weightInGrams / 1000).toString();
-    String baseurl = await getApiUrl();
-    final String itemweight = itemGroupandWeightDataUrl(itemGroup, weightInKg);
-    final String weightUrl = baseurl + itemweight;
-    final itemWeightResponse =
-        await http.get(weightUrl, headers: requestHeaders);
-    var data = jsonDecode(itemWeightResponse.body);
-    List list = data['data'];
-    list.forEach((item) {
-      String itemName = item['item_name'];
-      String itemCode = item['item_code'];
-      String image = item['image'];
-      itemsList.add(ItemsModel(itemName, itemCode, image));
-    });
-    print(itemsList.length);
+    itemsList = await _itemsApiService.getItemGroupAndWeightData(
+        itemGroup, weight1, weight2);
     setState(() {});
   }
 
-  void getItemBrandAndWeightData(String brand, String weight) async {
-    print(brand);
-    print(weight);
-    print('itembrandandweight');
+  void getItemBrandAndWeightData(
+      String brand, String weight1, String weight2) async {
     itemsList.clear();
-    final String cookie = await getCookie();
-    Map<String, String> requestHeaders = {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-      'Cookie': cookie
-    };
-    double weightInGrams = double.parse(weight.toString());
-    String weightInKg = (weightInGrams / 1000).toString();
-    String baseurl = await getApiUrl();
-    final String itemweight = itemBrandandWeightDataUrl(brand, weightInKg);
-    final String weightUrl = baseurl + itemweight;
-    final itemWeightResponse =
-        await http.get(weightUrl, headers: requestHeaders);
-    var data = jsonDecode(itemWeightResponse.body);
-    List list = data['data'];
-    list.forEach((item) {
-      String itemName = item['item_name'];
-      String itemCode = item['item_code'];
-      String image = item['image'];
-      itemsList.add(ItemsModel(itemName, itemCode, image));
-    });
-    print(itemsList.length);
+    itemsList = await _itemsApiService.getItemBrandAndWeightData(
+        brand, weight1, weight2);
+    setState(() {});
+  }
+
+  void getItemGroupWeight1Data(String itemGroup, String weight1) async {
+    itemsList.clear();
+    itemsList =
+        await _itemsApiService.getItemGroupWeight1Data(itemGroup, weight1);
+    setState(() {});
+  }
+
+  void getItemGroupWeight2Data(String itemGroup, String weight2) async {
+    itemsList.clear();
+    itemsList =
+        await _itemsApiService.getItemGroupWeight2Data(itemGroup, weight2);
+    setState(() {});
+  }
+
+  void getItemBrandWeight1Data(String brand, String weight1) async {
+    itemsList.clear();
+    itemsList = await _itemsApiService.getItemBrandWeight1Data(brand, weight1);
+    setState(() {});
+  }
+
+  void getItemBrandWeight2Data(String brand, String weight2) async {
+    itemsList.clear();
+    itemsList = await _itemsApiService.getItemBrandWeight2Data(brand, weight2);
     setState(() {});
   }
 
@@ -312,7 +200,6 @@ class _ItemsUiState extends State<ItemsUi> {
                             setState(() {
                               groupText = newValue;
                               brandText = brandList[0].name;
-                              // weightController.text = '';
                               reset = false;
                             });
                           },
@@ -347,7 +234,6 @@ class _ItemsUiState extends State<ItemsUi> {
                             setState(() {
                               brandText = newValue;
                               groupText = itemGroupList[0].name;
-                              // weightController.text = '';
                               reset = false;
                             });
                           },
@@ -366,58 +252,47 @@ class _ItemsUiState extends State<ItemsUi> {
                       SizedBox(
                         height: displayHeight(context) * 0.015,
                       ),
-                      Text('Search by Weight'),
+                      Text('Search by Weight (Grams)'),
                       SizedBox(
                         height: displayHeight(context) * 0.015,
                       ),
-                      DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          hint: Text('Weight'),
-                          value: weightText,
-                          icon: Icon(Icons.keyboard_arrow_down),
-                          iconSize: 24,
-                          elevation: 16,
-                          underline: Container(
-                            height: 2,
-                            color: Colors.blueAccent,
-                          ),
-                          onChanged: (String newValue) {
-                            setState(() {
-                              weightText = newValue;
-                              List<String> splitString = [];
-                              splitString = newValue.split(" ");
-                              firstWeightText = splitString[0];
-                              secondWeightText = splitString[2];
-                              reset = false;
-                            });
-                          },
-                          items:
-                              weightList.map<DropdownMenuItem<String>>((value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                value.toString(),
-                                style: TextStyles.t14Black,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: weight1Controller,
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) {
+                                reset = false;
+                              },
+                              decoration: InputDecoration(
+                                labelText: 'Weight (From)',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                               ),
-                            );
-                          }).toList(),
-                        ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              controller: weight2Controller,
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) {
+                                reset = false;
+                              },
+                              decoration: InputDecoration(
+                                labelText: 'Weight (To)',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      // TextFormField(
-                      //   controller: weightController,
-                      //   keyboardType: TextInputType.number,
-                      //   onChanged: (value) {
-                      //     // groupText = itemGroupList[0].name;
-                      //     // brandText = brandList[0].name;
-                      //     reset = false;
-                      //   },
-                      //   decoration: InputDecoration(
-                      //     labelText: 'Weight in Grams',
-                      //     border: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(10),
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                   SizedBox(
@@ -430,14 +305,12 @@ class _ItemsUiState extends State<ItemsUi> {
                         child: RoundButton(
                             onPressed: () async {
                               setItemList();
-                              // itemsList = await _itemsApiService.itemsList();
-                              // setState(() {});
-                              // print(itemsList.length);
                               setState(() {
                                 reset = true;
                                 groupText = itemGroupList[0].name;
                                 brandText = brandList[0].name;
-                                weightController.text = '';
+                                weight1Controller.text = '';
+                                weight2Controller.text = '';
                               });
                             },
                             child: Text(
@@ -458,18 +331,44 @@ class _ItemsUiState extends State<ItemsUi> {
               onPressed: () async {
                 reset
                     ? print('reset initiated')
-                    : groupText.isNotEmpty && weightController.text.isNotEmpty
-                        ? getItemGroupAndWeightData(
-                            groupText, weightController.text)
+                    : groupText.isNotEmpty &&
+                            weight1Controller.text.isNotEmpty &&
+                            weight2Controller.text.isNotEmpty
+                        ? getItemGroupAndWeightData(groupText,
+                            weight1Controller.text, weight2Controller.text)
                         : brandText.isNotEmpty &&
-                                weightController.text.isNotEmpty
-                            ? getItemBrandAndWeightData(
-                                brandText, weightController.text)
-                            : groupText.isNotEmpty
-                                ? getItemGroupData(groupText)
-                                : brandText.isNotEmpty
-                                    ? getItemBrandData(brandText)
-                                    : getItemWeightData();
+                                weight1Controller.text.isNotEmpty &&
+                                weight2Controller.text.isNotEmpty
+                            ? getItemBrandAndWeightData(brandText,
+                                weight1Controller.text, weight2Controller.text)
+                            : groupText.isNotEmpty &&
+                                    weight1Controller.text.isNotEmpty &&
+                                    weight2Controller.text.isEmpty
+                                ? getItemGroupWeight1Data(
+                                    groupText, weight1Controller.text)
+                                : groupText.isNotEmpty &&
+                                        weight1Controller.text.isEmpty &&
+                                        weight2Controller.text.isNotEmpty
+                                    ? getItemGroupWeight2Data(
+                                        groupText, weight2Controller.text)
+                                    : brandText.isNotEmpty &&
+                                            weight1Controller.text.isNotEmpty &&
+                                            weight2Controller.text.isEmpty
+                                        ? getItemBrandWeight1Data(
+                                            brandText, weight1Controller.text)
+                                        : brandText.isNotEmpty &&
+                                                weight1Controller
+                                                    .text.isEmpty &&
+                                                weight2Controller
+                                                    .text.isNotEmpty
+                                            ? getItemBrandWeight2Data(brandText,
+                                                weight2Controller.text)
+                                            : groupText.isNotEmpty
+                                                ? getItemGroupData(groupText)
+                                                : brandText.isNotEmpty
+                                                    ? getItemBrandData(
+                                                        brandText)
+                                                    : getItemWeightData();
                 Navigator.pop(dialogContext);
               },
               child: Text(
@@ -498,20 +397,18 @@ class _ItemsUiState extends State<ItemsUi> {
 
   Future getItemsList() async {
     fullItemList = await _itemsApiService.getAllItemsList();
-    print(fullItemList.length);
     itemGroupList = await _itemsApiService.itemGroupList();
-    print(itemGroupList.length);
     itemsList = await _itemsApiService.itemsList();
     brandList = await _itemsApiService.brandList();
-    weightList = [
-      zeroToTwoFifty,
-      twoFiftyToFiveHundred,
-      fiveHundredToSevenFifty,
-      sevenFiftyToOneThousand,
-      greaterThanOneThousand
-    ];
-    print(brandList.length);
     setState(() {});
+  }
+
+  bool isExistsInCart(List<Cart> state, Cart cartItem) {
+    bool found = false;
+    state.forEach((element) {
+      if (element.id == cartItem.id) found = true;
+    });
+    return found;
   }
 
   @override
@@ -548,10 +445,12 @@ class _ItemsUiState extends State<ItemsUi> {
                   onPressed: () {
                     pushScreen(context, CartPage());
                   }),
-              badgeContent: Text('${watch(cartListProvider.state).length}',style: TextStyle(color: whiteColor),),
+              badgeContent: Text(
+                '${watch(cartListProvider.state).length}',
+                style: TextStyle(color: whiteColor),
+              ),
             );
           }),
-          
           IconButton(
               icon: Icon(
                 Icons.filter_list,
@@ -604,6 +503,7 @@ class _ItemsUiState extends State<ItemsUi> {
                           subtitle: Text(item.itemCode),
                           trailing: GestureDetector(
                             onTap: () async {
+                              // print('Item quantity is ${item.quantity}');
                               final cartItem = Cart(
                                   id: item.itemCode,
                                   imageUrl: item.image,
@@ -642,10 +542,4 @@ class _ItemsUiState extends State<ItemsUi> {
   }
 }
 
-bool isExistsInCart(List<Cart> state, Cart cartItem) {
-  bool found = false;
-  state.forEach((element) {
-    if (element.id == cartItem.id) found = true;
-  });
-  return found;
-}
+
