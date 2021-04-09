@@ -17,6 +17,16 @@ Future<String> getCookie() async {
   return prefs.getString('cookie');
 }
 
+Future<String> getCompany() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('company');
+}
+
+Future<String> getCurrency() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('currency');
+}
+
 Future<String> getName() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.getString('name');
@@ -42,6 +52,16 @@ setCookie(String cookie) async {
   prefs.setString('cookie', cookie);
 }
 
+setCompany(String company) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString('company', company);
+}
+
+setCurrency(String currency) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString('currency', currency);
+}
+
 setName(String fullname) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString('name', fullname);
@@ -60,6 +80,16 @@ removeApiUrl() async {
 removeCookie() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.remove('cookie');
+}
+
+removeCompany() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.remove('company');
+}
+
+removeCurrency() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.remove('currency');
 }
 
 removeName() async {

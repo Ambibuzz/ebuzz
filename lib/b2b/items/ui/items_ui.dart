@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:badges/badges.dart';
+import 'package:dio/dio.dart';
 import 'package:ebuzz/b2b/cart/model/cart.dart';
 import 'package:ebuzz/b2b/cart/state/state_manager.dart';
 import 'package:ebuzz/b2b/cart/ui/cart_page.dart';
 import 'package:ebuzz/b2b/items/model/brand_model.dart';
 import 'package:ebuzz/b2b/items/model/item_group.dart';
+import 'package:ebuzz/b2b/items/model/item_price_model.dart';
 import 'package:ebuzz/b2b/items/model/items_model.dart';
 import 'package:ebuzz/b2b/items/service/items_api_service.dart';
 import 'package:ebuzz/b2b/items/ui/items_detail_widget.dart';
@@ -16,6 +18,9 @@ import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/common/navigations.dart';
 import 'package:ebuzz/common/round_button.dart';
 import 'package:ebuzz/common/textstyles.dart';
+import 'package:ebuzz/exception/custom_exception.dart';
+import 'package:ebuzz/network/base_dio.dart';
+import 'package:ebuzz/util/apiurls.dart';
 import 'package:ebuzz/util/constants.dart';
 import 'package:ebuzz/util/preference.dart';
 import 'package:flutter/material.dart';
@@ -65,9 +70,7 @@ class _ItemsUiState extends State<ItemsUi> {
     var list = await _itemsApiService.getAllItemsList();
     item = await Navigator.push(context,
         MaterialPageRoute(builder: (context) => SearchPage(itemsList: list)));
-    print(item);
     if (item.isNotEmpty) {
-      print('not empty');
       getItem(item);
     }
   }
@@ -395,6 +398,33 @@ class _ItemsUiState extends State<ItemsUi> {
     );
   }
 
+  Future<double> getPriceForItem(String itemCode) async {
+    double pricelistdata;
+    String company = await getCompany();
+    print(company);
+    print(itemCode);
+    ItemPriceModel _itemPriceModel = ItemPriceModel(
+        company: company,
+        conversionrate: 1.0,
+        customer: 'Harmony',
+        doctype: 'Sales Invoice',
+        itemcode: itemCode,
+        pricelist: 'Buy and Sell');
+    try {
+      final String url = itemPriceUrl();
+      Dio _dio = await BaseDio().getBaseDio();
+      final response = await _dio.post(url, data: _itemPriceModel);
+      if (response.statusCode == 200) {
+        var data = response.data;
+        pricelistdata = data['message']['price_list_rate'];
+      }
+      return pricelistdata;
+    } catch (e) {
+      exception(e);
+    }
+    return pricelistdata;
+  }
+
   Future getItemsList() async {
     fullItemList = await _itemsApiService.getAllItemsList();
     itemGroupList = await _itemsApiService.itemGroupList();
@@ -503,12 +533,15 @@ class _ItemsUiState extends State<ItemsUi> {
                           subtitle: Text(item.itemCode),
                           trailing: GestureDetector(
                             onTap: () async {
-                              // print('Item quantity is ${item.quantity}');
+                              double rate =
+                                  await getPriceForItem(item.itemCode);
                               final cartItem = Cart(
                                   id: item.itemCode,
                                   imageUrl: item.image,
                                   itemName: item.itemName,
-                                  quantity: item.quantity);
+                                  quantity: item.quantity,
+                                  itemCode: item.itemCode,
+                                  rate: rate);
                               var cartInstance = context.read(cartListProvider);
                               if (isExistsInCart(cartInstance.state, cartItem))
                                 context
@@ -541,5 +574,3 @@ class _ItemsUiState extends State<ItemsUi> {
     );
   }
 }
-
-

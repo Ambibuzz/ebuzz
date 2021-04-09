@@ -50,6 +50,10 @@ String employeeListUrl() {
   return '/api/resource/Leave%20Application/?fields=["employee_name"]&limit_page_length=*';
 }
 
+String globalDefaultsUrl() {
+  return '/api/resource/Global%20Defaults/Global%20Defaults';
+}
+
 String qualityInspectionListUrl() {
   return '/api/resource/Quality%20Inspection/?fields=["*"]&limit_page_length=*';
 }
@@ -106,6 +110,10 @@ String itemGroupUrl() {
 
 String itemNameSearchUrl(String text) {
   return '/api/resource/Item/?fields=["item_code","item_name"]&filters=[["Item","item_name","like","%$text%"]]';
+}
+
+String itemPriceUrl() {
+  return '/api/method/erpnext.stock.get_item_details.get_item_details';
 }
 
 String itemWeightUrl(String weight1, String weight2) {
@@ -174,6 +182,10 @@ String qualityInspectionTemplateReadingsListUrl(String text) {
 
 String qualityInspectionUrl() {
   return '/api/resource/Quality%20Inspection';
+}
+
+String quotationUrl() {
+  return '/api/resource/Quotation';
 }
 
 // String qualityinspectionTemplateUrl(String text) {

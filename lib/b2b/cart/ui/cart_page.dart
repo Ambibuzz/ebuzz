@@ -1,10 +1,15 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
+import 'package:ebuzz/b2b/cart/model/quotation_model.dart';
 import 'package:ebuzz/b2b/cart/state/state_manager.dart';
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_appbar.dart';
+import 'package:ebuzz/common/custom_toast.dart';
 import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/common/round_button.dart';
+import 'package:ebuzz/network/base_dio.dart';
+import 'package:ebuzz/util/apiurls.dart';
 import 'package:ebuzz/util/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_elegant_number_button/flutter_elegant_number_button.dart';
@@ -134,16 +139,35 @@ class _CartPageState extends State<CartPage> {
                     );
                   }),
             ),
-            // Stack(
-            //   alignment: Alignment.bottomCenter,
-            //   children: [
-            //     RoundButton(
-            //         onPressed: () {},
-            //         child: Text('Get Quotation'),
-            //         primaryColor: blueAccent,
-            //         onPrimaryColor: whiteColor),
-            //   ],
-            // ),
+            Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                RoundButton(
+                    onPressed: () async {
+                      List<QuotationItems> qoitems = [];
+                      items.map((cart) {
+                        qoitems.add(QuotationItems(
+                            itemcode: cart.itemCode,
+                            quantity: cart.quantity,
+                            rate: cart.rate));
+                      }).toList();
+                      QuotationModel _quotationModel = QuotationModel(
+                          currency: 'INR', quotationitems: qoitems);
+                      final String url = quotationUrl();
+                      Dio _dio = await BaseDio().getBaseDio();
+                      final response =
+                          await _dio.post(url, data: _quotationModel);
+                      if (response.statusCode == 200) {
+                        print(response.data);
+                        fluttertoast(whiteColor, blueAccent,
+                            'Quotation Posted Successfully');
+                      }
+                    },
+                    child: Text('Get Quotation'),
+                    primaryColor: blueAccent,
+                    onPrimaryColor: whiteColor),
+              ],
+            ),
           ],
         );
       }),

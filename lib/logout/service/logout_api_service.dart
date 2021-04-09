@@ -21,6 +21,8 @@ class LogOutApiService {
         removeApiUrl();
         removeCookie();
         removeName();
+        removeCompany();
+        removeCurrency();
         pushReplacementScreen(context, Login());
       } else {
         if (response.statusCode == 400) {

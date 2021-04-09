@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:ebuzz/b2b/cart/model/cart.dart';
 import 'package:ebuzz/b2b/cart/state/state_manager.dart';
 import 'package:ebuzz/b2b/items/ui/items_ui.dart';
 import 'package:ebuzz/common/circular_progress.dart';
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/navigations.dart';
-import 'package:ebuzz/fileupload/file_upload.dart';
+// import 'package:ebuzz/fileupload/file_upload.dart';
 import 'package:ebuzz/home/service/home_service.dart';
 import 'package:ebuzz/item/ui/item_ui.dart';
 import 'package:ebuzz/leavebalance/ui/leave_balance_ui.dart';
@@ -35,6 +34,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with WidgetsBindingObserver {
   LogOutApiService _logOutApiProvider = LogOutApiService();
+
   String apiurl;
   String cookie;
   String name;
@@ -85,6 +85,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     name = await getName();
     setState(() {});
   }
+
 
   logout(BuildContext context) async {
     setState(() {
@@ -228,7 +229,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
           cardUi('Quality Inspection', QualityInspectionListUi()),
           cardUi('Stock Entry', StockEntryList()),
           cardUi('Sales Order', SalesOrderListUi()),
-          cardUi('File Upload', FileUpload()),
+          // cardUi('File Upload', FileUpload()),
           cardUi('Catalogue', ItemsUi()),
         ],
       ),

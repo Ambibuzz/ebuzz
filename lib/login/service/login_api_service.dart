@@ -1,9 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_toast.dart';
 import 'package:ebuzz/common/navigations.dart';
+import 'package:ebuzz/exception/custom_exception.dart';
+import 'package:ebuzz/home/model/globaldefaultsmodel.dart';
+import 'package:ebuzz/home/service/home_service.dart';
 import 'package:ebuzz/home/ui/home.dart';
+import 'package:ebuzz/network/base_dio.dart';
 import 'package:ebuzz/util/preference.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -38,6 +43,7 @@ class LoginApiService {
       String baseUrl}) async {
     try {
       List<String> baseurllist = await getBaseUrlList();
+      HomeService _homeService=HomeService();
       final String url = loginUrl(baseUrl);
       final response = await http.post(
         url,
@@ -69,6 +75,7 @@ class LoginApiService {
         var cookie = response.headers['set-cookie'];
         String cookieSid = cookie.split(';').first.toString();
         setCookie(cookieSid);
+        await setGlobalDefaults();
         pushReplacementScreen(context, Home());
       }
       if (response.statusCode == 400) {
@@ -83,6 +90,24 @@ class LoginApiService {
       } else {
         fluttertoast(whiteColor, blueAccent, 'Unexpected Error');
       }
+    }
+  }
+
+  Future setGlobalDefaults() async {
+    GlobalDefaults globalDefaultsData;
+    try {
+      Dio dio = await BaseDio().getBaseDio();
+      final String globaldefaults = globalDefaultsUrl();
+      final response = await dio.get(globaldefaults);
+      if (response.statusCode == 200) {
+        var data = response.data;
+        var listData = data['data'];
+        globalDefaultsData = GlobalDefaults.fromJson(listData);
+        setCompany(globalDefaultsData.company);
+        setCurrency(globalDefaultsData.currency);
+      }
+    } catch (e) {
+      exception(e);
     }
   }
 }
