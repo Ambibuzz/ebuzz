@@ -2,6 +2,7 @@ import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_appbar.dart';
 import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/common/textstyles.dart';
+import 'package:ebuzz/common/ui_reusable_widget.dart';
 import 'package:ebuzz/salesorder/model/sales_order.dart';
 import 'package:ebuzz/salesorder/service/sales_order_service.dart';
 import 'package:flutter/material.dart';
@@ -83,199 +84,59 @@ class SODetailUiWidget extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Customer',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Customer'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Company',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Company'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Order Type',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Order Type'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Transaction Date',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Transaction Date'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Delivery Date',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Delivery Date'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Purchase Order Date',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Purchase Order Date'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Purchase Order Number',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Purchase Order Number'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Port Of Discharge',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Port Of Discharge'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Total Quantity',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Total Quantity'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Total Net Weight',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Total Net Weight'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Grand Total (INR)',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Grand Total (INR)'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Grand Total (USD)',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Grand Total (USD)'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Status',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Status'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Advance Paid',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Advance Paid'),
                   ],
                 ),
               ),
@@ -287,199 +148,59 @@ class SODetailUiWidget extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
@@ -496,228 +217,60 @@ class SODetailUiWidget extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        soData.customer,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, soData.customer),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        soData.company,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, soData.company),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        soData.ordertype,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, soData.ordertype),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        soData.transactiondate,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, soData.transactiondate),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        soData.deliverydate,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, soData.deliverydate),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        soData.pono,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, soData.pono),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        soData.podate,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, soData.podate),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        soData.portofdischarge,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, soData.portofdischarge),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        soData.totalqty.toString(),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, soData.totalqty.toString()),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        soData.totalnetweight.toString(),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, soData.totalnetweight.toString()),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        '₹' + soData.basegrandtotal.toString(),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(
+                        context, '₹' + soData.basegrandtotal.toString()),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        '\$' + soData.grandtotal.toString(),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, '\$' + soData.grandtotal.toString()),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        soData.status,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, soData.status),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      width: displayWidth(context) * 0.5,
-                      child: Text(
-                        soData.advancepaid.toString(),
-                        maxLines: 10,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, soData.advancepaid.toString()),
                   ],
                 ),
               ),
@@ -727,162 +280,29 @@ class SODetailUiWidget extends StatelessWidget {
         SizedBox(
           height: 15,
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            children: [
-              Text(
-                'Scroll ',
-                style: displayWidth(context) > 600
-                    ? TextStyle(fontSize: 28, color: blackColor)
-                    : TextStyles.t18Black,
-              ),
-              Icon(
-                Icons.arrow_back,
-                color: blackColor,
-                size: displayWidth(context) > 600 ? 35 : 25,
-              ),
-              Text(
-                ' or ',
-                style: displayWidth(context) > 600
-                    ? TextStyle(fontSize: 28, color: blackColor)
-                    : TextStyles.t18Black,
-              ),
-              Icon(
-                Icons.arrow_forward,
-                color: blackColor,
-                size: displayWidth(context) > 600 ? 35 : 25,
-              ),
-              Text(
-                ' to view table below',
-                style: displayWidth(context) > 600
-                    ? TextStyle(fontSize: 28, color: blackColor)
-                    : TextStyles.t18Black,
-              ),
-            ],
-          ),
-        ),
+        scrollToViewTableBelow(context),
         SizedBox(
           height: 5,
         ),
-        
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: DataTable(
             columns: <DataColumn>[
-              DataColumn(
-                label: Text(
-                  'Item Code',
-                  style: displayWidth(context) > 600
-                      ? TextStyle(
-                          fontSize: 32,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold)
-                      : TextStyle(
-                          fontStyle: FontStyle.italic,
-                        ),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'ItemName',
-                  style: displayWidth(context) > 600
-                      ? TextStyle(
-                          fontSize: 32,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold)
-                      : TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Delivery Date',
-                  style: displayWidth(context) > 600
-                      ? TextStyle(
-                          fontSize: 32,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold)
-                      : TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Quantity',
-                  style: displayWidth(context) > 600
-                      ? TextStyle(
-                          fontSize: 32,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold)
-                      : TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Rate',
-                  style: displayWidth(context) > 600
-                      ? TextStyle(
-                          fontSize: 32,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold)
-                      : TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Amount',
-                  style: displayWidth(context) > 600
-                      ? TextStyle(
-                          fontSize: 32,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold)
-                      : TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
+              tableColumnText(context, 'Item Code'),
+              tableColumnText(context, 'ItemName'),
+              tableColumnText(context, 'Delivery Date'),
+              tableColumnText(context, 'Quantity'),
+              tableColumnText(context, 'Rate'),
+              tableColumnText(context, 'Amount'),
             ],
             rows: salesOrderItemsList
                 .map((data) => DataRow(cells: <DataCell>[
-                      DataCell(Text(
-                        data.itemcode,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(fontSize: 26, color: blackColor)
-                            : TextStyles.t16Black,
-                      )),
-                      DataCell(Text(
-                        data.itemname,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(fontSize: 28, color: blackColor)
-                            : TextStyles.t16Black,
-                      )),
-                      DataCell(Text(
-                        data.deliverydate,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(fontSize: 28, color: blackColor)
-                            : TextStyles.t16Black,
-                      )),
-                      DataCell(Center(
-                        child: Text(
-                          data.qty.toString(),
-                          style: displayWidth(context) > 600
-                              ? TextStyle(fontSize: 28, color: blackColor)
-                              : TextStyles.t16Black,
-                        ),
-                      )),
-                      DataCell(Center(
-                        child: Text(
-                          '\$' + data.rate.toString(),
-                          style: displayWidth(context) > 600
-                              ? TextStyle(fontSize: 28, color: blackColor)
-                              : TextStyles.t16Black,
-                        ),
-                      )),
-                      DataCell(Center(
-                        child: Text(
-                          '\$' + data.amount.toString(),
-                          style: displayWidth(context) > 600
-                              ? TextStyle(fontSize: 28, color: blackColor)
-                              : TextStyles.t16Black,
-                        ),
-                      )),
+                      dataCellText(context, data.itemcode),
+                      dataCellText(context, data.itemname),
+                      dataCellText(context, data.deliverydate),
+                      dataCellText(context, data.qty.toString()),
+                      dataCellText(context, '\$' + data.rate.toString()),
+                      dataCellText(context, '\$' + data.amount.toString()),
                     ]))
                 .toList(),
           ),
@@ -891,100 +311,21 @@ class SODetailUiWidget extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: DataTable(
             columns: <DataColumn>[
-              DataColumn(
-                label: Text(
-                  'Payment Term',
-                  style: displayWidth(context) > 600
-                      ? TextStyle(
-                          fontSize: 32,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold)
-                      : TextStyle(
-                          fontStyle: FontStyle.italic,
-                        ),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Description',
-                  style: displayWidth(context) > 600
-                      ? TextStyle(
-                          fontSize: 32,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold)
-                      : TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Due Date',
-                  style: displayWidth(context) > 600
-                      ? TextStyle(
-                          fontSize: 32,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold)
-                      : TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Invoice Portion',
-                  style: displayWidth(context) > 600
-                      ? TextStyle(
-                          fontSize: 32,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold)
-                      : TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Payment Amount',
-                  style: displayWidth(context) > 600
-                      ? TextStyle(
-                          fontSize: 32,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold)
-                      : TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
+              tableColumnText(context, 'Payment Term'),
+              tableColumnText(context, 'Description'),
+              tableColumnText(context, 'Due Date'),
+              tableColumnText(context, 'Invoice Portion'),
+              tableColumnText(context, 'Payment Amount'),
             ],
             rows: salesOrderPaymentScheduleList
                 .map((data) => DataRow(cells: <DataCell>[
-                      DataCell(Text(
-                        data.paymentterm,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(fontSize: 26, color: blackColor)
-                            : TextStyles.t16Black,
-                      )),
-                      DataCell(Text(
-                        data.description,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(fontSize: 28, color: blackColor)
-                            : TextStyles.t16Black,
-                      )),
-                      DataCell(Text(
-                        data.duedate,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(fontSize: 28, color: blackColor)
-                            : TextStyles.t16Black,
-                      )),
-                      DataCell(Center(
-                        child: Text(
-                          data.invoiceportion.toString() + '%',
-                          style: displayWidth(context) > 600
-                              ? TextStyle(fontSize: 28, color: blackColor)
-                              : TextStyles.t16Black,
-                        ),
-                      )),
-                      DataCell(Center(
-                        child: Text(
-                          '\$' + data.paymentamount.toString(),
-                          style: displayWidth(context) > 600
-                              ? TextStyle(fontSize: 28, color: blackColor)
-                              : TextStyles.t16Black,
-                        ),
-                      )),
+                      dataCellText(context, data.paymentterm),
+                      dataCellText(context, data.description),
+                      dataCellText(context, data.duedate),
+                      dataCellText(
+                          context, data.invoiceportion.toString() + '%'),
+                      dataCellText(
+                          context, '\$' + data.paymentamount.toString()),
                     ]))
                 .toList(),
           ),

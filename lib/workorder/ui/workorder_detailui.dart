@@ -1,10 +1,9 @@
-import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_appbar.dart';
 import 'package:ebuzz/common/display_helper.dart';
-import 'package:ebuzz/common/textstyles.dart';
 import 'package:ebuzz/workorder/model/workorder_model.dart';
 import 'package:ebuzz/workorder/service/workorder_service.dart';
 import 'package:flutter/material.dart';
+import 'package:ebuzz/common/ui_reusable_widget.dart';
 
 //WorkOrderDetailUi consist of detail of particular workorder
 
@@ -70,185 +69,56 @@ class WODetailUiWidget extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Company',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Company'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Item to Manufacture',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Item to Manufacture'),
                     SizedBox(
                       height: 15,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Item Name',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Item Name'),
                     SizedBox(
                       height: 20,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Bom No',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Bom No'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Qty to Manufacture',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Qty to Manufacture'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Material Transfered for Manufacturing',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(
+                        context, 'Material Transfered for Manufacturing'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Manufactured Quantity',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Manufactured Quantity'),
                     SizedBox(
                       height: 15,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Sales Order',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Sales Order'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Status',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Status'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Start Date',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Start Date'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Delivery Date',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Delivery Date'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Target Warehouse',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Target Warehouse'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Work in progress Warehouse',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Work in progress Warehouse'),
                   ],
                 ),
               ),
@@ -260,185 +130,55 @@ class WODetailUiWidget extends StatelessWidget {
                   SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
@@ -455,216 +195,67 @@ class WODetailUiWidget extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        workOrderModelData.company,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, workOrderModelData.company),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
+                    textFieldName(
+                        context,
                         workOrderModelData.productionItem +
                             ' : ' +
-                            workOrderModelData.itemName,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                            workOrderModelData.itemName),
                     SizedBox(
                       height: 10,
                     ),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        workOrderModelData.itemName,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, workOrderModelData.itemName),
                     SizedBox(
                       height: 15,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        workOrderModelData.bomNo,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, workOrderModelData.bomNo),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        workOrderModelData.qtyToManufacture.toString(),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context,
+                        workOrderModelData.qtyToManufacture.toString()),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        workOrderModelData.materialTransfForManuf.toString(),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context,
+                        workOrderModelData.materialTransfForManuf.toString()),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        workOrderModelData.manufacturedQty.toString(),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(
+                        context, workOrderModelData.manufacturedQty.toString()),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        workOrderModelData.salesOrder,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, workOrderModelData.salesOrder),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        workOrderModelData.status,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, workOrderModelData.status),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        workOrderModelData.plannedStartDate,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, workOrderModelData.plannedStartDate),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        workOrderModelData.expectedDeliveryDate,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(
+                        context, workOrderModelData.expectedDeliveryDate),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        workOrderModelData.targetWarehouse,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, workOrderModelData.targetWarehouse),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        workOrderModelData.workInProgressWarehouse,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(
+                        context, workOrderModelData.workInProgressWarehouse),
                   ],
                 ),
               ),
@@ -674,147 +265,32 @@ class WODetailUiWidget extends StatelessWidget {
         SizedBox(
           height: 15,
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            children: [
-              Text(
-                'Scroll ',
-                style: displayWidth(context) > 600
-                    ? TextStyle(fontSize: 28, color: blackColor)
-                    : TextStyles.t18Black,
-              ),
-              Icon(
-                Icons.arrow_back,
-                color: blackColor,
-                size: displayWidth(context) > 600 ? 35 : 25,
-              ),
-              Text(
-                ' or ',
-                style: displayWidth(context) > 600
-                    ? TextStyle(fontSize: 28, color: blackColor)
-                    : TextStyles.t18Black,
-              ),
-              Icon(
-                Icons.arrow_forward,
-                color: blackColor,
-                size: displayWidth(context) > 600 ? 35 : 25,
-              ),
-              Text(
-                ' to view table below',
-                style: displayWidth(context) > 600
-                    ? TextStyle(fontSize: 28, color: blackColor)
-                    : TextStyles.t18Black,
-              ),
-            ],
-          ),
-        ),
+        scrollToViewTableBelow(context),
         SizedBox(
           height: 5,
         ),
-
         //WorkOrderItem list data displayed in tabular form
 
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: DataTable(
               columns: <DataColumn>[
-                DataColumn(
-                  label: Text(
-                    'Item Code',
-                    style: displayWidth(context) > 600
-                        ? TextStyle(
-                            fontSize: 32,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold)
-                        : TextStyle(
-                            fontStyle: FontStyle.italic,
-                          ),
-                  ),
-                ),
-                DataColumn(
-                  label: Text(
-                    'Source Warehouse',
-                    style: displayWidth(context) > 600
-                        ? TextStyle(
-                            fontSize: 32,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold)
-                        : TextStyle(fontStyle: FontStyle.italic),
-                  ),
-                ),
-                DataColumn(
-                  label: Text(
-                    'Required Quantity',
-                    style: displayWidth(context) > 600
-                        ? TextStyle(
-                            fontSize: 32,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold)
-                        : TextStyle(fontStyle: FontStyle.italic),
-                  ),
-                ),
-                DataColumn(
-                  label: Text(
-                    'Transfered Quantity',
-                    style: displayWidth(context) > 600
-                        ? TextStyle(
-                            fontSize: 32,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold)
-                        : TextStyle(fontStyle: FontStyle.italic),
-                  ),
-                ),
-                DataColumn(
-                  label: Text(
-                    'Consumed Quantity',
-                    style: displayWidth(context) > 600
-                        ? TextStyle(
-                            fontSize: 32,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold)
-                        : TextStyle(fontStyle: FontStyle.italic),
-                  ),
-                ),
+                tableColumnText(context, 'Item Code'),
+                tableColumnText(context, 'Source Warehouse'),
+                tableColumnText(context, 'Required Quantity'),
+                tableColumnText(context, 'Transfered Quantity'),
+                tableColumnText(context, 'Consumed Quantity'),
               ],
               rows: workOrderItemsList
                   .map((data) => DataRow(cells: <DataCell>[
-                        DataCell(Text(
-                          data.itemCode + ': ' + data.itemName,
-                          style: displayWidth(context) > 600
-                              ? TextStyle(fontSize: 26, color: blackColor)
-                              : TextStyles.t16Black,
-                        )),
-                        DataCell(Text(
-                          data.sourceWarehouse,
-                          style: displayWidth(context) > 600
-                              ? TextStyle(fontSize: 28, color: blackColor)
-                              : TextStyles.t16Black,
-                        )),
-                        DataCell(Center(
-                          child: Text(
-                            data.requiredQty.toString(),
-                            style: displayWidth(context) > 600
-                                ? TextStyle(fontSize: 28, color: blackColor)
-                                : TextStyles.t16Black,
-                          ),
-                        )),
-                        DataCell(Center(
-                          child: Text(
-                            data.transferedQuantity.toString(),
-                            style: displayWidth(context) > 600
-                                ? TextStyle(fontSize: 28, color: blackColor)
-                                : TextStyles.t16Black,
-                          ),
-                        )),
-                        DataCell(Center(
-                          child: Text(
-                            data.consumedQuantity.toString(),
-                            style: displayWidth(context) > 600
-                                ? TextStyle(fontSize: 28, color: blackColor)
-                                : TextStyles.t16Black,
-                          ),
-                        )),
+                        dataCellText(
+                            context, data.itemCode + ': ' + data.itemName),
+                        dataCellText(context, data.sourceWarehouse),
+                        dataCellText(context, data.requiredQty.toString()),
+                        dataCellText(
+                            context, data.transferedQuantity.toString()),
+                        dataCellText(
+                            context, data.transferedQuantity.toString()),
                       ]))
                   .toList()),
         ),

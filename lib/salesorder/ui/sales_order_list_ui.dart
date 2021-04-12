@@ -78,7 +78,7 @@ class SOTileUi extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: displayWidth(context) * 0.99,
-      height: 130,
+      height: 150,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 5),
         child: Card(

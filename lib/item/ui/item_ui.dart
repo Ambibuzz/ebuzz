@@ -292,21 +292,6 @@ class _ItemUiState extends State<ItemUi> {
           primaryColor: blueAccent,
           onPrimaryColor: whiteColor,
         ),
-      //  RaisedButton(
-      //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      //   color: blueAccent,
-      //   onPressed: searchButtonDisabled ? null : search,
-      //   child: Padding(
-      //     padding: EdgeInsets.symmetric(
-      //         horizontal: displayWidth(context) > 600 ? 29 : 10),
-      //     child: Text(
-      //       'Search',
-      //       style: displayWidth(context) > 600
-      //           ? TextStyle(fontSize: 28, color: whiteColor)
-      //           : TextStyles.t16White,
-      //     ),
-      //   ),
-      // ),
     );
   }
 }

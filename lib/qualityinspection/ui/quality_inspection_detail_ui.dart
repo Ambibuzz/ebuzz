@@ -1,7 +1,6 @@
-import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_appbar.dart';
 import 'package:ebuzz/common/display_helper.dart';
-import 'package:ebuzz/common/textstyles.dart';
+import 'package:ebuzz/common/ui_reusable_widget.dart';
 import 'package:ebuzz/qualityinspection/model/quality_inspection_model.dart';
 import 'package:ebuzz/qualityinspection/service/quality_inspection_service.dart';
 import 'package:flutter/material.dart';
@@ -75,171 +74,51 @@ class QIDetailUiWidget extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Report Date',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Report Date'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Inspection Type',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Inspection Type'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Reference Type',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Reference Type'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Reference Name',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Reference Name'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Item Code',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Item Code'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Item Name',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Item Name'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Sample Size',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Sample Size'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Inspected By',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Inspected By'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Quality Inspection Template',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Quality Inspection Template'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Status',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Status'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Remarks',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Remarks'),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        'Description',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, 'Description'),
                   ],
                 ),
               ),
@@ -251,171 +130,51 @@ class QIDetailUiWidget extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    child: Text(
-                      ':',
-                      style: displayWidth(context) > 600
-                          ? TextStyle(
-                              fontSize: 28,
-                            )
-                          : TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  colon(context),
                   SizedBox(
                     height: 10,
                   ),
@@ -448,180 +207,47 @@ class QIDetailUiWidget extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        qiData.inspectionType,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, qiData.inspectionType),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        qiData.referenceType,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, qiData.referenceType),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        qiData.referenceName,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, qiData.referenceName),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        qiData.itemCode,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, qiData.itemCode),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        qiData.itemname,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, qiData.itemname),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        qiData.sampleSize.toString(),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, qiData.sampleSize.toString()),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        qiData.inspectedBy,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, qiData.inspectedBy),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        qiData.qualityInspectionTemplate,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, qiData.qualityInspectionTemplate),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        qiData.status,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, qiData.status),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      child: Text(
-                        qiData.remarks,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, qiData.remarks),
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 40,
-                      width: displayWidth(context) * 0.5,
-                      child: Text(
-                        qiData.description,
-                        maxLines: 10,
-                        overflow: TextOverflow.ellipsis,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 28,
-                              )
-                            : TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    textFieldName(context, qiData.description),
                   ],
                 ),
               ),
@@ -631,41 +257,7 @@ class QIDetailUiWidget extends StatelessWidget {
         SizedBox(
           height: 15,
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            children: [
-              Text(
-                'Scroll ',
-                style: displayWidth(context) > 600
-                    ? TextStyle(fontSize: 28, color: blackColor)
-                    : TextStyles.t18Black,
-              ),
-              Icon(
-                Icons.arrow_back,
-                color: blackColor,
-                size: displayWidth(context) > 600 ? 35 : 25,
-              ),
-              Text(
-                ' or ',
-                style: displayWidth(context) > 600
-                    ? TextStyle(fontSize: 28, color: blackColor)
-                    : TextStyles.t18Black,
-              ),
-              Icon(
-                Icons.arrow_forward,
-                color: blackColor,
-                size: displayWidth(context) > 600 ? 35 : 25,
-              ),
-              Text(
-                ' to view table below',
-                style: displayWidth(context) > 600
-                    ? TextStyle(fontSize: 28, color: blackColor)
-                    : TextStyles.t18Black,
-              ),
-            ],
-          ),
-        ),
+        scrollToViewTableBelow(context),
         SizedBox(
           height: 5,
         ),
@@ -673,81 +265,17 @@ class QIDetailUiWidget extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: DataTable(
             columns: <DataColumn>[
-              DataColumn(
-                label: Text(
-                  'Parameter',
-                  style: displayWidth(context) > 600
-                      ? TextStyle(
-                          fontSize: 32,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold)
-                      : TextStyle(
-                          fontStyle: FontStyle.italic,
-                        ),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Acceptance Criteria',
-                  style: displayWidth(context) > 600
-                      ? TextStyle(
-                          fontSize: 32,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold)
-                      : TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Reading 1',
-                  style: displayWidth(context) > 600
-                      ? TextStyle(
-                          fontSize: 32,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold)
-                      : TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Status',
-                  style: displayWidth(context) > 600
-                      ? TextStyle(
-                          fontSize: 32,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold)
-                      : TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
+              tableColumnText(context, 'Parameter'),
+              tableColumnText(context, 'Acceptance Criteria'),
+              tableColumnText(context, 'Reading 1'),
+              tableColumnText(context, 'Status'),
             ],
             rows: qiReadingsList
                 .map((data) => DataRow(cells: <DataCell>[
-                      DataCell(Text(
-                        data.parameter,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(fontSize: 26, color: blackColor)
-                            : TextStyles.t16Black,
-                      )),
-                      DataCell(Text(
-                        data.acceptanceCriteria,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(fontSize: 28, color: blackColor)
-                            : TextStyles.t16Black,
-                      )),
-                      DataCell(Text(
-                        data.reading1,
-                        style: displayWidth(context) > 600
-                            ? TextStyle(fontSize: 28, color: blackColor)
-                            : TextStyles.t16Black,
-                      )),
-                      DataCell(Center(
-                        child: Text(
-                          data.status,
-                          style: displayWidth(context) > 600
-                              ? TextStyle(fontSize: 28, color: blackColor)
-                              : TextStyles.t16Black,
-                        ),
-                      )),
+                      dataCellText(context, data.parameter),
+                      dataCellText(context, data.acceptanceCriteria),
+                      dataCellText(context, data.reading1),
+                      dataCellText(context, data.status),
                     ]))
                 .toList(),
           ),

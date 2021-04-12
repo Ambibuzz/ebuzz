@@ -4,6 +4,7 @@ import 'package:ebuzz/common/custom_appbar.dart';
 import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/common/navigations.dart';
 import 'package:ebuzz/common/textstyles.dart';
+import 'package:ebuzz/common/ui_reusable_widget.dart';
 import 'package:ebuzz/purchaseorder/model/purchase_model.dart';
 import 'package:ebuzz/purchaseorder/service/purchase_api_service.dart';
 import 'package:ebuzz/purchasereciept/ui/purchase_reciept_Form_ui.dart';
@@ -133,38 +134,7 @@ class PurchaseOrderDetailUi extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        'Scroll ',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(fontSize: 28, color: blackColor)
-                            : TextStyles.t18Black,
-                      ),
-                      Icon(
-                        Icons.arrow_back,
-                        color: blackColor,
-                        size: displayWidth(context) > 600 ? 35 : 25,
-                      ),
-                      Text(
-                        ' or ',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(fontSize: 28, color: blackColor)
-                            : TextStyles.t18Black,
-                      ),
-                      Icon(
-                        Icons.arrow_forward,
-                        color: blackColor,
-                        size: displayWidth(context) > 600 ? 35 : 25,
-                      ),
-                      Text(
-                        ' to view table below',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(fontSize: 28, color: blackColor)
-                            : TextStyles.t18Black,
-                      ),
-                    ],
-                  ),
+                  scrollToViewTableBelow(context),
                   SizedBox(
                     height: 5,
                   ),
@@ -172,83 +142,19 @@ class PurchaseOrderDetailUi extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     child: DataTable(
                         columns: <DataColumn>[
-                          DataColumn(
-                            label: Text(
-                              'Name',
-                              style: displayWidth(context) > 600
-                                  ? TextStyle(
-                                      fontSize: 32,
-                                      fontStyle: FontStyle.italic,
-                                      fontWeight: FontWeight.bold)
-                                  : TextStyle(
-                                      fontStyle: FontStyle.italic,
-                                    ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Item Code',
-                              style: displayWidth(context) > 600
-                                  ? TextStyle(
-                                      fontSize: 32,
-                                      fontStyle: FontStyle.italic,
-                                      fontWeight: FontWeight.bold)
-                                  : TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Quantity',
-                              style: displayWidth(context) > 600
-                                  ? TextStyle(
-                                      fontSize: 32,
-                                      fontStyle: FontStyle.italic,
-                                      fontWeight: FontWeight.bold)
-                                  : TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Recieved',
-                              style: displayWidth(context) > 600
-                                  ? TextStyle(
-                                      fontSize: 32,
-                                      fontStyle: FontStyle.italic,
-                                      fontWeight: FontWeight.bold)
-                                  : TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
+                          tableColumnText(context, 'Name'),
+                          tableColumnText(context, 'Item Code'),
+                          tableColumnText(context, 'Quantity'),
+                          tableColumnText(context, 'Recieved'),
                         ],
                         rows: itemList
                             .map((data) => DataRow(cells: <DataCell>[
-                                  DataCell(Text(
-                                    data.itemName,
-                                    style: displayWidth(context) > 600
-                                        ? TextStyle(
-                                            fontSize: 26, color: blackColor)
-                                        : TextStyles.t16Black,
-                                  )),
-                                  DataCell(Text(
-                                    data.itemCode,
-                                    style: displayWidth(context) > 600
-                                        ? TextStyle(
-                                            fontSize: 28, color: blackColor)
-                                        : TextStyles.t18Black,
-                                  )),
-                                  DataCell(Text(
-                                    data.quantity.toString(),
-                                    style: displayWidth(context) > 600
-                                        ? TextStyle(
-                                            fontSize: 28, color: blackColor)
-                                        : TextStyles.t18Black,
-                                  )),
-                                  DataCell(Text(
-                                    data.quantityRecieved.toString(),
-                                    style: displayWidth(context) > 600
-                                        ? TextStyle(
-                                            fontSize: 28, color: blackColor)
-                                        : TextStyles.t18Black,
-                                  )),
+                                  dataCellText(context, data.itemName),
+                                  dataCellText(context, data.itemCode),
+                                  dataCellText(
+                                      context, data.quantity.toString()),
+                                  dataCellText(context,
+                                      data.quantityRecieved.toString()),
                                 ]))
                             .toList()),
                   ),

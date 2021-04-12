@@ -270,17 +270,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     );
   }
 
-  // Widget slidingPanel() {
-  //   return SlidingUpPanel(
-  //     minHeight: displayHeight(context) * 0.035,
-  //     maxHeight: displayHeight(context),
-  //     borderRadius: BorderRadius.only(
-  //         topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-  //     panel: Column(
-  //       children: [],
-  //     ),
-  //   );
-  // }
+
 }
 
 class Choice {

@@ -7,13 +7,21 @@ class Cart {
   final String itemCode;
   final String imageUrl;
   final double rate;
-  Cart({this.quantity, this.id, this.itemName, this.imageUrl,this.rate,this.itemCode});
+  Cart(
+      {this.quantity,
+      this.id,
+      this.itemName,
+      this.imageUrl,
+      this.rate,
+      this.itemCode});
   factory Cart.fromJson(Map<String, dynamic> json) {
     return Cart(
         id: json['id'],
         imageUrl: json['image'],
         itemName: json['name'],
-        quantity: json['quantity']);
+        quantity: json['quantity'],
+        itemCode: json['itemcode'],
+        rate: json['rate']);
   }
 
   Map<String, dynamic> toJson() {
@@ -22,6 +30,8 @@ class Cart {
     data['name'] = this.itemName;
     data['image'] = this.imageUrl;
     data['quantity'] = this.quantity;
+    data['itemcode'] = this.itemCode;
+    data['rate'] = this.rate;
     return data;
   }
 }
@@ -47,7 +57,9 @@ class CartList extends StateNotifier<List<Cart>> {
               id: cart.id,
               imageUrl: cart.imageUrl,
               itemName: cart.itemName,
-              quantity: cartItem.quantity + quantity)
+              quantity: cartItem.quantity + quantity,
+              itemCode: cart.itemCode,
+              rate: cart.rate)
         else
           cartItem
     ];

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:ebuzz/b2b/items/model/brand_model.dart';
 import 'package:ebuzz/b2b/items/model/item_group.dart';
+import 'package:ebuzz/b2b/items/model/item_price_model.dart';
 import 'package:ebuzz/b2b/items/model/items_model.dart';
 import 'package:ebuzz/exception/custom_exception.dart';
 import 'package:ebuzz/network/base_dio.dart';
@@ -103,17 +104,21 @@ class ItemsApiService {
     String baseurl = await getApiUrl();
     final String itemweight = itemBrandandWeight2DataUrl(brand, weight1InKg);
     final String weightUrl = baseurl + itemweight;
-    final itemWeightResponse =
-        await http.get(weightUrl, headers: requestHeaders);
-    var data = jsonDecode(itemWeightResponse.body);
-    List list = data['data'];
-    list.forEach((item) {
-      String itemName = item['item_name'];
-      String itemCode = item['item_code'];
-      String image = item['image'];
-      itemsList.add(ItemsModel(itemName, itemCode, image));
-    });
-    print(itemsList.length);
+    try {
+      final itemWeightResponse =
+          await http.get(weightUrl, headers: requestHeaders);
+      var data = jsonDecode(itemWeightResponse.body);
+      List list = data['data'];
+      list.forEach((item) {
+        String itemName = item['item_name'];
+        String itemCode = item['item_code'];
+        String image = item['image'];
+        itemsList.add(ItemsModel(itemName, itemCode, image));
+      });
+      return itemsList;
+    } catch (e) {
+      exception(e);
+    }
     return itemsList;
   }
 
@@ -148,7 +153,6 @@ class ItemsApiService {
     } catch (e) {
       exception(e);
     }
-
     return itemsList;
   }
 
@@ -168,16 +172,21 @@ class ItemsApiService {
     final String itemweight =
         itemGroupandWeight2DataUrl(itemGroup, weight1InKg);
     final String weightUrl = baseurl + itemweight;
-    final itemWeightResponse =
-        await http.get(weightUrl, headers: requestHeaders);
-    var data = jsonDecode(itemWeightResponse.body);
-    List list = data['data'];
-    list.forEach((item) {
-      String itemName = item['item_name'];
-      String itemCode = item['item_code'];
-      String image = item['image'];
-      itemsList.add(ItemsModel(itemName, itemCode, image));
-    });
+    try {
+      final itemWeightResponse =
+          await http.get(weightUrl, headers: requestHeaders);
+      var data = jsonDecode(itemWeightResponse.body);
+      List list = data['data'];
+      list.forEach((item) {
+        String itemName = item['item_name'];
+        String itemCode = item['item_code'];
+        String image = item['image'];
+        itemsList.add(ItemsModel(itemName, itemCode, image));
+      });
+      return itemsList;
+    } catch (e) {
+      exception(e);
+    }
     return itemsList;
   }
 
@@ -197,16 +206,21 @@ class ItemsApiService {
     final String itemweight =
         itemGroupandWeight1DataUrl(itemGroup, weight1InKg);
     final String weightUrl = baseurl + itemweight;
-    final itemWeightResponse =
-        await http.get(weightUrl, headers: requestHeaders);
-    var data = jsonDecode(itemWeightResponse.body);
-    List list = data['data'];
-    list.forEach((item) {
-      String itemName = item['item_name'];
-      String itemCode = item['item_code'];
-      String image = item['image'];
-      itemsList.add(ItemsModel(itemName, itemCode, image));
-    });
+    try {
+      final itemWeightResponse =
+          await http.get(weightUrl, headers: requestHeaders);
+      var data = jsonDecode(itemWeightResponse.body);
+      List list = data['data'];
+      list.forEach((item) {
+        String itemName = item['item_name'];
+        String itemCode = item['item_code'];
+        String image = item['image'];
+        itemsList.add(ItemsModel(itemName, itemCode, image));
+      });
+      return itemsList;
+    } catch (e) {
+      exception(e);
+    }
     return itemsList;
   }
 
@@ -227,16 +241,21 @@ class ItemsApiService {
     final String itemweight =
         itemBrandAndWeightDataSeriesUrl(brand, weight1InKg, weight2InKg);
     final String weightUrl = baseurl + itemweight;
-    final itemWeightResponse =
-        await http.get(weightUrl, headers: requestHeaders);
-    var data = jsonDecode(itemWeightResponse.body);
-    List list = data['data'];
-    list.forEach((item) {
-      String itemName = item['item_name'];
-      String itemCode = item['item_code'];
-      String image = item['image'];
-      itemsList.add(ItemsModel(itemName, itemCode, image));
-    });
+    try {
+      final itemWeightResponse =
+          await http.get(weightUrl, headers: requestHeaders);
+      var data = jsonDecode(itemWeightResponse.body);
+      List list = data['data'];
+      list.forEach((item) {
+        String itemName = item['item_name'];
+        String itemCode = item['item_code'];
+        String image = item['image'];
+        itemsList.add(ItemsModel(itemName, itemCode, image));
+      });
+      return itemsList;
+    } catch (e) {
+      exception(e);
+    }
     return itemsList;
   }
 
@@ -260,16 +279,21 @@ class ItemsApiService {
     final String itemweight =
         itemGroupAndWeightDataSeriesUrl(itemGroup, weight1InKg, weight2InKg);
     final String weightUrl = baseurl + itemweight;
-    final itemWeightResponse =
-        await http.get(weightUrl, headers: requestHeaders);
-    var data = jsonDecode(itemWeightResponse.body);
-    List list = data['data'];
-    list.forEach((item) {
-      String itemName = item['item_name'];
-      String itemCode = item['item_code'];
-      String image = item['image'];
-      itemsList.add(ItemsModel(itemName, itemCode, image));
-    });
+    try {
+      final itemWeightResponse =
+          await http.get(weightUrl, headers: requestHeaders);
+      var data = jsonDecode(itemWeightResponse.body);
+      List list = data['data'];
+      list.forEach((item) {
+        String itemName = item['item_name'];
+        String itemCode = item['item_code'];
+        String image = item['image'];
+        itemsList.add(ItemsModel(itemName, itemCode, image));
+      });
+      return itemsList;
+    } catch (e) {
+      exception(e);
+    }
     return itemsList;
   }
 
@@ -289,16 +313,21 @@ class ItemsApiService {
     String baseurl = await getApiUrl();
     final String itemweight = itemWeightUrl(weight1InKg, weight2InKg);
     final String weightUrl = baseurl + itemweight;
-    final itemWeightResponse =
-        await http.get(weightUrl, headers: requestHeaders);
-    var data = jsonDecode(itemWeightResponse.body);
-    List list = data['data'];
-    list.forEach((item) {
-      String itemName = item['item_name'];
-      String itemCode = item['item_code'];
-      String image = item['image'];
-      itemsList.add(ItemsModel(itemName, itemCode, image));
-    });
+    try {
+      final itemWeightResponse =
+          await http.get(weightUrl, headers: requestHeaders);
+      var data = jsonDecode(itemWeightResponse.body);
+      List list = data['data'];
+      list.forEach((item) {
+        String itemName = item['item_name'];
+        String itemCode = item['item_code'];
+        String image = item['image'];
+        itemsList.add(ItemsModel(itemName, itemCode, image));
+      });
+      return itemsList;
+    } catch (e) {
+      exception(e);
+    }
     return itemsList;
   }
 
@@ -314,15 +343,21 @@ class ItemsApiService {
     String baseurl = await getApiUrl();
     final String itemBrand = brandDataUrl(brandName);
     final String brandUrl = baseurl + itemBrand;
-    final itemBrandResponse = await http.get(brandUrl, headers: requestHeaders);
-    var data = jsonDecode(itemBrandResponse.body);
-    List list = data['data'];
-    list.forEach((item) {
-      String itemName = item['item_name'];
-      String itemCode = item['item_code'];
-      String image = item['image'];
-      itemsList.add(ItemsModel(itemName, itemCode, image));
-    });
+    try {
+      final itemBrandResponse =
+          await http.get(brandUrl, headers: requestHeaders);
+      var data = jsonDecode(itemBrandResponse.body);
+      List list = data['data'];
+      list.forEach((item) {
+        String itemName = item['item_name'];
+        String itemCode = item['item_code'];
+        String image = item['image'];
+        itemsList.add(ItemsModel(itemName, itemCode, image));
+      });
+      return itemsList;
+    } catch (e) {
+      exception(e);
+    }
     return itemsList;
   }
 
@@ -338,16 +373,21 @@ class ItemsApiService {
     String baseurl = await getApiUrl();
     final String itemgroup = itemGroupDataUrl(itemGroupName);
     final String itemGroupUrl = baseurl + itemgroup;
-    final itemGroupResponse =
-        await http.get(itemGroupUrl, headers: requestHeaders);
-    var data = jsonDecode(itemGroupResponse.body);
-    List list = data['data'];
-    list.forEach((item) {
-      String itemName = item['item_name'];
-      String itemCode = item['item_code'];
-      String image = item['image'];
-      itemsList.add(ItemsModel(itemName, itemCode, image));
-    });
+    try {
+      final itemGroupResponse =
+          await http.get(itemGroupUrl, headers: requestHeaders);
+      var data = jsonDecode(itemGroupResponse.body);
+      List list = data['data'];
+      list.forEach((item) {
+        String itemName = item['item_name'];
+        String itemCode = item['item_code'];
+        String image = item['image'];
+        itemsList.add(ItemsModel(itemName, itemCode, image));
+      });
+      return itemsList;
+    } catch (e) {
+      exception(e);
+    }
     return itemsList;
   }
 
@@ -372,30 +412,61 @@ class ItemsApiService {
     final String itemCodeUrl = baseurl + codeurl;
     final String itemNameUrl = baseurl + nameurl;
 
-    final itemCodeResponse =
-        await http.get(itemCodeUrl, headers: requestHeaders);
-    if (itemCodeResponse.statusCode == 200) {
-      print('Item Code');
-      var data = jsonDecode(itemCodeResponse.body);
-      String itemCode = data['data']['item_code'];
-      String itemName = data['data']['item_name'];
-      String image = data['data']['image'];
-      itemsList.add(ItemsModel(itemName, itemCode, image));
-      return itemsList;
-    } else {
-      print("Item Name");
-      final itemNameResponse =
-          await http.get(itemNameUrl, headers: requestHeaders);
-      if (itemNameResponse.statusCode == 200) {
-        var data = jsonDecode(itemNameResponse.body);
-        String itemName = data['data'][0]['item_name'];
-        String itemCode = data['data'][0]['item_code'];
-        String image = data['data'][0]['image'];
+    try {
+      final itemCodeResponse =
+          await http.get(itemCodeUrl, headers: requestHeaders);
+      if (itemCodeResponse.statusCode == 200) {
+        print('Item Code');
+        var data = jsonDecode(itemCodeResponse.body);
+        String itemCode = data['data']['item_code'];
+        String itemName = data['data']['item_name'];
+        String image = data['data']['image'];
         itemsList.add(ItemsModel(itemName, itemCode, image));
         return itemsList;
+      } else {
+        print("Item Name");
+        final itemNameResponse =
+            await http.get(itemNameUrl, headers: requestHeaders);
+        if (itemNameResponse.statusCode == 200) {
+          var data = jsonDecode(itemNameResponse.body);
+          String itemName = data['data'][0]['item_name'];
+          String itemCode = data['data'][0]['item_code'];
+          String image = data['data'][0]['image'];
+          itemsList.add(ItemsModel(itemName, itemCode, image));
+          return itemsList;
+        }
       }
+    } catch (e) {
+      exception(e);
     }
     print(itemsList.length);
     return itemsList;
+  }
+
+  Future<double> getPriceForItem(String itemCode) async {
+    double pricelistdata;
+    String company = await getCompany();
+    print(company);
+    print(itemCode);
+    ItemPriceModel _itemPriceModel = ItemPriceModel(
+        company: company,
+        conversionrate: 1.0,
+        customer: 'Harmony',
+        doctype: 'Sales Invoice',
+        itemcode: itemCode,
+        pricelist: 'Buy and Sell');
+    try {
+      final String url = itemPriceUrl();
+      Dio _dio = await BaseDio().getBaseDio();
+      final response = await _dio.post(url, data: _itemPriceModel);
+      if (response.statusCode == 200) {
+        var data = response.data;
+        pricelistdata = data['message']['price_list_rate'];
+      }
+      return pricelistdata;
+    } catch (e) {
+      exception(e);
+    }
+    return pricelistdata;
   }
 }

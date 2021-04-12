@@ -1,7 +1,6 @@
-import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_appbar.dart';
 import 'package:ebuzz/common/display_helper.dart';
-import 'package:ebuzz/common/textstyles.dart';
+import 'package:ebuzz/common/ui_reusable_widget.dart';
 import 'package:ebuzz/stockentry/service/stock_entry_service.dart';
 import 'package:flutter/material.dart';
 import 'package:ebuzz/stockentry/model/stockentry.dart';
@@ -53,74 +52,26 @@ class _StockEntryDetailState extends State<StockEntryDetail> {
                         SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          height: 40,
-                          child: Text(
-                            'Stock Entry Type',
-                            style: displayWidth(context) > 600
-                                ? TextStyle(
-                                    fontSize: 28,
-                                  )
-                                : TextStyle(fontSize: 16),
-                          ),
-                        ),
+                        textFieldName(context, 'Stock Entry Type'),
                         SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          height: 30,
-                          child: Text(
-                            'Posting Date',
-                            style: displayWidth(context) > 600
-                                ? TextStyle(
-                                    fontSize: 28,
-                                  )
-                                : TextStyle(fontSize: 16),
-                          ),
-                        ),
+                        textFieldName(context, 'Posting Date'),
+                      
                         SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          height: 30,
-                          child: Text(
-                            'Posting Time',
-                            style: displayWidth(context) > 600
-                                ? TextStyle(
-                                    fontSize: 28,
-                                  )
-                                : TextStyle(fontSize: 16),
-                          ),
-                        ),
+                        textFieldName(context, 'Posting Time'),
                         SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          height: 40,
-                          child: Text(
-                            'Company',
-                            style: displayWidth(context) > 600
-                                ? TextStyle(
-                                    fontSize: 28,
-                                  )
-                                : TextStyle(fontSize: 16),
-                          ),
-                        ),
+                        textFieldName(context, 'Company'),
                         SizedBox(
                           height: 10,
                         ),
+
                         widget.stockEntryModelData.purchaseOrder != ''
-                            ? Container(
-                                height: 30,
-                                child: Text(
-                                  'Purchase Order',
-                                  style: displayWidth(context) > 600
-                                      ? TextStyle(
-                                          fontSize: 28,
-                                        )
-                                      : TextStyle(fontSize: 16),
-                                ),
-                              )
+                            ? textFieldName(context, 'Purchase Order')
                             : Container(),
                         widget.stockEntryModelData.purchaseOrder != ''
                             ? SizedBox(
@@ -128,53 +79,25 @@ class _StockEntryDetailState extends State<StockEntryDetail> {
                               )
                             : Container(),
                         widget.stockEntryModelData.workOrder != ''
-                            ? Container(
-                                height: 30,
-                                child: Text(
-                                  'Work Order',
-                                  style: displayWidth(context) > 600
-                                      ? TextStyle(
-                                          fontSize: 28,
-                                        )
-                                      : TextStyle(fontSize: 16),
-                                ),
-                              )
+                            ? textFieldName(context, 'Work Order')
                             : Container(),
                         widget.stockEntryModelData.workOrder != ''
                             ? SizedBox(
                                 height: 10,
                               )
                             : Container(),
+
                         widget.stockEntryModelData.bomNo != ''
-                            ? Container(
-                                height: 30,
-                                child: Text(
-                                  'Bom No',
-                                  style: displayWidth(context) > 600
-                                      ? TextStyle(
-                                          fontSize: 28,
-                                        )
-                                      : TextStyle(fontSize: 16),
-                                ),
-                              )
+                            ? textFieldName(context, 'Bom No')
                             : Container(),
                         widget.stockEntryModelData.bomNo != ''
                             ? SizedBox(
                                 height: 10,
                               )
                             : Container(),
+
                         widget.stockEntryModelData.forQuantity != 0
-                            ? Container(
-                                height: 30,
-                                child: Text(
-                                  'For Quantity',
-                                  style: displayWidth(context) > 600
-                                      ? TextStyle(
-                                          fontSize: 28,
-                                        )
-                                      : TextStyle(fontSize: 16),
-                                ),
-                              )
+                            ? textFieldName(context, 'For Quantity')
                             : Container(),
                         widget.stockEntryModelData.forQuantity != 0
                             ? SizedBox(
@@ -182,17 +105,7 @@ class _StockEntryDetailState extends State<StockEntryDetail> {
                               )
                             : Container(),
                         widget.stockEntryModelData.defaultSourceWarehouse != ''
-                            ? Container(
-                                height: 40,
-                                child: Text(
-                                  'Source Warehouse',
-                                  style: displayWidth(context) > 600
-                                      ? TextStyle(
-                                          fontSize: 28,
-                                        )
-                                      : TextStyle(fontSize: 16),
-                                ),
-                              )
+                            ? textFieldName(context, 'Source Warehouse')
                             : Container(),
                         widget.stockEntryModelData.defaultSourceWarehouse != ''
                             ? SizedBox(
@@ -200,62 +113,22 @@ class _StockEntryDetailState extends State<StockEntryDetail> {
                               )
                             : Container(),
                         widget.stockEntryModelData.defaultTargetWarehouse != ''
-                            ? Container(
-                                height: 40,
-                                child: Text(
-                                  'Target Warehouse',
-                                  style: displayWidth(context) > 600
-                                      ? TextStyle(
-                                          fontSize: 28,
-                                        )
-                                      : TextStyle(fontSize: 16),
-                                ),
-                              )
+                            ? textFieldName(context, 'Target Warehouse')
                             : Container(),
                         widget.stockEntryModelData.defaultTargetWarehouse != ''
                             ? SizedBox(
                                 height: 10,
                               )
                             : Container(),
-                        Container(
-                          height: 30,
-                          child: Text(
-                            'Incoming Value',
-                            style: displayWidth(context) > 600
-                                ? TextStyle(
-                                    fontSize: 28,
-                                  )
-                                : TextStyle(fontSize: 16),
-                          ),
-                        ),
+                        textFieldName(context, 'Incoming Value'),
                         SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          height: 30,
-                          child: Text(
-                            'Outgoing Value',
-                            style: displayWidth(context) > 600
-                                ? TextStyle(
-                                    fontSize: 28,
-                                  )
-                                : TextStyle(fontSize: 16),
-                          ),
-                        ),
+                        textFieldName(context, 'Outgoing Value'),
                         SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          height: 30,
-                          child: Text(
-                            'Value Difference',
-                            style: displayWidth(context) > 600
-                                ? TextStyle(
-                                    fontSize: 28,
-                                  )
-                                : TextStyle(fontSize: 16),
-                          ),
-                        ),
+                        textFieldName(context, 'Value Difference'),
                       ],
                     ),
                   ),
@@ -267,74 +140,24 @@ class _StockEntryDetailState extends State<StockEntryDetail> {
                       SizedBox(
                         height: 15,
                       ),
-                      Container(
-                        height: 40,
-                        child: Text(
-                          ':',
-                          style: displayWidth(context) > 600
-                              ? TextStyle(
-                                  fontSize: 28,
-                                )
-                              : TextStyle(fontSize: 16),
-                        ),
-                      ),
+                      colon(context),
                       SizedBox(
                         height: 10,
                       ),
-                      Container(
-                        height: 30,
-                        child: Text(
-                          ':',
-                          style: displayWidth(context) > 600
-                              ? TextStyle(
-                                  fontSize: 28,
-                                )
-                              : TextStyle(fontSize: 16),
-                        ),
-                      ),
+                      colon(context),
                       SizedBox(
                         height: 10,
                       ),
-                      Container(
-                        height: 30,
-                        child: Text(
-                          ':',
-                          style: displayWidth(context) > 600
-                              ? TextStyle(
-                                  fontSize: 28,
-                                )
-                              : TextStyle(fontSize: 16),
-                        ),
-                      ),
+                      colon(context),
                       SizedBox(
                         height: 10,
                       ),
-                      Container(
-                        height: 40,
-                        child: Text(
-                          ':',
-                          style: displayWidth(context) > 600
-                              ? TextStyle(
-                                  fontSize: 28,
-                                )
-                              : TextStyle(fontSize: 16),
-                        ),
-                      ),
+                      colon(context),
                       SizedBox(
                         height: 10,
                       ),
                       widget.stockEntryModelData.purchaseOrder != ''
-                          ? Container(
-                              height: 30,
-                              child: Text(
-                                ':',
-                                style: displayWidth(context) > 600
-                                    ? TextStyle(
-                                        fontSize: 28,
-                                      )
-                                    : TextStyle(fontSize: 16),
-                              ),
-                            )
+                          ? colon(context)
                           : Container(),
                       widget.stockEntryModelData.purchaseOrder != ''
                           ? SizedBox(
@@ -342,17 +165,7 @@ class _StockEntryDetailState extends State<StockEntryDetail> {
                             )
                           : Container(),
                       widget.stockEntryModelData.workOrder != ''
-                          ? Container(
-                              height: 30,
-                              child: Text(
-                                ':',
-                                style: displayWidth(context) > 600
-                                    ? TextStyle(
-                                        fontSize: 28,
-                                      )
-                                    : TextStyle(fontSize: 16),
-                              ),
-                            )
+                          ? colon(context)
                           : Container(),
                       widget.stockEntryModelData.workOrder != ''
                           ? SizedBox(
@@ -360,17 +173,7 @@ class _StockEntryDetailState extends State<StockEntryDetail> {
                             )
                           : Container(),
                       widget.stockEntryModelData.bomNo != ''
-                          ? Container(
-                              height: 30,
-                              child: Text(
-                                ':',
-                                style: displayWidth(context) > 600
-                                    ? TextStyle(
-                                        fontSize: 28,
-                                      )
-                                    : TextStyle(fontSize: 16),
-                              ),
-                            )
+                          ? colon(context)
                           : Container(),
                       widget.stockEntryModelData.bomNo != ''
                           ? SizedBox(
@@ -378,17 +181,7 @@ class _StockEntryDetailState extends State<StockEntryDetail> {
                             )
                           : Container(),
                       widget.stockEntryModelData.forQuantity != 0
-                          ? Container(
-                              height: 30,
-                              child: Text(
-                                ':',
-                                style: displayWidth(context) > 600
-                                    ? TextStyle(
-                                        fontSize: 28,
-                                      )
-                                    : TextStyle(fontSize: 16),
-                              ),
-                            )
+                          ? colon(context)
                           : Container(),
                       widget.stockEntryModelData.forQuantity != 0
                           ? SizedBox(
@@ -396,17 +189,7 @@ class _StockEntryDetailState extends State<StockEntryDetail> {
                             )
                           : Container(),
                       widget.stockEntryModelData.defaultSourceWarehouse != ''
-                          ? Container(
-                              height: 40,
-                              child: Text(
-                                ':',
-                                style: displayWidth(context) > 600
-                                    ? TextStyle(
-                                        fontSize: 28,
-                                      )
-                                    : TextStyle(fontSize: 16),
-                              ),
-                            )
+                          ? colon(context)
                           : Container(),
                       widget.stockEntryModelData.defaultSourceWarehouse != ''
                           ? SizedBox(
@@ -414,62 +197,22 @@ class _StockEntryDetailState extends State<StockEntryDetail> {
                             )
                           : Container(),
                       widget.stockEntryModelData.defaultTargetWarehouse != ''
-                          ? Container(
-                              height: 40,
-                              child: Text(
-                                ':',
-                                style: displayWidth(context) > 600
-                                    ? TextStyle(
-                                        fontSize: 28,
-                                      )
-                                    : TextStyle(fontSize: 16),
-                              ),
-                            )
+                          ? colon(context)
                           : Container(),
                       widget.stockEntryModelData.defaultTargetWarehouse != ''
                           ? SizedBox(
                               height: 10,
                             )
                           : Container(),
-                      Container(
-                        height: 30,
-                        child: Text(
-                          ':',
-                          style: displayWidth(context) > 600
-                              ? TextStyle(
-                                  fontSize: 28,
-                                )
-                              : TextStyle(fontSize: 16),
-                        ),
-                      ),
+                      colon(context),
                       SizedBox(
                         height: 10,
                       ),
-                      Container(
-                        height: 30,
-                        child: Text(
-                          ':',
-                          style: displayWidth(context) > 600
-                              ? TextStyle(
-                                  fontSize: 28,
-                                )
-                              : TextStyle(fontSize: 16),
-                        ),
-                      ),
+                      colon(context),
                       SizedBox(
                         height: 10,
                       ),
-                      Container(
-                        height: 30,
-                        child: Text(
-                          ':',
-                          style: displayWidth(context) > 600
-                              ? TextStyle(
-                                  fontSize: 28,
-                                )
-                              : TextStyle(fontSize: 16),
-                        ),
-                      ),
+                      colon(context),
                     ],
                   ),
                   SizedBox(
@@ -483,84 +226,29 @@ class _StockEntryDetailState extends State<StockEntryDetail> {
                         SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          height: 40,
-                          child: Text(
-                            widget.stockEntryModelData.stockEntryType,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: displayWidth(context) > 600
-                                ? TextStyle(
-                                    fontSize: 28,
-                                  )
-                                : TextStyle(fontSize: 16),
-                          ),
-                        ),
+                        textFieldName(
+                            context, widget.stockEntryModelData.stockEntryType),
                         SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          height: 30,
-                          child: Text(
-                            widget.stockEntryModelData.postingDate,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: displayWidth(context) > 600
-                                ? TextStyle(
-                                    fontSize: 28,
-                                  )
-                                : TextStyle(fontSize: 16),
-                          ),
-                        ),
+                        textFieldName(
+                            context, widget.stockEntryModelData.postingDate),
                         SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          height: 30,
-                          child: Text(
-                            widget.stockEntryModelData.postingTime,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: displayWidth(context) > 600
-                                ? TextStyle(
-                                    fontSize: 28,
-                                  )
-                                : TextStyle(fontSize: 16),
-                          ),
-                        ),
+                        textFieldName(
+                            context, widget.stockEntryModelData.postingTime),
                         SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          height: 40,
-                          child: Text(
-                            widget.stockEntryModelData.company,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: displayWidth(context) > 600
-                                ? TextStyle(
-                                    fontSize: 28,
-                                  )
-                                : TextStyle(fontSize: 16),
-                          ),
-                        ),
+                        textFieldName(
+                            context, widget.stockEntryModelData.company),
                         SizedBox(
                           height: 10,
                         ),
                         widget.stockEntryModelData.purchaseOrder != ''
-                            ? Container(
-                                height: 30,
-                                child: Text(
-                                  widget.stockEntryModelData.purchaseOrder,
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: displayWidth(context) > 600
-                                      ? TextStyle(
-                                          fontSize: 28,
-                                        )
-                                      : TextStyle(fontSize: 16),
-                                ),
-                              )
+                            ? textFieldName(context,
+                                widget.stockEntryModelData.purchaseOrder)
                             : Container(),
                         widget.stockEntryModelData.purchaseOrder != ''
                             ? SizedBox(
@@ -568,19 +256,8 @@ class _StockEntryDetailState extends State<StockEntryDetail> {
                               )
                             : Container(),
                         widget.stockEntryModelData.workOrder != ''
-                            ? Container(
-                                height: 30,
-                                child: Text(
-                                  widget.stockEntryModelData.workOrder,
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: displayWidth(context) > 600
-                                      ? TextStyle(
-                                          fontSize: 28,
-                                        )
-                                      : TextStyle(fontSize: 16),
-                                ),
-                              )
+                            ? textFieldName(
+                                context, widget.stockEntryModelData.workOrder)
                             : Container(),
                         widget.stockEntryModelData.workOrder != ''
                             ? SizedBox(
@@ -588,19 +265,8 @@ class _StockEntryDetailState extends State<StockEntryDetail> {
                               )
                             : Container(),
                         widget.stockEntryModelData.bomNo != ''
-                            ? Container(
-                                height: 30,
-                                child: Text(
-                                  widget.stockEntryModelData.bomNo,
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: displayWidth(context) > 600
-                                      ? TextStyle(
-                                          fontSize: 28,
-                                        )
-                                      : TextStyle(fontSize: 16),
-                                ),
-                              )
+                            ? textFieldName(
+                                context, widget.stockEntryModelData.bomNo)
                             : Container(),
                         widget.stockEntryModelData.bomNo != ''
                             ? SizedBox(
@@ -608,20 +274,10 @@ class _StockEntryDetailState extends State<StockEntryDetail> {
                               )
                             : Container(),
                         widget.stockEntryModelData.forQuantity != 0
-                            ? Container(
-                                height: 30,
-                                child: Text(
-                                  widget.stockEntryModelData.forQuantity
-                                      .toString(),
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: displayWidth(context) > 600
-                                      ? TextStyle(
-                                          fontSize: 28,
-                                        )
-                                      : TextStyle(fontSize: 16),
-                                ),
-                              )
+                            ? textFieldName(
+                                context,
+                                widget.stockEntryModelData.forQuantity
+                                    .toString())
                             : Container(),
                         widget.stockEntryModelData.forQuantity != 0
                             ? SizedBox(
@@ -629,20 +285,10 @@ class _StockEntryDetailState extends State<StockEntryDetail> {
                               )
                             : Container(),
                         widget.stockEntryModelData.defaultSourceWarehouse != ''
-                            ? Container(
-                                height: 40,
-                                child: Text(
-                                  widget.stockEntryModelData
-                                      .defaultSourceWarehouse,
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: displayWidth(context) > 600
-                                      ? TextStyle(
-                                          fontSize: 28,
-                                        )
-                                      : TextStyle(fontSize: 16),
-                                ),
-                              )
+                            ? textFieldName(
+                                context,
+                                widget
+                                    .stockEntryModelData.defaultSourceWarehouse)
                             : Container(),
                         widget.stockEntryModelData.defaultSourceWarehouse != ''
                             ? SizedBox(
@@ -650,74 +296,34 @@ class _StockEntryDetailState extends State<StockEntryDetail> {
                               )
                             : Container(),
                         widget.stockEntryModelData.defaultTargetWarehouse != ''
-                            ? Container(
-                                height: 40,
-                                child: Text(
-                                  widget.stockEntryModelData
-                                      .defaultTargetWarehouse,
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: displayWidth(context) > 600
-                                      ? TextStyle(
-                                          fontSize: 28,
-                                        )
-                                      : TextStyle(fontSize: 16),
-                                ),
-                              )
+                            ? textFieldName(
+                                context,
+                                widget
+                                    .stockEntryModelData.defaultTargetWarehouse)
                             : Container(),
                         widget.stockEntryModelData.defaultTargetWarehouse != ''
                             ? SizedBox(
                                 height: 10,
                               )
                             : Container(),
-                        Container(
-                          height: 30,
-                          child: Text(
+                        textFieldName(
+                            context,
                             widget.stockEntryModelData.totalIncomingValue
-                                .toString(),
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: displayWidth(context) > 600
-                                ? TextStyle(
-                                    fontSize: 28,
-                                  )
-                                : TextStyle(fontSize: 16),
-                          ),
-                        ),
+                                .toString()),
                         SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          height: 30,
-                          child: Text(
+                        textFieldName(
+                            context,
                             widget.stockEntryModelData.totalOutgoingValue
-                                .toString(),
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: displayWidth(context) > 600
-                                ? TextStyle(
-                                    fontSize: 28,
-                                  )
-                                : TextStyle(fontSize: 16),
-                          ),
-                        ),
+                                .toString()),
                         SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          height: 30,
-                          child: Text(
+                        textFieldName(
+                            context,
                             widget.stockEntryModelData.totalValueDifference
-                                .toString(),
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: displayWidth(context) > 600
-                                ? TextStyle(
-                                    fontSize: 28,
-                                  )
-                                : TextStyle(fontSize: 16),
-                          ),
-                        ),
+                                .toString()),
                       ],
                     ),
                   ),
@@ -727,41 +333,7 @@ class _StockEntryDetailState extends State<StockEntryDetail> {
             SizedBox(
               height: 15,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Text(
-                    'Scroll ',
-                    style: displayWidth(context) > 600
-                        ? TextStyle(fontSize: 28, color: blackColor)
-                        : TextStyles.t18Black,
-                  ),
-                  Icon(
-                    Icons.arrow_back,
-                    color: blackColor,
-                    size: displayWidth(context) > 600 ? 35 : 25,
-                  ),
-                  Text(
-                    ' or ',
-                    style: displayWidth(context) > 600
-                        ? TextStyle(fontSize: 28, color: blackColor)
-                        : TextStyles.t18Black,
-                  ),
-                  Icon(
-                    Icons.arrow_forward,
-                    color: blackColor,
-                    size: displayWidth(context) > 600 ? 35 : 25,
-                  ),
-                  Text(
-                    ' to view table below',
-                    style: displayWidth(context) > 600
-                        ? TextStyle(fontSize: 28, color: blackColor)
-                        : TextStyles.t18Black,
-                  ),
-                ],
-              ),
-            ),
+            scrollToViewTableBelow(context),
             SizedBox(
               height: 5,
             ),
@@ -769,98 +341,20 @@ class _StockEntryDetailState extends State<StockEntryDetail> {
               scrollDirection: Axis.horizontal,
               child: DataTable(
                   columns: <DataColumn>[
-                    DataColumn(
-                      label: Text(
-                        'Source Warehouse',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 32,
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.bold)
-                            : TextStyle(
-                                fontStyle: FontStyle.italic,
-                              ),
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Target Warehouse',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 32,
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.bold)
-                            : TextStyle(fontStyle: FontStyle.italic),
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Item Code',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 32,
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.bold)
-                            : TextStyle(fontStyle: FontStyle.italic),
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Item Group',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 32,
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.bold)
-                            : TextStyle(fontStyle: FontStyle.italic),
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Quantity',
-                        style: displayWidth(context) > 600
-                            ? TextStyle(
-                                fontSize: 32,
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.bold)
-                            : TextStyle(fontStyle: FontStyle.italic),
-                      ),
-                    ),
+                    tableColumnText(context, 'Source Warehouse'),
+                    tableColumnText(context, 'Target Warehouse'),
+                    tableColumnText(context, 'Item Code'),
+                    tableColumnText(context, 'Item Group'),
+                    tableColumnText(context, 'Quantity'),
                   ],
                   rows: list
                       .map((data) => DataRow(cells: <DataCell>[
-                            DataCell(Text(
-                              data.defaultSourceWarehouse,
-                              style: displayWidth(context) > 600
-                                  ? TextStyle(fontSize: 26, color: blackColor)
-                                  : TextStyles.t16Black,
-                            )),
-                            DataCell(Text(
-                              data.defaultTargetWarehouse,
-                              style: displayWidth(context) > 600
-                                  ? TextStyle(fontSize: 28, color: blackColor)
-                                  : TextStyles.t16Black,
-                            )),
-                            DataCell(Text(
-                              data.itemCode + ': ' + data.itemName,
-                              style: displayWidth(context) > 600
-                                  ? TextStyle(fontSize: 28, color: blackColor)
-                                  : TextStyles.t16Black,
-                            )),
-                            DataCell(Text(
-                              data.itemGroup,
-                              style: displayWidth(context) > 600
-                                  ? TextStyle(fontSize: 28, color: blackColor)
-                                  : TextStyles.t16Black,
-                            )),
-                            DataCell(Center(
-                              child: Text(
-                                data.quantity.toString(),
-                                style: displayWidth(context) > 600
-                                    ? TextStyle(fontSize: 28, color: blackColor)
-                                    : TextStyles.t16Black,
-                              ),
-                            )),
+                            dataCellText(context, data.defaultSourceWarehouse),
+                            dataCellText(context, data.defaultTargetWarehouse),
+                            dataCellText(
+                                context, data.itemCode + ': ' + data.itemName),
+                            dataCellText(context, data.itemGroup),
+                            dataCellText(context, data.quantity.toString()),
                           ]))
                       .toList()),
             ),
