@@ -1,17 +1,11 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:ebuzz/b2b/cart/model/cart.dart';
-import 'package:ebuzz/b2b/cart/model/quotation_model.dart';
 import 'package:ebuzz/b2b/cart/service/cart_service.dart';
 import 'package:ebuzz/b2b/cart/state/state_manager.dart';
+import 'package:ebuzz/common/circular_progress.dart';
 import 'package:ebuzz/common/colors.dart';
-import 'package:ebuzz/common/custom_appbar.dart';
-import 'package:ebuzz/common/custom_toast.dart';
-import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/common/round_button.dart';
-import 'package:ebuzz/network/base_dio.dart';
-import 'package:ebuzz/util/apiurls.dart';
 import 'package:ebuzz/util/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_elegant_number_button/flutter_elegant_number_button.dart';
@@ -26,59 +20,54 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   var storage = FlutterSecureStorage();
-  bool _postQuotationButtonDisabled = false;
+  bool _loading = false;
 
-  CartService _cartService=CartService();
+  CartService _cartService = CartService();
 
-
-  void postQuotation(List<Cart> items) async {
+  void postQuotation(List<Cart> items, BuildContext context) async {
     setState(() {
-      _postQuotationButtonDisabled = true;
+      _loading = true;
     });
-    // List<QuotationItems> qoitems = [];
-    // items.map((cart) {
-    //   qoitems.add(QuotationItems(
-    //       itemcode: cart.itemCode, quantity: cart.quantity, rate: cart.rate));
-    // }).toList();
-    // QuotationModel _quotationModel =
-    //     QuotationModel(currency: 'INR', quotationitems: qoitems);
-    // final String url = quotationUrl();
-    // Dio _dio = await BaseDio().getBaseDio();
-    // final response = await _dio.post(url, data: _quotationModel);
-    // if (response.statusCode == 200) {
-    //   print(response.data);
-    //   fluttertoast(whiteColor, blueAccent, 'Quotation Posted Successfully');
-    // }
-    await _cartService.postQuotation(items);
+    await _cartService.postQuotation(items, context);
     setState(() {
-      _postQuotationButtonDisabled = false;
+      _loading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(displayWidth(context) > 600 ? 80 : 55),
-        child: CustomAppBar(
-          title: 'Cart Page',
-        ),
+      appBar: AppBar(
+        backgroundColor: blueAccent,
+        title: Text('Cart Page'),
+        actions: [],
       ),
-      body: Consumer(builder: (
-        builder,
-        watch,
-        _,
-      ) {
-        var items = watch(cartListProvider.state);
-        return Column(
-          children: [
-            Expanded(
-              child: cartList(items),
-            ),
-            postQuotationWidget(items),
-          ],
-        );
-      }),
+      body: _loading
+          ? CircularProgress()
+          : Consumer(builder: (
+              builder,
+              watch,
+              _,
+            ) {
+              var items = watch(cartListProvider.state);
+              return Column(
+                children: [
+                  Expanded(
+                    child: cartList(items),
+                  ),
+                  postQuotationWidget(items, context),
+                  // IconButton(
+                  //     onPressed: () async {
+                  //       context.read(cartListProvider).removeAll(items);
+                  //       await storage.write(
+                  //           key: cartKey,
+                  //           value: json
+                  //               .encode(context.read(cartListProvider).state));
+                  //     },
+                  //     icon: Icon(Icons.delete)),
+                ],
+              );
+            }),
     );
   }
 
@@ -187,14 +176,14 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Widget postQuotationWidget(List<Cart> items) {
+  Widget postQuotationWidget(List<Cart> items, BuildContext context) {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
         RoundButton(
-          onPressed: () => postQuotation(items),
+          onPressed: () => postQuotation(items, context),
           child: Text('Post Quotation'),
-          primaryColor: _postQuotationButtonDisabled ? greyColor : blueAccent,
+          primaryColor: _loading ? greyColor : blueAccent,
           onPrimaryColor: whiteColor,
         ),
       ],

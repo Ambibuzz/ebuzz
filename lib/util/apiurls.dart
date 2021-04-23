@@ -128,6 +128,10 @@ String itemListUrl() {
   return '/api/resource/Item/?fields=["item_code","item_name"]&limit_page_length=*';
 }
 
+String itemListForSalesItemUrl() {
+  return '/api/resource/Item/?fields=["item_code","item_name"]&filters=[["Item","is_sales_item","=","Yes"]]&limit_page_length=*';
+}
+
 String leaveLedgerEntryUrl(String name) {
   return '/api/resource/Leave%20Ledger%20Entry/?fields=["*"]&filters=[["Leave%20Ledger%20Entry","employee_name","like","$name"]]';
 }

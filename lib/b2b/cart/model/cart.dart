@@ -68,4 +68,9 @@ class CartList extends StateNotifier<List<Cart>> {
   void remove(Cart removeItem) {
     state = state.where((cart) => cart.id != removeItem.id).toList();
   }
+
+  void removeAll(List<Cart> carts) {
+    carts.clear();
+    state = carts;
+  }
 }

@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:badges/badges.dart';
-import 'package:dio/dio.dart';
 import 'package:ebuzz/b2b/cart/model/cart.dart';
 import 'package:ebuzz/b2b/cart/state/state_manager.dart';
 import 'package:ebuzz/b2b/cart/ui/cart_page.dart';
 import 'package:ebuzz/b2b/items/model/brand_model.dart';
 import 'package:ebuzz/b2b/items/model/item_group.dart';
-import 'package:ebuzz/b2b/items/model/item_price_model.dart';
 import 'package:ebuzz/b2b/items/model/items_model.dart';
 import 'package:ebuzz/b2b/items/service/items_api_service.dart';
 import 'package:ebuzz/b2b/items/ui/items_detail_widget.dart';
@@ -29,6 +27,8 @@ class ItemsUi extends StatefulWidget {
   _ItemsUiState createState() => _ItemsUiState();
 }
 
+enum SortBy { itemNameAsc, itemNameDesc, itemCodeDesc, itemCodeAsc }
+
 class _ItemsUiState extends State<ItemsUi> {
   List<ItemsModel> itemsList = [];
   ItemsApiService _itemsApiService = ItemsApiService();
@@ -42,11 +42,6 @@ class _ItemsUiState extends State<ItemsUi> {
   bool reset = false;
   final weight1Controller = TextEditingController();
   final weight2Controller = TextEditingController();
-  String zeroToTwoFifty = "0 to 250";
-  String twoFiftyToFiveHundred = "250 to 500";
-  String fiveHundredToSevenFifty = "500 to 750";
-  String sevenFiftyToOneThousand = "750 to 1000";
-  String greaterThanOneThousand = "1000 and above";
   List<String> weightList = [];
 
   @override
@@ -76,7 +71,7 @@ class _ItemsUiState extends State<ItemsUi> {
       _loading = true;
     });
     await getItemsList();
-    setState(() {});
+    // sortByItemNameAsc();
     setState(() {
       _loading = false;
     });
@@ -397,6 +392,7 @@ class _ItemsUiState extends State<ItemsUi> {
     fullItemList = await _itemsApiService.getAllItemsList();
     itemGroupList = await _itemsApiService.itemGroupList();
     itemsList = await _itemsApiService.itemsList();
+    // itemsListCopy = itemsList;
     brandList = await _itemsApiService.brandList();
     setState(() {});
   }
@@ -419,6 +415,7 @@ class _ItemsUiState extends State<ItemsUi> {
           search(),
           cart(),
           filter(),
+          // sortby(),
         ],
       ),
       body: _loading
@@ -487,7 +484,9 @@ class _ItemsUiState extends State<ItemsUi> {
 
   void addToCart(ItemsModel item) async {
     var storage = FlutterSecureStorage();
-    double rate = await _itemsApiService.getPriceForItem(item.itemCode);
+    double rate =
+        await _itemsApiService.getPriceForItem(item.itemCode, context);
+    print(rate);
     final cartItem = Cart(
         id: item.itemCode,
         imageUrl: item.image,
@@ -496,12 +495,14 @@ class _ItemsUiState extends State<ItemsUi> {
         itemCode: item.itemCode,
         rate: rate);
     var cartInstance = context.read(cartListProvider);
-    if (isExistsInCart(cartInstance.state, cartItem))
-      context.read(cartListProvider).edit(cartItem, 1);
-    else {
-      context.read(cartListProvider).add(cartItem);
-      var string = json.encode(context.read(cartListProvider).state);
-      await storage.write(key: cartKey, value: string);
+    if (rate != null) {
+      if (isExistsInCart(cartInstance.state, cartItem))
+        context.read(cartListProvider).edit(cartItem, 1);
+      else {
+        context.read(cartListProvider).add(cartItem);
+        var string = json.encode(context.read(cartListProvider).state);
+        await storage.write(key: cartKey, value: string);
+      }
     }
   }
 
@@ -540,6 +541,13 @@ class _ItemsUiState extends State<ItemsUi> {
       );
     });
   }
+
+  // Widget sortby() {
+  //   return IconButton(
+  //     onPressed: () => displayBottomSheet(context),
+  //     icon: Icon(Icons.sort),
+  //   );
+  // }
 
   Widget filter() {
     return IconButton(

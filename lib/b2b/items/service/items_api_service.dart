@@ -1,15 +1,23 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:ebuzz/b2b/items/model/brand_model.dart';
 import 'package:ebuzz/b2b/items/model/item_group.dart';
 import 'package:ebuzz/b2b/items/model/item_price_model.dart';
 import 'package:ebuzz/b2b/items/model/items_model.dart';
+import 'package:ebuzz/common/colors.dart';
+import 'package:ebuzz/common/custom_alert_dailog.dart';
+import 'package:ebuzz/common/custom_toast.dart';
+import 'package:ebuzz/common/textstyles.dart';
 import 'package:ebuzz/exception/custom_exception.dart';
+import 'package:ebuzz/login/ui/login.dart';
 import 'package:ebuzz/network/base_dio.dart';
 import 'package:ebuzz/util/apiurls.dart';
 import 'package:ebuzz/util/preference.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
 
 class ItemsApiService {
   Future<List<ItemsModel>> itemsList() async {
@@ -443,7 +451,7 @@ class ItemsApiService {
     return itemsList;
   }
 
-  Future<double> getPriceForItem(String itemCode) async {
+  Future<double> getPriceForItem(String itemCode, BuildContext context) async {
     double pricelistdata;
     String company = await getCompany();
     print(company);
@@ -465,7 +473,108 @@ class ItemsApiService {
       }
       return pricelistdata;
     } catch (e) {
-      exception(e);
+      if (e is Exception) {
+        if (e is DioError) {
+          switch (e.type) {
+            case DioErrorType.SEND_TIMEOUT:
+              fluttertoast(
+                whiteColor,
+                blueAccent,
+                'Send Timeout',
+              );
+              break;
+            case DioErrorType.CANCEL:
+              fluttertoast(whiteColor, blueAccent, 'Request Cancelled');
+              break;
+            case DioErrorType.CONNECT_TIMEOUT:
+              fluttertoast(whiteColor, blueAccent, 'Connection Timeout');
+              break;
+            case DioErrorType.DEFAULT:
+              customAlertDialog(
+                  context: context,
+                  content: Text(
+                      'Make sure that wifi or mobile data is turned on,then try again'),
+                  title: Text(
+                    'No Internet Connection',
+                    style: TextStyles.t18BlackBold,
+                  ),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'OK',
+                          style: TextStyles.t18Blue,
+                        ))
+                  ]);
+              break;
+            case DioErrorType.RECEIVE_TIMEOUT:
+              fluttertoast(whiteColor, blueAccent, 'Timeout');
+              break;
+            case DioErrorType.RESPONSE:
+              switch (e.response.statusCode) {
+                case 400:
+                  fluttertoast(whiteColor, blueAccent, 'Unauthorized Request');
+                  removeLoggedIn();
+                  break;
+                case 401:
+                  fluttertoast(whiteColor, blueAccent, 'Unauthorized Request');
+                  removeLoggedIn();
+                  break;
+                case 403:
+                  fluttertoast(whiteColor, blueAccent,
+                      'Cookie expired or access is denied...');
+                  Get.off(Login());
+                  removeLoggedIn();
+                  break;
+                case 404:
+                  fluttertoast(whiteColor, blueAccent, 'Not found');
+                  break;
+                case 408:
+                  fluttertoast(whiteColor, blueAccent, 'Request Timed Out');
+                  break;
+                case 409:
+                  fluttertoast(whiteColor, blueAccent, 'Conflict');
+                  break;
+                case 417:
+                  customAlertDialog(
+                      context: context,
+                      content: Text(
+                          'Please make sure your item is valid sales item'),
+                      title: Text(
+                        'Failed to fetch price',
+                        style: TextStyles.t18BlackBold,
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              'OK',
+                              style: TextStyles.t18Blue,
+                            ))
+                      ]);
+                  break;
+                case 500:
+                  fluttertoast(whiteColor, blueAccent, 'Internal Server Error');
+                  break;
+                case 503:
+                  fluttertoast(whiteColor, blueAccent, 'Service Unavailable');
+                  break;
+                default:
+                  var responseCode = e.response.statusCode;
+                  fluttertoast(whiteColor, blueAccent,
+                      'Received invalid status code: $responseCode');
+              }
+          }
+        } else if (e is SocketException) {
+          fluttertoast(whiteColor, blueAccent, 'No Internet Connection');
+        } else {
+          fluttertoast(whiteColor, blueAccent, 'Unexpected Error');
+        }
+      }
     }
     return pricelistdata;
   }

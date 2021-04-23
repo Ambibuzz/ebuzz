@@ -1,31 +1,33 @@
 import 'package:flutter/material.dart';
 
-class RoundButton extends StatefulWidget {
+class RoundButton extends StatelessWidget {
   final Function onPressed;
   final Widget child;
   final Color primaryColor;
   final Color onPrimaryColor;
+  final double elevation;
   const RoundButton(
       {@required this.onPressed,
       @required this.child,
       @required this.primaryColor,
-      @required this.onPrimaryColor});
+      @required this.onPrimaryColor,
+      this.elevation = 1,
+      });
 
-  @override
-  _RoundButtonState createState() => _RoundButtonState();
-}
-
-class _RoundButtonState extends State<RoundButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: widget.onPressed,
-      child: widget.child,
+      onPressed: onPressed,
+      child: child,
       style: ElevatedButton.styleFrom(
-        primary: widget.primaryColor,
-        onPrimary: widget.onPrimaryColor,
+        elevation: elevation,
+        primary: primaryColor,
+        onPrimary: onPrimaryColor,
         shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10))),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
       ),
     );
   }

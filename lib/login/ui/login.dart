@@ -74,42 +74,50 @@ class _LoginState extends State<Login> {
       body: loading
           ? CircularProgress()
           : SingleChildScrollView(
-              child: Column(
-                children: [
-                  loginHeader(),
-                  SizedBox(
-                    height: displayHeight(context) * 0.02,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: displayWidth(context) > 600 ? 32 : 16,
-                        vertical: displayWidth(context) > 600 ? 40 : 10),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          list == null || list == []
-                              ? baseUrlTextField()
-                              : baseUrlAutoCompleteTextField(),
-                          SizedBox(
-                            height: displayHeight(context) * 0.02,
-                          ),
-                          usernameTextField(),
-                          SizedBox(
-                            height: displayHeight(context) * 0.02,
-                          ),
-                          passwordTextField(),
-                          SizedBox(
-                            height: displayHeight(context) * 0.02,
-                          ),
-                          loginButton(),
-                        ],
-                      ),
+            child: Column(
+              children: [
+                loginHeader(),
+                // ebuzzText(),
+                // SizedBox(
+                //   height: displayHeight(context) * 0.04,
+                // ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: displayWidth(context) > 600 ? 32 : 16,
+                      vertical: displayWidth(context) > 600 ? 40 : 10),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        list == null || list == []
+                            ? baseUrlTextField()
+                            : baseUrlAutoCompleteTextField(),
+                        SizedBox(
+                          height: displayHeight(context) * 0.02,
+                        ),
+                        usernameTextField(),
+                        SizedBox(
+                          height: displayHeight(context) * 0.02,
+                        ),
+                        passwordTextField(),
+                        SizedBox(
+                          height: displayHeight(context) * 0.02,
+                        ),
+                        loginButton(),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
+          ),
+    );
+  }
+
+  Widget ebuzzText() {
+    return Text(
+      'Ebuzz',
+      style: TextStyle(fontFamily: 'Roboto',color: blackColor,fontSize: 26,fontWeight: FontWeight.bold),
     );
   }
 
@@ -122,10 +130,21 @@ class _LoginState extends State<Login> {
             ? TextStyle(fontSize: 28, color: blackColor)
             : TextStyle(color: blackColor, fontSize: 18),
         decoration: InputDecoration(
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: greyColor, width: 1),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: blueAccent, width: 1),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: greyColor, width: 1),
+          ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(
-                color: blackColor, width: 1, style: BorderStyle.solid),
+            borderSide: BorderSide(color: greyColor, width: 1),
           ),
           labelStyle: TextStyle(
             fontSize: displayWidth(context) > 600 ? 28 : 16,
@@ -190,37 +209,21 @@ class _LoginState extends State<Login> {
   }
 
   Widget loginButton() {
-    return Container(
-      height: displayWidth(context) > 600 ? 80 : 50,
-      width: displayWidth(context) > 600 ? 170 : 120,
-      child: RoundButton(
-        child: Text('Login', style: TextStyles.t16WhiteBold),
-        onPressed: () async {
-          if (_formKey.currentState.validate()) {
-            login();
-          }
-        },
-        onPrimaryColor: whiteColor,
-        primaryColor: blueAccent,
+    return RoundButton(
+      primaryColor: blueAccent,
+      onPrimaryColor: whiteColor,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 10),
+        child: Text(
+          'Login',
+          style: TextStyles.t18WhiteBold,
+        ),
       ),
-      //  RaisedButton(
-      //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      //   color: blueAccent,
-      //   onPressed: () async {
-      //     if (_formKey.currentState.validate()) {
-      //       login();
-      //     }
-      //   },
-      //   child: Text(
-      //     'Login',
-      //     style: displayWidth(context) > 600
-      //         ? TextStyle(
-      //             color: whiteColor,
-      //             fontSize: 30,
-      //           )
-      //         : TextStyles.t20White,
-      //   ),
-      // ),
+      onPressed: () async {
+        if (_formKey.currentState.validate()) {
+          login();
+        }
+      },
     );
   }
 
@@ -246,6 +249,7 @@ class _LoginState extends State<Login> {
           ),
           labelStyle: TextStyle(
             fontSize: displayWidth(context) > 600 ? 28 : 16,
+            color: blackColor,
           ),
           contentPadding: EdgeInsets.symmetric(
               vertical: displayWidth(context) > 600
@@ -272,9 +276,21 @@ class _LoginState extends State<Login> {
               });
             },
           ),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: greyColor, width: 1),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: blueAccent, width: 1),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: greyColor, width: 1),
+          ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: blackColor, width: 1),
+            borderSide: BorderSide(color: greyColor, width: 1),
           ),
           labelText: 'Password'),
     );
@@ -296,6 +312,7 @@ class _LoginState extends State<Login> {
       decoration: InputDecoration(
           labelStyle: TextStyle(
             fontSize: displayWidth(context) > 600 ? 28 : 16,
+            color: blackColor,
           ),
           contentPadding: EdgeInsets.symmetric(
               vertical: displayWidth(context) > 600
@@ -304,9 +321,21 @@ class _LoginState extends State<Login> {
                       ? 15
                       : 20,
               horizontal: displayWidth(context) > 600 ? 20 : 10),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: greyColor, width: 1),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: blueAccent, width: 1),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: greyColor, width: 1),
+          ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: blackColor, width: 1),
+            borderSide: BorderSide(color: greyColor, width: 1),
           ),
           labelText: 'Enter Base url of api'),
     );
@@ -333,6 +362,7 @@ class _LoginState extends State<Login> {
           ),
           labelStyle: TextStyle(
             fontSize: displayWidth(context) > 600 ? 28 : 16,
+            color: blackColor,
           ),
           contentPadding: EdgeInsets.symmetric(
               vertical: displayWidth(context) > 600
@@ -341,9 +371,21 @@ class _LoginState extends State<Login> {
                       ? 15
                       : 20,
               horizontal: displayWidth(context) > 600 ? 20 : 10),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: greyColor, width: 1),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: blueAccent, width: 1),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: greyColor, width: 1),
+          ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: blackColor, width: 1),
+            borderSide: BorderSide(color: greyColor, width: 1),
           ),
           labelText: 'Username or Email'),
     );
@@ -362,13 +404,25 @@ class _LoginState extends State<Login> {
           ? TextStyle(fontSize: 28, color: blackColor)
           : TextStyle(color: blackColor, fontSize: 18),
       decoration: InputDecoration(
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: greyColor, width: 1),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: blueAccent, width: 1),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: greyColor, width: 1),
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide:
-              BorderSide(color: blackColor, width: 1, style: BorderStyle.solid),
+          borderSide: BorderSide(color: greyColor, width: 1),
         ),
         labelStyle: TextStyle(
           fontSize: displayWidth(context) > 600 ? 28 : 16,
+          color: blackColor,
         ),
         contentPadding: EdgeInsets.symmetric(
             vertical: displayWidth(context) > 600 ? 30 : 20,
