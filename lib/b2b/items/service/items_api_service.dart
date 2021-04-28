@@ -20,7 +20,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 class ItemsApiService {
-  Future<List<ItemsModel>> itemsList() async {
+  Future<List<ItemsModel>> itemsList(BuildContext context) async {
     List<ItemsModel> itemsList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -35,12 +35,12 @@ class ItemsApiService {
       });
       return itemsList;
     } catch (e) {
-      exception(e);
+      exception(e, context);
     }
     return itemsList;
   }
 
-  Future<List<ItemGroupModel>> itemGroupList() async {
+  Future<List<ItemGroupModel>> itemGroupList(BuildContext context) async {
     List<ItemGroupModel> itemGroupList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -55,12 +55,12 @@ class ItemsApiService {
       });
       return itemGroupList;
     } catch (e) {
-      exception(e);
+      exception(e, context);
     }
     return itemGroupList;
   }
 
-  Future<List<BrandModel>> brandList() async {
+  Future<List<BrandModel>> brandList(BuildContext context) async {
     List<BrandModel> brandList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -75,15 +75,15 @@ class ItemsApiService {
       });
       return brandList;
     } catch (e) {
-      exception(e);
+      exception(e, context);
     }
     return brandList;
   }
 
-  Future<List<String>> getAllItemsList() async {
+  Future<List<String>> getAllItemsList(BuildContext context) async {
     List<String> fullItemList = [];
     try {
-      List<ItemsModel> itemList = await itemsList();
+      List<ItemsModel> itemList = await itemsList(context);
       for (ItemsModel itemCode in itemList) {
         fullItemList.add(itemCode.itemCode);
       }
@@ -92,13 +92,13 @@ class ItemsApiService {
       }
       return fullItemList;
     } catch (e) {
-      exception(e);
+      exception(e, context);
     }
     return fullItemList;
   }
 
   Future<List<ItemsModel>> getItemBrandWeight2Data(
-      String brand, String weight2) async {
+      String brand, String weight2, BuildContext context) async {
     List<ItemsModel> itemsList = [];
     print('itembrandweight2');
     itemsList.clear();
@@ -108,7 +108,7 @@ class ItemsApiService {
       'Accept': 'application/json',
       'Cookie': cookie
     };
-    String weight1InKg = convertWeightInGramsToKg(weight2);
+    String weight1InKg = convertWeightInGramsToKg(weight2, context);
     String baseurl = await getApiUrl();
     final String itemweight = itemBrandandWeight2DataUrl(brand, weight1InKg);
     final String weightUrl = baseurl + itemweight;
@@ -125,13 +125,13 @@ class ItemsApiService {
       });
       return itemsList;
     } catch (e) {
-      exception(e);
+      exception(e, context);
     }
     return itemsList;
   }
 
   Future<List<ItemsModel>> getItemBrandWeight1Data(
-      String brand, String weight1) async {
+      String brand, String weight1, BuildContext context) async {
     List<ItemsModel> itemsList = [];
     try {
       print('itembrandweight1');
@@ -142,7 +142,7 @@ class ItemsApiService {
         'Accept': 'application/json',
         'Cookie': cookie
       };
-      String weight1InKg = convertWeightInGramsToKg(weight1);
+      String weight1InKg = convertWeightInGramsToKg(weight1, context);
       String baseurl = await getApiUrl();
       final String itemweight = itemBrandandWeight1DataUrl(brand, weight1InKg);
       final String weightUrl = baseurl + itemweight;
@@ -159,13 +159,13 @@ class ItemsApiService {
       print(itemsList.length);
       return itemsList;
     } catch (e) {
-      exception(e);
+      exception(e, context);
     }
     return itemsList;
   }
 
   Future<List<ItemsModel>> getItemGroupWeight2Data(
-      String itemGroup, String weight2) async {
+      String itemGroup, String weight2, BuildContext context) async {
     List<ItemsModel> itemsList = [];
     print('itemgroupweight2');
     itemsList.clear();
@@ -175,7 +175,7 @@ class ItemsApiService {
       'Accept': 'application/json',
       'Cookie': cookie
     };
-    String weight1InKg = convertWeightInGramsToKg(weight2);
+    String weight1InKg = convertWeightInGramsToKg(weight2, context);
     String baseurl = await getApiUrl();
     final String itemweight =
         itemGroupandWeight2DataUrl(itemGroup, weight1InKg);
@@ -193,13 +193,13 @@ class ItemsApiService {
       });
       return itemsList;
     } catch (e) {
-      exception(e);
+      exception(e, context);
     }
     return itemsList;
   }
 
   Future<List<ItemsModel>> getItemGroupWeight1Data(
-      String itemGroup, String weight1) async {
+      String itemGroup, String weight1, BuildContext context) async {
     List<ItemsModel> itemsList = [];
     print('itemgroupweight1');
     itemsList.clear();
@@ -209,7 +209,7 @@ class ItemsApiService {
       'Accept': 'application/json',
       'Cookie': cookie
     };
-    String weight1InKg = convertWeightInGramsToKg(weight1);
+    String weight1InKg = convertWeightInGramsToKg(weight1, context);
     String baseurl = await getApiUrl();
     final String itemweight =
         itemGroupandWeight1DataUrl(itemGroup, weight1InKg);
@@ -227,13 +227,13 @@ class ItemsApiService {
       });
       return itemsList;
     } catch (e) {
-      exception(e);
+      exception(e, context);
     }
     return itemsList;
   }
 
-  Future<List<ItemsModel>> getItemBrandAndWeightData(
-      String brand, String weight1, String weight2) async {
+  Future<List<ItemsModel>> getItemBrandAndWeightData(String brand,
+      String weight1, String weight2, BuildContext context) async {
     List<ItemsModel> itemsList = [];
     print('itembrandandweight');
     itemsList.clear();
@@ -243,8 +243,8 @@ class ItemsApiService {
       'Accept': 'application/json',
       'Cookie': cookie
     };
-    String weight1InKg = convertWeightInGramsToKg(weight1);
-    String weight2InKg = convertWeightInGramsToKg(weight2);
+    String weight1InKg = convertWeightInGramsToKg(weight1, context);
+    String weight2InKg = convertWeightInGramsToKg(weight2, context);
     String baseurl = await getApiUrl();
     final String itemweight =
         itemBrandAndWeightDataSeriesUrl(brand, weight1InKg, weight2InKg);
@@ -262,13 +262,13 @@ class ItemsApiService {
       });
       return itemsList;
     } catch (e) {
-      exception(e);
+      exception(e, context);
     }
     return itemsList;
   }
 
-  Future<List<ItemsModel>> getItemGroupAndWeightData(
-      String itemGroup, String weight1, String weight2) async {
+  Future<List<ItemsModel>> getItemGroupAndWeightData(String itemGroup,
+      String weight1, String weight2, BuildContext context) async {
     List<ItemsModel> itemsList = [];
     print(itemGroup);
     print(weight1);
@@ -281,8 +281,8 @@ class ItemsApiService {
       'Accept': 'application/json',
       'Cookie': cookie
     };
-    String weight1InKg = convertWeightInGramsToKg(weight1);
-    String weight2InKg = convertWeightInGramsToKg(weight2);
+    String weight1InKg = convertWeightInGramsToKg(weight1, context);
+    String weight2InKg = convertWeightInGramsToKg(weight2, context);
     String baseurl = await getApiUrl();
     final String itemweight =
         itemGroupAndWeightDataSeriesUrl(itemGroup, weight1InKg, weight2InKg);
@@ -300,13 +300,13 @@ class ItemsApiService {
       });
       return itemsList;
     } catch (e) {
-      exception(e);
+      exception(e, context);
     }
     return itemsList;
   }
 
   Future<List<ItemsModel>> getItemWeightData(
-      String weight1, String weight2) async {
+      String weight1, String weight2, BuildContext context) async {
     List<ItemsModel> itemsList = [];
     itemsList.clear();
     final String cookie = await getCookie();
@@ -315,8 +315,8 @@ class ItemsApiService {
       'Accept': 'application/json',
       'Cookie': cookie
     };
-    String weight1InKg = convertWeightInGramsToKg(weight1);
-    String weight2InKg = convertWeightInGramsToKg(weight2);
+    String weight1InKg = convertWeightInGramsToKg(weight1, context);
+    String weight2InKg = convertWeightInGramsToKg(weight2, context);
 
     String baseurl = await getApiUrl();
     final String itemweight = itemWeightUrl(weight1InKg, weight2InKg);
@@ -334,12 +334,12 @@ class ItemsApiService {
       });
       return itemsList;
     } catch (e) {
-      exception(e);
+      exception(e, context);
     }
     return itemsList;
   }
 
-  Future<List<ItemsModel>> getItemBrandData(String brandName) async {
+  Future<List<ItemsModel>> getItemBrandData(String brandName, context) async {
     List<ItemsModel> itemsList = [];
     itemsList.clear();
     final String cookie = await getCookie();
@@ -364,12 +364,13 @@ class ItemsApiService {
       });
       return itemsList;
     } catch (e) {
-      exception(e);
+      exception(e, context);
     }
     return itemsList;
   }
 
-  Future<List<ItemsModel>> getItemGroupData(String itemGroupName) async {
+  Future<List<ItemsModel>> getItemGroupData(
+      String itemGroupName, BuildContext context) async {
     List<ItemsModel> itemsList = [];
     itemsList.clear();
     final String cookie = await getCookie();
@@ -394,18 +395,18 @@ class ItemsApiService {
       });
       return itemsList;
     } catch (e) {
-      exception(e);
+      exception(e, context);
     }
     return itemsList;
   }
 
-  String convertWeightInGramsToKg(String weight) {
+  String convertWeightInGramsToKg(String weight, BuildContext context) {
     double weightInGrams = double.parse(weight);
     String weight1InKg = (weightInGrams / 1000).toString();
     return weight1InKg;
   }
 
-  Future<List<ItemsModel>> getItem(String item) async {
+  Future<List<ItemsModel>> getItem(String item, BuildContext context) async {
     List<ItemsModel> itemsList = [];
     itemsList.clear();
     final String cookie = await getCookie();
@@ -445,7 +446,7 @@ class ItemsApiService {
         }
       }
     } catch (e) {
-      exception(e);
+      exception(e, context);
     }
     print(itemsList.length);
     return itemsList;
@@ -477,17 +478,64 @@ class ItemsApiService {
         if (e is DioError) {
           switch (e.type) {
             case DioErrorType.SEND_TIMEOUT:
-              fluttertoast(
-                whiteColor,
-                blueAccent,
-                'Send Timeout',
-              );
+              customAlertDialog(
+                  context: context,
+                  content: Text('Send Timeout'),
+                  title: Text(
+                    'Something went wrong!',
+                    style: TextStyles.t18BlackBold,
+                  ),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'OK',
+                          style: TextStyles.t18Blue,
+                        ))
+                  ]);
+              // fluttertoast(whiteColor, blueAccent, 'Send Timeout');
               break;
             case DioErrorType.CANCEL:
-              fluttertoast(whiteColor, blueAccent, 'Request Cancelled');
+              customAlertDialog(
+                  context: context,
+                  content: Text('Request Cancelled'),
+                  title: Text(
+                    'Something went wrong!',
+                    style: TextStyles.t18BlackBold,
+                  ),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'OK',
+                          style: TextStyles.t18Blue,
+                        ))
+                  ]);
+              // fluttertoast(whiteColor, blueAccent, 'Request Cancelled');
               break;
             case DioErrorType.CONNECT_TIMEOUT:
-              fluttertoast(whiteColor, blueAccent, 'Connection Timeout');
+              customAlertDialog(
+                  context: context,
+                  content: Text('Connection Timeout'),
+                  title: Text(
+                    'Something went wrong!',
+                    style: TextStyles.t18BlackBold,
+                  ),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'OK',
+                          style: TextStyles.t18Blue,
+                        ))
+                  ]);
+              // fluttertoast(whiteColor, blueAccent, 'Connection Timeout');
               break;
             case DioErrorType.DEFAULT:
               customAlertDialog(
@@ -508,34 +556,156 @@ class ItemsApiService {
                           style: TextStyles.t18Blue,
                         ))
                   ]);
+              // fluttertoast(whiteColor, blueAccent, 'No Internet Connection');
               break;
             case DioErrorType.RECEIVE_TIMEOUT:
-              fluttertoast(whiteColor, blueAccent, 'Timeout');
+              customAlertDialog(
+                  context: context,
+                  content: Text('Timeout'),
+                  title: Text(
+                    'Something went wrong!',
+                    style: TextStyles.t18BlackBold,
+                  ),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'OK',
+                          style: TextStyles.t18Blue,
+                        ))
+                  ]);
+              // fluttertoast(whiteColor, blueAccent, 'Timeout');
               break;
             case DioErrorType.RESPONSE:
               switch (e.response.statusCode) {
                 case 400:
-                  fluttertoast(whiteColor, blueAccent, 'Unauthorized Request');
+                  customAlertDialog(
+                      context: context,
+                      content: Text('Unauthorized Request'),
+                      title: Text(
+                        'Something went wrong!',
+                        style: TextStyles.t18BlackBold,
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              'OK',
+                              style: TextStyles.t18Blue,
+                            ))
+                      ]);
+                  // fluttertoast(whiteColor, blueAccent, 'Unauthorized Request');
                   removeLoggedIn();
                   break;
                 case 401:
-                  fluttertoast(whiteColor, blueAccent, 'Unauthorized Request');
+                  customAlertDialog(
+                      context: context,
+                      content: Text('Unauthorized Request'),
+                      title: Text(
+                        'Something went wrong!',
+                        style: TextStyles.t18BlackBold,
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              'OK',
+                              style: TextStyles.t18Blue,
+                            ))
+                      ]);
+                  // fluttertoast(whiteColor, blueAccent, 'Unauthorized Request');
                   removeLoggedIn();
                   break;
                 case 403:
-                  fluttertoast(whiteColor, blueAccent,
-                      'Cookie expired or access is denied...');
+                  customAlertDialog(
+                      context: context,
+                      content: Text('Cookie expired or access is denied...'),
+                      title: Text(
+                        'Something went wrong!',
+                        style: TextStyles.t18BlackBold,
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Get.off(Login());
+                              removeLoggedIn();
+                            },
+                            child: Text(
+                              'Login Again',
+                              style: TextStyles.t18Blue,
+                            ))
+                      ]);
+                  // fluttertoast(whiteColor, blueAccent,
+                  //     'Cookie expired or access is denied...');
                   Get.off(Login());
                   removeLoggedIn();
                   break;
                 case 404:
-                  fluttertoast(whiteColor, blueAccent, 'Not found');
+                  customAlertDialog(
+                      context: context,
+                      content: Text('Not found'),
+                      title: Text(
+                        'Something went wrong!',
+                        style: TextStyles.t18BlackBold,
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              'OK',
+                              style: TextStyles.t18Blue,
+                            ))
+                      ]);
+                  // fluttertoast(whiteColor, blueAccent, 'Not found');
                   break;
                 case 408:
-                  fluttertoast(whiteColor, blueAccent, 'Request Timed Out');
+                  customAlertDialog(
+                      context: context,
+                      content: Text('CRequest Timed Out'),
+                      title: Text(
+                        'Something went wrong!',
+                        style: TextStyles.t18BlackBold,
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              'OK',
+                              style: TextStyles.t18Blue,
+                            ))
+                      ]);
+                  // fluttertoast(whiteColor, blueAccent, 'Request Timed Out');
                   break;
                 case 409:
-                  fluttertoast(whiteColor, blueAccent, 'Conflict');
+                  customAlertDialog(
+                      context: context,
+                      content: Text('Conflict'),
+                      title: Text(
+                        'Something went wrong!',
+                        style: TextStyles.t18BlackBold,
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              'OK',
+                              style: TextStyles.t18Blue,
+                            ))
+                      ]);
+                  // fluttertoast(whiteColor, blueAccent, 'Conflict');
                   break;
                 case 417:
                   customAlertDialog(
@@ -558,21 +728,108 @@ class ItemsApiService {
                       ]);
                   break;
                 case 500:
-                  fluttertoast(whiteColor, blueAccent, 'Internal Server Error');
+                  customAlertDialog(
+                      context: context,
+                      content: Text('Internal Server Error'),
+                      title: Text(
+                        'Something went wrong!',
+                        style: TextStyles.t18BlackBold,
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              'OK',
+                              style: TextStyles.t18Blue,
+                            ))
+                      ]);
+                  // fluttertoast(whiteColor, blueAccent, 'Internal Server Error');
                   break;
                 case 503:
-                  fluttertoast(whiteColor, blueAccent, 'Service Unavailable');
+                  customAlertDialog(
+                      context: context,
+                      content: Text('Service Unavailable'),
+                      title: Text(
+                        'Something went wrong!',
+                        style: TextStyles.t18BlackBold,
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              'OK',
+                              style: TextStyles.t18Blue,
+                            ))
+                      ]);
+                  // fluttertoast(whiteColor, blueAccent, 'Service Unavailable');
                   break;
                 default:
                   var responseCode = e.response.statusCode;
-                  fluttertoast(whiteColor, blueAccent,
-                      'Received invalid status code: $responseCode');
+                  customAlertDialog(
+                      context: context,
+                      content:
+                          Text('Received invalid status code: $responseCode'),
+                      title: Text(
+                        'Something went wrong!',
+                        style: TextStyles.t18BlackBold,
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              'OK',
+                              style: TextStyles.t18Blue,
+                            ))
+                      ]);
+                // fluttertoast(whiteColor, blueAccent,
+                //     'Received invalid status code: $responseCode');
               }
           }
         } else if (e is SocketException) {
-          fluttertoast(whiteColor, blueAccent, 'No Internet Connection');
+          customAlertDialog(
+              context: context,
+              content: Text(
+                  'Make sure that wifi or mobile data is turned on,then try again'),
+              title: Text(
+                'No Internet Connection',
+                style: TextStyles.t18BlackBold,
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'OK',
+                      style: TextStyles.t18Blue,
+                    ))
+              ]);
+          // fluttertoast(whiteColor, blueAccent, 'No Internet Connection');
         } else {
-          fluttertoast(whiteColor, blueAccent, 'Unexpected Error');
+          customAlertDialog(
+              context: context,
+              content: Text('Unexpected Error'),
+              title: Text(
+                'Something went wrong!',
+                style: TextStyles.t18BlackBold,
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'OK',
+                      style: TextStyles.t18Blue,
+                    ))
+              ]);
+          // fluttertoast(whiteColor, blueAccent, 'Unexpected Error');
         }
       }
     }

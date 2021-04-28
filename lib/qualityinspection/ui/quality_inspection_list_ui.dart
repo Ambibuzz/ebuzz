@@ -32,7 +32,7 @@ class _QualityInspectionListUiState extends State<QualityInspectionListUi> {
       _loading = true;
     });
     _qualityInspectionList =
-        await QualityInspectionService().getQualityInspectionModelList();
+        await QualityInspectionService().getQualityInspectionModelList(context);
     setState(() {});
     setState(() {
       _loading = false;

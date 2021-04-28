@@ -21,7 +21,7 @@ class ItemsDetailWidget extends StatelessWidget {
         ),
       ),
       body: FutureBuilder<Product>(
-        future: ItemApiService().getData(itemCode),
+        future: ItemApiService().getData(itemCode, context),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgress();
@@ -43,13 +43,11 @@ class ItemsDetailWidget extends StatelessWidget {
                     snapshot: snapshot,
                     apiurl: apiurl,
                   ),
-                 
                 ],
               ),
             );
           }
-          return 
-                CircularProgress();
+          return CircularProgress();
         },
       ),
     );

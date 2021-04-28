@@ -5,11 +5,12 @@ import 'package:ebuzz/exception/custom_exception.dart';
 import 'package:ebuzz/network/base_dio.dart';
 import 'package:ebuzz/salesorder/model/sales_order.dart';
 import 'package:ebuzz/util/apiurls.dart';
+import 'package:flutter/cupertino.dart';
 
 class SalesOrderService {
 
   //for posting data to quality inpsection api
-  Future post(SalesOrder salesOrder) async {
+  Future post(SalesOrder salesOrder, BuildContext context) async {
     try {
       Dio _dio = await BaseDio().getBaseDio();
       final String url = salesOrderUrl();
@@ -18,12 +19,12 @@ class SalesOrderService {
         fluttertoast(whiteColor, blueAccent, 'Data posted successfully');
       }
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
   }
 
   //for fetching company list
-  Future<List<String>> getCompanyList() async {
+  Future<List<String>> getCompanyList(BuildContext context) async {
     List<String> companylist = [];
     List list;
     try {
@@ -37,13 +38,13 @@ class SalesOrderService {
       }
       return companylist;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return companylist;
   }
 
   //for fetching warehouse list
-  Future<List<String>> getWarehouseList(String company) async {
+  Future<List<String>> getWarehouseList(String company, BuildContext context) async {
     List<String> warehouselist = [];
     List list;
     try {
@@ -57,13 +58,13 @@ class SalesOrderService {
       }
       return warehouselist;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return warehouselist;
   }
 
   //for fetching customer list
-  Future<List<String>> getCustomerList() async {
+  Future<List<String>> getCustomerList(BuildContext context) async {
     List<String> customerlist = [];
     List list;
     try {
@@ -77,14 +78,14 @@ class SalesOrderService {
       }
       return customerlist;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return customerlist;
   }
 
 
   //for fetching sales order list
-  Future<List<SalesOrder>> getSalesOrderList() async {
+  Future<List<SalesOrder>> getSalesOrderList(BuildContext context) async {
     List list = [];
     List<SalesOrder> solist = [];
     try {
@@ -98,13 +99,13 @@ class SalesOrderService {
       }
       return solist;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return solist;
   }
 
   //for fetching sales order item list
-  Future<List<SalesOrderItems>> getSalesOrderItemList(String name) async {
+  Future<List<SalesOrderItems>> getSalesOrderItemList(String name, BuildContext context) async {
     List<SalesOrderItems> items = [];
 
     try {
@@ -121,14 +122,14 @@ class SalesOrderService {
       }
       return items;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return items;
   }
 
   //for fetching sales order payment schedule list
   Future<List<SalesOrderPaymentSchedule>> getSalesOrderPaymentScheduleList(
-      String name) async {
+      String name, BuildContext context) async {
     List<SalesOrderPaymentSchedule> ps = [];
 
     try {
@@ -145,7 +146,7 @@ class SalesOrderService {
       }
       return ps;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return ps;
   }

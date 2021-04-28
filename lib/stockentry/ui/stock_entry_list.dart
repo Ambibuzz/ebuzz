@@ -28,7 +28,7 @@ class _StockEntryListState extends State<StockEntryList> {
     setState(() {
       _loading = true;
     });
-    list = await StockEntryService().getStockEntryList();
+    list = await StockEntryService().getStockEntryList(context);
     setState(() {
       _loading = false;
     });

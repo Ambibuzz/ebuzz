@@ -32,7 +32,7 @@ class _PurchaseOrderDetailState extends State<PurchaseOrderDetail> {
   }
 
   getData() async {
-    items = await _purchaseApiService.getPurchaseOrderItemList(widget.name);
+    items = await _purchaseApiService.getPurchaseOrderItemList(widget.name,context);
     if (!mounted) return;
     setState(() {});
   }

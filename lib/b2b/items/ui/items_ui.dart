@@ -43,6 +43,9 @@ class _ItemsUiState extends State<ItemsUi> {
   final weight1Controller = TextEditingController();
   final weight2Controller = TextEditingController();
   List<String> weightList = [];
+  SortBy _sortByValue = SortBy.itemNameAsc;
+  List<ItemsModel> itemsListCopy = [];
+  double checkBoxTileHeight = 50;
 
   @override
   void initState() {
@@ -52,13 +55,13 @@ class _ItemsUiState extends State<ItemsUi> {
 
   void getItem(String item) async {
     itemsList.clear();
-    itemsList = await _itemsApiService.getItem(item);
+    itemsList = await _itemsApiService.getItem(item, context);
     setState(() {});
   }
 
   void navigateToSearchPage() async {
     String item;
-    var list = await _itemsApiService.getAllItemsList();
+    var list = await _itemsApiService.getAllItemsList(context);
     item = await Navigator.push(context,
         MaterialPageRoute(builder: (context) => SearchPage(itemsList: list)));
     if (item.isNotEmpty) {
@@ -71,14 +74,14 @@ class _ItemsUiState extends State<ItemsUi> {
       _loading = true;
     });
     await getItemsList();
-    // sortByItemNameAsc();
+    sortByItemNameAsc();
     setState(() {
       _loading = false;
     });
   }
 
   Future resetAll() async {
-    itemsList = await _itemsApiService.itemsList();
+    itemsList = await _itemsApiService.itemsList(context);
     setState(() {
       reset = true;
       groupText = itemGroupList[0].name;
@@ -88,25 +91,25 @@ class _ItemsUiState extends State<ItemsUi> {
 
   void getItemGroupData(String itemGroupName) async {
     itemsList.clear();
-    itemsList = await _itemsApiService.getItemGroupData(itemGroupName);
+    itemsList = await _itemsApiService.getItemGroupData(itemGroupName, context);
     setState(() {});
   }
 
   void getItemBrandData(String brandName) async {
     itemsList.clear();
-    itemsList = await _itemsApiService.getItemBrandData(brandName);
+    itemsList = await _itemsApiService.getItemBrandData(brandName, context);
     setState(() {});
   }
 
   void getItemWeightData() async {
     itemsList.clear();
     itemsList = await _itemsApiService.getItemWeightData(
-        weight1Controller.text, weight2Controller.text);
+        weight1Controller.text, weight2Controller.text, context);
     setState(() {});
   }
 
   setItemList() async {
-    itemsList = await _itemsApiService.itemsList();
+    itemsList = await _itemsApiService.itemsList(context);
     setState(() {});
   }
 
@@ -114,7 +117,7 @@ class _ItemsUiState extends State<ItemsUi> {
       String itemGroup, String weight1, String weight2) async {
     itemsList.clear();
     itemsList = await _itemsApiService.getItemGroupAndWeightData(
-        itemGroup, weight1, weight2);
+        itemGroup, weight1, weight2, context);
     setState(() {});
   }
 
@@ -122,33 +125,35 @@ class _ItemsUiState extends State<ItemsUi> {
       String brand, String weight1, String weight2) async {
     itemsList.clear();
     itemsList = await _itemsApiService.getItemBrandAndWeightData(
-        brand, weight1, weight2);
+        brand, weight1, weight2, context);
     setState(() {});
   }
 
   void getItemGroupWeight1Data(String itemGroup, String weight1) async {
     itemsList.clear();
-    itemsList =
-        await _itemsApiService.getItemGroupWeight1Data(itemGroup, weight1);
+    itemsList = await _itemsApiService.getItemGroupWeight1Data(
+        itemGroup, weight1, context);
     setState(() {});
   }
 
   void getItemGroupWeight2Data(String itemGroup, String weight2) async {
     itemsList.clear();
-    itemsList =
-        await _itemsApiService.getItemGroupWeight2Data(itemGroup, weight2);
+    itemsList = await _itemsApiService.getItemGroupWeight2Data(
+        itemGroup, weight2, context);
     setState(() {});
   }
 
   void getItemBrandWeight1Data(String brand, String weight1) async {
     itemsList.clear();
-    itemsList = await _itemsApiService.getItemBrandWeight1Data(brand, weight1);
+    itemsList =
+        await _itemsApiService.getItemBrandWeight1Data(brand, weight1, context);
     setState(() {});
   }
 
   void getItemBrandWeight2Data(String brand, String weight2) async {
     itemsList.clear();
-    itemsList = await _itemsApiService.getItemBrandWeight2Data(brand, weight2);
+    itemsList =
+        await _itemsApiService.getItemBrandWeight2Data(brand, weight2, context);
     setState(() {});
   }
 
@@ -389,11 +394,11 @@ class _ItemsUiState extends State<ItemsUi> {
   }
 
   Future getItemsList() async {
-    fullItemList = await _itemsApiService.getAllItemsList();
-    itemGroupList = await _itemsApiService.itemGroupList();
-    itemsList = await _itemsApiService.itemsList();
-    // itemsListCopy = itemsList;
-    brandList = await _itemsApiService.brandList();
+    fullItemList = await _itemsApiService.getAllItemsList(context);
+    itemGroupList = await _itemsApiService.itemGroupList(context);
+    itemsList = await _itemsApiService.itemsList(context);
+    itemsListCopy = itemsList;
+    brandList = await _itemsApiService.brandList(context);
     setState(() {});
   }
 
@@ -415,7 +420,7 @@ class _ItemsUiState extends State<ItemsUi> {
           search(),
           cart(),
           filter(),
-          // sortby(),
+          sortby(),
         ],
       ),
       body: _loading
@@ -432,15 +437,12 @@ class _ItemsUiState extends State<ItemsUi> {
   }
 
   Widget search() {
-    return Padding(
-      padding: EdgeInsets.only(right: 0),
-      child: IconButton(
-          icon: Icon(
-            Icons.search,
-            color: whiteColor,
-          ),
-          onPressed: navigateToSearchPage),
-    );
+    return IconButton(
+        icon: Icon(
+          Icons.search,
+          color: whiteColor,
+        ),
+        onPressed: navigateToSearchPage);
   }
 
   Widget itemsListView() {
@@ -470,7 +472,10 @@ class _ItemsUiState extends State<ItemsUi> {
                 // : NetworkImage(baseurl + itemsList[index].image)
                 // ,
                 title: Text(item.itemName),
-                subtitle: Text(item.itemCode),
+                subtitle: Padding(
+                  padding: EdgeInsets.only(left: 5),
+                  child: Text(item.itemCode),
+                ),
                 trailing: GestureDetector(
                   onTap: () => addToCart(item),
                   child: Icon(Icons.add_shopping_cart, color: blueAccent),
@@ -542,12 +547,12 @@ class _ItemsUiState extends State<ItemsUi> {
     });
   }
 
-  // Widget sortby() {
-  //   return IconButton(
-  //     onPressed: () => displayBottomSheet(context),
-  //     icon: Icon(Icons.sort),
-  //   );
-  // }
+  Widget sortby() {
+    return IconButton(
+      onPressed: () => displayBottomSheet(context),
+      icon: Icon(Icons.sort),
+    );
+  }
 
   Widget filter() {
     return IconButton(
@@ -561,5 +566,110 @@ class _ItemsUiState extends State<ItemsUi> {
             builder: (dialogContext) => filterDialog(dialogContext),
           );
         });
+  }
+
+  void displayBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (ctx) {
+          return Container(
+            width: displayWidth(context),
+            height: checkBoxTileHeight * 4,
+            child: Column(
+              children: [
+                checkBoxTile('Sort by Item Name A to Z', SortBy.itemNameAsc,
+                    (SortBy value) async {
+                  sortByItemNameAsc();
+                  setState(() {
+                    _sortByValue = value;
+                  });
+                  Navigator.pop(context);
+                }),
+                checkBoxTile(
+                  'Sort by Item Name Z to A',
+                  SortBy.itemNameDesc,
+                  (SortBy value) async {
+                    sortByItemNameDesc();
+                    setState(() {
+                      _sortByValue = value;
+                    });
+                    Navigator.pop(context);
+                  },
+                ),
+                checkBoxTile(
+                  'Sort by Item Code Low to High',
+                  SortBy.itemCodeAsc,
+                  (SortBy value) async {
+                    sortByItemCodeAsc();
+                    setState(() {
+                      _sortByValue = value;
+                    });
+                    Navigator.pop(context);
+                  },
+                ),
+                checkBoxTile(
+                  'Sort by Item Code High to Low',
+                  SortBy.itemCodeDesc,
+                  (SortBy value) async {
+                    sortByItemCodeDesc();
+                    setState(() {
+                      _sortByValue = value;
+                    });
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  void sortByItemCodeAsc() {
+    itemsList.sort((a, b) => a.itemCode.compareTo(b.itemCode));
+    print('itemcode asc');
+    setState(() {});
+  }
+
+  void sortByItemCodeDesc() {
+    itemsList = itemsListCopy;
+    itemsList.sort((a, b) => a.itemCode.compareTo(b.itemCode));
+    itemsList = itemsList.reversed.toList();
+    print('itemcode desc');
+    setState(() {});
+  }
+
+  void sortByItemNameAsc() {
+    itemsList = itemsListCopy;
+    itemsList.sort((a, b) => a.itemName.compareTo(b.itemName));
+    print('itemname asc');
+    setState(() {});
+  }
+
+  void sortByItemNameDesc() {
+    itemsList = itemsListCopy;
+    itemsList.sort((a, b) => a.itemName.compareTo(b.itemName));
+    itemsList = itemsList.reversed.toList();
+    print('itemname desc');
+    setState(() {});
+  }
+
+  Widget checkBoxTile(String text, SortBy value, Function onPress) {
+    return Container(
+        width: displayWidth(context),
+        height: checkBoxTileHeight,
+        child: Row(
+          children: [
+            SizedBox(
+              width: 14,
+            ),
+            Text(text),
+            Spacer(),
+            Radio<SortBy>(
+              value: value,
+              groupValue: _sortByValue,
+              onChanged: onPress,
+            )
+          ],
+        ));
   }
 }

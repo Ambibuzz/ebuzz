@@ -24,7 +24,7 @@ class _StockEntryDetailState extends State<StockEntryDetail> {
   }
 
   getStockEntryItemListData() async {
-    list = await StockEntryService().getStockEntryitemList(widget.name);
+    list = await StockEntryService().getStockEntryitemList(widget.name,context);
     setState(() {});
   }
 

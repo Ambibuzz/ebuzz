@@ -46,15 +46,15 @@ class _SalesOrderForm1State extends State<SalesOrderForm1> {
   }
 
   getCustomerAndCompanyList() async {
-    companyList = await SalesOrderService().getCompanyList();
-    customerList = await SalesOrderService().getCustomerList();
+    companyList = await SalesOrderService().getCompanyList(context);
+    customerList = await SalesOrderService().getCustomerList(context);
     print(customerList.length);
     print(companyList.length);
     setState(() {});
   }
 
   getWarehouseList(String company) async {
-    warehouseList = await SalesOrderService().getWarehouseList(company);
+    warehouseList = await SalesOrderService().getWarehouseList(company,context);
     print(warehouseList.length);
     setState(() {});
   }

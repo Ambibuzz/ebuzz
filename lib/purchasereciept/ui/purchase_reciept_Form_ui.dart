@@ -32,7 +32,7 @@ class _PurchaseRecieptFormUiState extends State<PurchaseRecieptFormUi> {
 
   getPurchaseRecieptItemList() async {
     items =
-        await _purchaseRecieptService.getPurchaseRecieptItemList(widget.name);
+        await _purchaseRecieptService.getPurchaseRecieptItemList(widget.name,context);
     if (!mounted) return;
     setState(() {});
   }
@@ -46,6 +46,7 @@ class _PurchaseRecieptFormUiState extends State<PurchaseRecieptFormUi> {
       await _purchaseRecieptService.post(
         items: items,
         supplier: widget.supplier,
+        context: context
       );
       setState(() {
         _postButtonDisabled = false;

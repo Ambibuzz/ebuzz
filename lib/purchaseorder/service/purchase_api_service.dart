@@ -3,11 +3,12 @@ import 'package:ebuzz/exception/custom_exception.dart';
 import 'package:ebuzz/network/base_dio.dart';
 import 'package:ebuzz/purchaseorder/model/purchase_model.dart';
 import 'package:ebuzz/util/apiurls.dart';
+import 'package:flutter/cupertino.dart';
 
 //PurchaseApiService class contains function for fetching data or posting  data
 class PurchaseApiService {
   //For fetching purchase order data
-  Future<PurchaseModel> getPurchaseOrderData(String name) async {
+  Future<PurchaseModel> getPurchaseOrderData(String name,BuildContext context) async {
     PurchaseModel purchaseModelData;
     try {
       Dio dio = await BaseDio().getBaseDio();
@@ -19,13 +20,13 @@ class PurchaseApiService {
       purchaseModelData = PurchaseModel.fromJson(data);
       return purchaseModelData;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return purchaseModelData;
   }
 
   //For fetching purchase order item list
-  Future<List<ItemsModel>> getPurchaseOrderItemList(String name) async {
+  Future<List<ItemsModel>> getPurchaseOrderItemList(String name,BuildContext context) async {
     List<ItemsModel> items = [];
     try {
       Dio dio = await BaseDio().getBaseDio();
@@ -39,13 +40,13 @@ class PurchaseApiService {
       }
       return items;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return items;
   }
 
   //For fetching names list
-  Future<List<String>> getNameList() async {
+  Future<List<String>> getNameList(BuildContext context) async {
     List list = [];
     List<String> unsortedName=[];
     List<String> name=[];
@@ -67,7 +68,7 @@ class PurchaseApiService {
       print(name.length);
       return name;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return name;
   }

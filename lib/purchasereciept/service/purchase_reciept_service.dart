@@ -5,11 +5,12 @@ import 'package:ebuzz/exception/custom_exception.dart';
 import 'package:ebuzz/network/base_dio.dart';
 import 'package:ebuzz/purchasereciept/model/purchase_reciept_model.dart';
 import 'package:ebuzz/util/apiurls.dart';
+import 'package:flutter/cupertino.dart';
 
 //PurchaseReceiptService class contains function for fetching data or posting  data
 class PurchaseRecieptService {
   //for fetching purchase receipt item list
-  Future<List<PRItem>> getPurchaseRecieptItemList(String name) async {
+  Future<List<PRItem>> getPurchaseRecieptItemList(String name,BuildContext context) async {
     List<PRItem> items = [];
 
     try {
@@ -26,13 +27,13 @@ class PurchaseRecieptService {
       }
       return items;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return items;
   }
 
   //for posting data to purchase receipt item api
-  Future post({List<PRItem> items, String supplier}) async {
+  Future post({List<PRItem> items, String supplier,BuildContext context}) async {
     try {
       Dio _dio = await BaseDio().getBaseDio();
       PurchaseReceiptModel purchaseRecieptModel = PurchaseReceiptModel(
@@ -46,7 +47,7 @@ class PurchaseRecieptService {
         fluttertoast(whiteColor, blueAccent, 'Data posted successfully');
       }
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
   }
 }

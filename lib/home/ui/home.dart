@@ -51,6 +51,8 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    //check login status
+    HomeService().checkLoginStatus('11019', context);
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       String cartSave = await storage.read(key: cartKey);
@@ -75,7 +77,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      HomeService().checkLoginStatus('11019');
+      HomeService().checkLoginStatus('11019', context);
     }
   }
 
@@ -85,7 +87,6 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     name = await getName();
     setState(() {});
   }
-
 
   logout(BuildContext context) async {
     setState(() {
@@ -269,8 +270,6 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
       ),
     );
   }
-
-
 }
 
 class Choice {

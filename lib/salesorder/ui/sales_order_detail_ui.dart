@@ -26,9 +26,9 @@ class _SalesOrderDetailState extends State<SalesOrderDetail> {
 
   getSalesOrderItemsAndPaymentSchedule() async {
     _salesOrderItems =
-        await SalesOrderService().getSalesOrderItemList(widget.salesOrder.name);
+        await SalesOrderService().getSalesOrderItemList(widget.salesOrder.name,context);
     _salesOrderPaymentSchedule = await SalesOrderService()
-        .getSalesOrderPaymentScheduleList(widget.salesOrder.name);
+        .getSalesOrderPaymentScheduleList(widget.salesOrder.name,context);
     print(_salesOrderItems.length);
     print(_salesOrderPaymentSchedule.length);
     setState(() {});

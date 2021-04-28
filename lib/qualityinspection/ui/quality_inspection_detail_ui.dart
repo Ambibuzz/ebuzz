@@ -26,7 +26,7 @@ class _QualityInspectionDetailUiState extends State<QualityInspectionDetailUi> {
 
   getQualityInspectionReadingList() async {
     _qiReadingsList = await QualityInspectionService()
-        .getQualityInspectionReadingList(widget.qiData.name);
+        .getQualityInspectionReadingList(widget.qiData.name,context);
     setState(() {});
   }
 

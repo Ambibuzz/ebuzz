@@ -6,12 +6,13 @@ import 'package:ebuzz/network/base_dio.dart';
 import 'package:ebuzz/qualityinspection/model/quality_inspection_model.dart';
 import 'package:ebuzz/util/apiurls.dart';
 import 'package:ebuzz/qualityinspection/model/reference_type_model.dart';
+import 'package:flutter/cupertino.dart';
 
 //QualityInspectionService class contains function for fetching data or posting  data
 class QualityInspectionService {
   //for fetching quality inpsection readings list
   Future<List<QualityInspectionReadings>> getQIReadingsList(
-      String qiteplate) async {
+      String qiteplate,BuildContext context) async {
     List list = [];
     List<QualityInspectionReadings> qilist = [];
     try {
@@ -25,13 +26,13 @@ class QualityInspectionService {
       }
       return qilist;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return qilist;
   }
 
   //for posting data to quality inpsection api
-  Future post(QualityInspectionModel qualityInspection) async {
+  Future post(QualityInspectionModel qualityInspection,BuildContext context) async {
     try {
       Dio _dio = await BaseDio().getBaseDio();
       final String url = qualityInspectionUrl();
@@ -40,12 +41,12 @@ class QualityInspectionService {
         fluttertoast(whiteColor, blueAccent, 'Data posted successfully');
       }
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
   }
 
   //for fetching quality inpsection template
-  Future<String> getQITemplate(String text) async {
+  Future<String> getQITemplate(String text,BuildContext context) async {
     String qitemplate = '';
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -55,13 +56,13 @@ class QualityInspectionService {
       qitemplate = data['data']['quality_inspection_template'] ?? '';
       return qitemplate;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return qitemplate;
   }
 
   //for fetching quality inpsection model list
-  Future<List<QualityInspectionModel>> getQualityInspectionModelList() async {
+  Future<List<QualityInspectionModel>> getQualityInspectionModelList(BuildContext context) async {
     List list = [];
     List<QualityInspectionModel> qilist = [];
     try {
@@ -75,13 +76,13 @@ class QualityInspectionService {
       }
       return qilist;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return qilist;
   }
 
   //for fetching batch list
-  Future<List<String>> getbatchList(String itemcode) async {
+  Future<List<String>> getbatchList(String itemcode,BuildContext context) async {
     List<String> batchList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -94,14 +95,14 @@ class QualityInspectionService {
       }
       return batchList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return batchList;
   }
 
   //for fetching quality inpsection readings list
   Future<List<QualityInspectionReadings>> getQualityInspectionReadingList(
-      String name) async {
+      String name,BuildContext context) async {
     List list = [];
     List<QualityInspectionReadings> qireadinglist = [];
     try {
@@ -115,13 +116,13 @@ class QualityInspectionService {
       }
       return qireadinglist;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return qireadinglist;
   }
 
   //for fetching username
-  Future<String> getUsername() async {
+  Future<String> getUsername(BuildContext context) async {
     String username = '';
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -131,13 +132,13 @@ class QualityInspectionService {
       username = data['message'];
       return username;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return username;
   }
 
   //for fetching delivery note list
-  Future<List<DeliveryNote>> getDeliveryNoteList() async {
+  Future<List<DeliveryNote>> getDeliveryNoteList(BuildContext context) async {
     List<DeliveryNote> deliveryNoteList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -150,13 +151,13 @@ class QualityInspectionService {
       }
       return deliveryNoteList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return deliveryNoteList;
   }
 
   //for fetching stock entry list
-  Future<List<StockEntry>> getStockEntryList() async {
+  Future<List<StockEntry>> getStockEntryList(BuildContext context) async {
     List<StockEntry> stockEntryList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -169,13 +170,13 @@ class QualityInspectionService {
       }
       return stockEntryList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return stockEntryList;
   }
 
   //for fetching purchase invoice list
-  Future<List<PurchaseInvoice>> getPurchaseInvoiceList() async {
+  Future<List<PurchaseInvoice>> getPurchaseInvoiceList(BuildContext context) async {
     List<PurchaseInvoice> purchaseInvoiceList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -188,13 +189,13 @@ class QualityInspectionService {
       }
       return purchaseInvoiceList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return purchaseInvoiceList;
   }
 
   //for fetching purchase receipt list
-  Future<List<PurchaseReciept>> getPurchaseRecieptList() async {
+  Future<List<PurchaseReciept>> getPurchaseRecieptList(BuildContext context) async {
     List<PurchaseReciept> purchaseRecieptList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -207,13 +208,13 @@ class QualityInspectionService {
       }
       return purchaseRecieptList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return purchaseRecieptList;
   }
 
   //for fetching sales invoice list
-  Future<List<SalesOrder>> getSalesInvoiceList() async {
+  Future<List<SalesOrder>> getSalesInvoiceList(BuildContext context) async {
     List<SalesOrder> salesInvoiceList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -226,13 +227,13 @@ class QualityInspectionService {
       }
       return salesInvoiceList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return salesInvoiceList;
   }
 
   //for fetching delivery note string list
-  Future<List<String>> getDeliveryNoteStringList() async {
+  Future<List<String>> getDeliveryNoteStringList(BuildContext context) async {
     List<String> deliveryNoteList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -245,13 +246,13 @@ class QualityInspectionService {
       }
       return deliveryNoteList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return deliveryNoteList;
   }
 
   //for fetching stock entry string list
-  Future<List<String>> getStockEntryStringList() async {
+  Future<List<String>> getStockEntryStringList(BuildContext context) async {
     List<String> stockEntryList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -264,13 +265,13 @@ class QualityInspectionService {
       }
       return stockEntryList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return stockEntryList;
   }
 
   //for fetching purchase invoice string list
-  Future<List<String>> getPurchaseInvoiceStringList() async {
+  Future<List<String>> getPurchaseInvoiceStringList(BuildContext context) async {
     List<String> purchaseInvoiceList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -283,13 +284,13 @@ class QualityInspectionService {
       }
       return purchaseInvoiceList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return purchaseInvoiceList;
   }
 
   //for fetching purchase receipt string list
-  Future<List<String>> getPurchaseRecieptStringList() async {
+  Future<List<String>> getPurchaseRecieptStringList(BuildContext context) async {
     List<String> purchaseRecieptList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -302,13 +303,13 @@ class QualityInspectionService {
       }
       return purchaseRecieptList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return purchaseRecieptList;
   }
 
   //for fetching sales invoice string list
-  Future<List<String>> getSalesInvoiceStringList() async {
+  Future<List<String>> getSalesInvoiceStringList(BuildContext context) async {
     List<String> salesInvoiceList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -321,13 +322,14 @@ class QualityInspectionService {
       }
       return salesInvoiceList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return salesInvoiceList;
   }
 
   //for fetching quality inspection template list
-  Future<List<String>> qualityInspectionTemplateList() async {
+  Future<List<String>> qualityInspectionTemplateList(
+      BuildContext context) async {
     List<String> salesInvoiceList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -340,13 +342,13 @@ class QualityInspectionService {
       }
       return salesInvoiceList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return salesInvoiceList;
   }
 
   //for fetching batch list
-  Future<List<String>> getBatchList() async {
+  Future<List<String>> getBatchList(BuildContext context) async {
     List<String> salesInvoiceList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -359,13 +361,13 @@ class QualityInspectionService {
       }
       return salesInvoiceList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return salesInvoiceList;
   }
 
   //for fetching purchase receipt string list
-  Future<List<String>> getPurchaseRecieptData(String name) async {
+  Future<List<String>> getPurchaseRecieptData(String name, BuildContext context) async {
     List<String> purchaseRecieptList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -378,13 +380,13 @@ class QualityInspectionService {
       }
       return purchaseRecieptList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return purchaseRecieptList;
   }
 
   //for fetching purchase invoice string list
-  Future<List<String>> getPurchaseInvoiceData(String name) async {
+  Future<List<String>> getPurchaseInvoiceData(String name, BuildContext context) async {
     List<String> purchaseRecieptList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -397,13 +399,13 @@ class QualityInspectionService {
       }
       return purchaseRecieptList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return purchaseRecieptList;
   }
 
   //for fetching delivery note string list
-  Future<List<String>> getDeliveryNoteData(String name) async {
+  Future<List<String>> getDeliveryNoteData(String name, BuildContext context) async {
     List<String> purchaseRecieptList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -416,13 +418,13 @@ class QualityInspectionService {
       }
       return purchaseRecieptList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return purchaseRecieptList;
   }
 
   //for fetching sales invoice string list
-  Future<List<String>> getSalesInvoiceData(String name) async {
+  Future<List<String>> getSalesInvoiceData(String name, BuildContext context) async {
     List<String> purchaseRecieptList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -435,13 +437,13 @@ class QualityInspectionService {
       }
       return purchaseRecieptList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return purchaseRecieptList;
   }
 
   //for fetching stock entry string list
-  Future<List<String>> getStockEntryData(String name) async {
+  Future<List<String>> getStockEntryData(String name, BuildContext context) async {
     List<String> purchaseRecieptList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -454,7 +456,7 @@ class QualityInspectionService {
       }
       return purchaseRecieptList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return purchaseRecieptList;
   }

@@ -3,11 +3,12 @@ import 'package:ebuzz/exception/custom_exception.dart';
 import 'package:ebuzz/network/base_dio.dart';
 import 'package:ebuzz/stockentry/model/stockentry.dart';
 import 'package:ebuzz/util/apiurls.dart';
+import 'package:flutter/cupertino.dart';
 
 //StockEntryService class contains function for fetching data or posting  data
 class StockEntryService {
   //for fetching stock entry list
-  Future<List<StockEntryModel>> getStockEntryList() async {
+  Future<List<StockEntryModel>> getStockEntryList(BuildContext context) async {
     List list = [];
     List<StockEntryModel> selist = [];
     try {
@@ -21,13 +22,13 @@ class StockEntryService {
       }
       return selist;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return selist;
   }
 
   //for fetching stock entry item list
-  Future<List<StockEntryItem>> getStockEntryitemList(String name) async {
+  Future<List<StockEntryItem>> getStockEntryitemList(String name, BuildContext context) async {
     List list = [];
     List<StockEntryItem> qilist = [];
     try {
@@ -41,7 +42,7 @@ class StockEntryService {
       }
       return qilist;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return qilist;
   }

@@ -75,7 +75,7 @@ class LoginApiService {
         var cookie = response.headers['set-cookie'];
         String cookieSid = cookie.split(';').first.toString();
         setCookie(cookieSid);
-        await setGlobalDefaults();
+        await setGlobalDefaults(context);
         pushReplacementScreen(context, Home());
       }
       if (response.statusCode == 400) {
@@ -93,7 +93,7 @@ class LoginApiService {
     }
   }
 
-  Future setGlobalDefaults() async {
+  Future setGlobalDefaults(BuildContext context) async {
     GlobalDefaults globalDefaultsData;
     try {
       Dio dio = await BaseDio().getBaseDio();
@@ -107,7 +107,7 @@ class LoginApiService {
         setCurrency(globalDefaultsData.currency);
       }
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
   }
 }

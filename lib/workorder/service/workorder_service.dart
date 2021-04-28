@@ -3,11 +3,13 @@ import 'package:ebuzz/exception/custom_exception.dart';
 import 'package:ebuzz/network/base_dio.dart';
 import 'package:ebuzz/util/apiurls.dart';
 import 'package:ebuzz/workorder/model/workorder_model.dart';
+import 'package:flutter/cupertino.dart';
 
 //WorkOrderService class contains function for fetching data or posting  data
 class WorkOrderService {
   //For fetching list of work orders
-  Future<List<WorkOrderModel>> getWorkOrderModelList() async {
+  Future<List<WorkOrderModel>> getWorkOrderModelList(
+      BuildContext context) async {
     List list = [];
     List<WorkOrderModel> workorderlist = [];
     try {
@@ -21,13 +23,13 @@ class WorkOrderService {
       }
       return workorderlist;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return workorderlist;
   }
 
   //For fetching list of workorderitems in particular work order
-  Future<List<WorkOrderItems>> getWorkOrderItemList(String name) async {
+  Future<List<WorkOrderItems>> getWorkOrderItemList(String name, BuildContext context) async {
     List list = [];
     List<WorkOrderItems> workorderlist = [];
     try {
@@ -41,7 +43,7 @@ class WorkOrderService {
       }
       return workorderlist;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return workorderlist;
   }

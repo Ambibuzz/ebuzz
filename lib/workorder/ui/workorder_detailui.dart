@@ -24,7 +24,7 @@ class _WorkOrderDetailUiState extends State<WorkOrderDetailUi> {
 
   getWorkOrderItemListData() async {
     _workOrderItemsList = await WorkOrderService()
-        .getWorkOrderItemList(widget.workOrderData.name);
+        .getWorkOrderItemList(widget.workOrderData.name,context);
     setState(() {});
   }
 

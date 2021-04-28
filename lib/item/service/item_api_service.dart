@@ -8,6 +8,7 @@ import 'package:ebuzz/item/model/product.dart';
 import 'package:ebuzz/network/base_dio.dart';
 import 'package:ebuzz/util/apiurls.dart';
 import 'package:ebuzz/util/preference.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 //ItemApiService class contains function for fetching data or posting  data
@@ -17,7 +18,7 @@ class ItemApiService {
   List<double> warehouseQty = [];
 
   //For fetching warehousename data from stock ledger entry api
-  Future<List<String>> getWareHouseNameData(String itemCode) async {
+  Future<List<String>> getWareHouseNameData(String itemCode,BuildContext context) async {
     unique.clear();
     warehouseName.clear();
     try {
@@ -39,13 +40,13 @@ class ItemApiService {
         }
       }
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return warehouseName;
   }
 
   //For fetching itemcode data from barcode api
-  Future<String> getItemCodeFromBarcode(String barcode) async {
+  Future<String> getItemCodeFromBarcode(String barcode,BuildContext context) async {
     String itemCode = '';
     try {
       final String cookie = await getCookie();
@@ -67,12 +68,14 @@ class ItemApiService {
         fluttertoast(whiteColor, blueAccent, 'Invalid Barcode');
         return '';
       }
-    } catch (e) {}
+    } catch (e) {
+      exception(e, context);
+    }
     return itemCode;
   }
 
   //For fetching warehousequantity data from stock ledger entry api
-  Future<List<double>> getWareHouseQtyData(String itemCode) async {
+  Future<List<double>> getWareHouseQtyData(String itemCode,BuildContext context) async {
     unique.clear();
     warehouseQty.clear();
     try {
@@ -96,13 +99,13 @@ class ItemApiService {
         }
       }
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return warehouseQty;
   }
 
   //For fetching data from item api in product model
-  Future<Product> getData(String text) async {
+  Future<Product> getData(String text,BuildContext context) async {
     try {
       Dio _dio = await BaseDio().getBaseDio();
       final String url = itemDataUrl(text);
@@ -115,13 +118,13 @@ class ItemApiService {
         throw Exception('Failed to load data');
       }
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return Product();
   }
 
   //For fetching itemcode from itemname
-  Future<String> getItemCodeFromItemName(String text) async {
+  Future<String> getItemCodeFromItemName(String text,BuildContext context) async {
     String itemCode;
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -138,13 +141,13 @@ class ItemApiService {
         throw Exception('Failed to load data');
       }
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return itemCode;
   }
 
   //For fetching data for specific itemname from item api
-  Future<Product> getDataFromItemName(String text) async {
+  Future<Product> getDataFromItemName(String text,BuildContext context) async {
     try {
       Dio _dio = await BaseDio().getBaseDio();
       final String url = specificItemNameDataUrl(text);
@@ -158,13 +161,13 @@ class ItemApiService {
         throw Exception('Failed to load data');
       }
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return Product();
   }
 
   //For fetching list of items (itemname,itemcode) data from item api
-  Future<List> getItemList() async {
+  Future<List> getItemList(BuildContext context) async {
     List listData = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -175,7 +178,7 @@ class ItemApiService {
       var data = response.data;
       listData = data['data'];
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return listData;
   }

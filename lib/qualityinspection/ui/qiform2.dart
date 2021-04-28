@@ -55,19 +55,19 @@ class _QiForm2State extends State<QiForm2> {
       loading = true;
     });
     if (widget.referenceType == 'Purchase Receipt') {
-      list = await QualityInspectionService().getPurchaseRecieptStringList();
+      list = await QualityInspectionService().getPurchaseRecieptStringList(context);
     }
     if (widget.referenceType == 'Purchase Invoice') {
-      list = await QualityInspectionService().getPurchaseInvoiceStringList();
+      list = await QualityInspectionService().getPurchaseInvoiceStringList(context);
     }
     if (widget.referenceType == 'Delivery Note') {
-      list = await QualityInspectionService().getDeliveryNoteStringList();
+      list = await QualityInspectionService().getDeliveryNoteStringList(context);
     }
     if (widget.referenceType == 'Sales Invoice') {
-      list = await QualityInspectionService().getSalesInvoiceStringList();
+      list = await QualityInspectionService().getSalesInvoiceStringList(context);
     }
     if (widget.referenceType == 'Stock Entry') {
-      list = await QualityInspectionService().getStockEntryStringList();
+      list = await QualityInspectionService().getStockEntryStringList(context);
     }
     if (!mounted) return;
     setState(() {

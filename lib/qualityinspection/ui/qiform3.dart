@@ -42,30 +42,30 @@ class _QiForm3State extends State<QiForm3> {
     });
     if (widget.referenceType == 'Purchase Receipt') {
       listItemCode = await QualityInspectionService()
-          .getPurchaseRecieptData(widget.referenceName);
+          .getPurchaseRecieptData(widget.referenceName,context);
       setState(() {});
     }
     if (widget.referenceType == 'Purchase Invoice') {
       listItemCode = await QualityInspectionService()
-          .getPurchaseInvoiceData(widget.referenceName);
+          .getPurchaseInvoiceData(widget.referenceName,context);
       if (!mounted) return;
       setState(() {});
     }
     if (widget.referenceType == 'Delivery Note') {
       listItemCode = await QualityInspectionService()
-          .getDeliveryNoteData(widget.referenceName);
+          .getDeliveryNoteData(widget.referenceName,context);
       if (!mounted) return;
       setState(() {});
     }
     if (widget.referenceType == 'Sales Invoice') {
       listItemCode = await QualityInspectionService()
-          .getSalesInvoiceData(widget.referenceName);
+          .getSalesInvoiceData(widget.referenceName,context);
       if (!mounted) return;
       setState(() {});
     }
     if (widget.referenceType == 'Stock Entry') {
       listItemCode = await QualityInspectionService()
-          .getStockEntryData(widget.referenceName);
+          .getStockEntryData(widget.referenceName,context);
       if (!mounted) return;
       setState(() {});
     }

@@ -56,7 +56,7 @@ class _ItemUiState extends State<ItemUi> {
       setState(() {
         loading = true;
       });
-      List listData = await _itemApiService.getItemList();
+      List listData = await _itemApiService.getItemList(context);
       for (int i = 0; i < listData.length; i++) {
         listItems.add(listData[i]['item_name']);
         listItemName.add(listData[i]['item_name']);
@@ -101,16 +101,16 @@ class _ItemUiState extends State<ItemUi> {
         var list = data['data'];
         if (list.length == 1) {
           itemCode = data['data'][0]['item_code'];
-          warehouseName = await _itemApiService.getWareHouseNameData(itemCode);
-          warehouseQty = await _itemApiService.getWareHouseQtyData(itemCode);
+          warehouseName = await _itemApiService.getWareHouseNameData(itemCode,context);
+          warehouseQty = await _itemApiService.getWareHouseQtyData(itemCode,context);
           apiCall = true;
           setState(() {});
         }
       }
       if (response.statusCode == 200) {
         itemCode = searchController.text;
-        warehouseName = await _itemApiService.getWareHouseNameData(itemCode);
-        warehouseQty = await _itemApiService.getWareHouseQtyData(itemCode);
+        warehouseName = await _itemApiService.getWareHouseNameData(itemCode,context);
+        warehouseQty = await _itemApiService.getWareHouseQtyData(itemCode,context);
         apiCall = true;
         setState(() {});
       }
@@ -118,7 +118,7 @@ class _ItemUiState extends State<ItemUi> {
         searchButtonDisabled = false;
       });
     } catch (e) {
-      exception(e);
+      exception(e,context);
       
     }
   }
@@ -136,7 +136,7 @@ class _ItemUiState extends State<ItemUi> {
   scanBarCode() async {
     String result = await FlutterBarcodeScanner.scanBarcode(
         '#004297', 'Cancel', true, ScanMode.BARCODE);
-    String itemCode = await _itemApiService.getItemCodeFromBarcode(result);
+    String itemCode = await _itemApiService.getItemCodeFromBarcode(result,context);
     searchController.text = itemCode;
     setState(() {});
   }
@@ -185,7 +185,7 @@ class _ItemUiState extends State<ItemUi> {
                   searchButton(),
                   apiCall
                       ? FutureBuilder<Product>(
-                          future: _itemApiService.getData(itemCode),
+                          future: _itemApiService.getData(itemCode,context),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {

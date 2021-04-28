@@ -32,7 +32,7 @@ class _PurchaseOrderUiState extends State<PurchaseOrderUi> {
     setState(() {
       loading = true;
     });
-     name = await _purchaseApiService.getNameList();
+     name = await _purchaseApiService.getNameList(context);
     setState(() {
       loading = false;
     });
@@ -86,7 +86,7 @@ class _PurchaseOrderInfoState extends State<PurchaseOrderInfo> {
 
   getPurchaseOrderData() async {
     purchaseModelData =
-        await _purchaseApiService.getPurchaseOrderData(widget.name);
+        await _purchaseApiService.getPurchaseOrderData(widget.name,context);
     if (!mounted) return;
     setState(() {});
   }

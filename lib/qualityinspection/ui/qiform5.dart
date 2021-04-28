@@ -54,8 +54,8 @@ class _QiForm5State extends State<QiForm5> {
     });
     // qir = await QualityInspectionService()
     //     .getQIReadingsList('RM189_Chilli powder Hot_QC_Template');
-    qir = await QualityInspectionService().getQIReadingsList(widget.qiTemplate);
-    username = await QualityInspectionService().getUsername();
+    qir = await QualityInspectionService().getQIReadingsList(widget.qiTemplate,context);
+    username = await QualityInspectionService().getUsername(context);
     setState(() {});
     setState(() {
       loading = false;
@@ -290,7 +290,7 @@ class _QiForm5State extends State<QiForm5> {
     setState(() {
       _postButtonDisabled = true;
     });
-    await QualityInspectionService().post(qualityInspectionModel);
+    await QualityInspectionService().post(qualityInspectionModel,context);
     if (!mounted) return;
     setState(() {
       _postButtonDisabled = false;

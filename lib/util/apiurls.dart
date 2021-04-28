@@ -192,6 +192,10 @@ String quotationUrl() {
   return '/api/resource/Quotation';
 }
 
+String quotationListUrl() {
+  return '/api/resource/Quotation/?fields=["*"]&limit_page_length=*';
+}
+
 // String qualityinspectionTemplateUrl(String text) {
 //  return '/api/resource/Quality%20Inspection%20Template?fields=[%22*%22]&filters=[[%Quality%20Inspection%20Template%22,%22item%22,%22like%22,%22$text%22]]&limit_page_length=*';
 // }

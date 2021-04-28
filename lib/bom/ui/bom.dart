@@ -41,7 +41,7 @@ class _BomState extends State<Bom> {
     setState(() {
       loading = true;
     });
-    listItemCode = await _bomApiService.getItemCodeList();
+    listItemCode = await _bomApiService.getItemCodeList(context);
     setState(() {
       loading = false;
     });
@@ -66,7 +66,7 @@ class _BomState extends State<Bom> {
       _loading = true;
     });
     _bomItemCodeAndNameList =
-        await _bomApiService.getBomItemCodeAndNameList(searchController.text);
+        await _bomApiService.getBomItemCodeAndNameList(searchController.text,context);
     if (!mounted) return;
     setState(() {
       _loading = false;
@@ -223,9 +223,9 @@ class _ItemCodesState extends State<ItemCodes> {
     setState(() {
       loading = true;
     });
-    warehouseName = await _itemApiService.getWareHouseNameData(widget.itemCode);
+    warehouseName = await _itemApiService.getWareHouseNameData(widget.itemCode,context);
     warehouseQuantity =
-        await _itemApiService.getWareHouseQtyData(widget.itemCode);
+        await _itemApiService.getWareHouseQtyData(widget.itemCode,context);
     setState(() {
       loading = false;
     });

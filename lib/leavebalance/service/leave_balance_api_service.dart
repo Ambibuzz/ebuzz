@@ -3,11 +3,12 @@ import 'package:ebuzz/exception/custom_exception.dart';
 import 'package:ebuzz/network/base_dio.dart';
 import 'package:ebuzz/util/apiurls.dart';
 import 'package:ebuzz/util/preference.dart';
+import 'package:flutter/cupertino.dart';
 
 //LeaveApiService class contains function for fetching data or posting  data
 class LeaveApiService {
   //For fetching leaves based on username
-  Future<List> fetchLeave() async {
+  Future<List> fetchLeave(BuildContext context) async {
     List list = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -18,7 +19,7 @@ class LeaveApiService {
       list = data['data'];
       return list;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return list;
   }

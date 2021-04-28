@@ -33,7 +33,7 @@ class _EmployeeLeaveUiState extends State<EmployeeLeaveUi> {
 
   _fetchEmployeeLeaveList() async {
     employeeLeaveList =
-        await _employeeApiService.fetchEmployeeLeavelist(widget.name);
+        await _employeeApiService.fetchEmployeeLeavelist(widget.name,context);
     setState(() {});
   }
 

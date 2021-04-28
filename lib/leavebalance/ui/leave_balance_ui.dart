@@ -34,7 +34,7 @@ class _LeaveUiState extends State<LeaveUi> {
     String concessionalLeave = "Concessional Leave";
     String leaveWithoutPay = "Leave Without Pay";
     String compensatoryOff = "Compensatory Off";
-    list = await _leaveApiService.fetchLeave();
+    list = await _leaveApiService.fetchLeave(context);
 
     for (var listJson in list) {
       if (listJson['leave_type'] == privilegeLeave) {

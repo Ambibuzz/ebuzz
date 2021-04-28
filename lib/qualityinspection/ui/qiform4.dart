@@ -51,9 +51,9 @@ class _QiForm4State extends State<QiForm4> {
       loading = true;
     });
     Product item;
-    itemCode = await ItemApiService().getItemCodeFromItemName(widget.itemCode);
-    item = await ItemApiService().getData(itemCode);
-    qitemplate = await QualityInspectionService().getQITemplate(itemCode);
+    itemCode = await ItemApiService().getItemCodeFromItemName(widget.itemCode,context);
+    item = await ItemApiService().getData(itemCode,context);
+    qitemplate = await QualityInspectionService().getQITemplate(itemCode,context);
     qualityInspectionTemplateController.text = qitemplate;
     itemNameController.text = item.itemName;
     sampleSizeController.text = item.sampleSize.toString();

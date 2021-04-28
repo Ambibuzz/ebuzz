@@ -23,7 +23,7 @@ class _SalesOrderListUiState extends State<SalesOrderListUi> {
   }
 
   getSalesOrderList() async {
-    _salesOrderList = await SalesOrderService().getSalesOrderList();
+    _salesOrderList = await SalesOrderService().getSalesOrderList(context);
     setState(() {});
   }
 

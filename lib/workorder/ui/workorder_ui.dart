@@ -30,7 +30,7 @@ class _WorkOrderUiState extends State<WorkOrderUi> {
     setState(() {
       _loading = true;
     });
-    _workOrderModelList = await WorkOrderService().getWorkOrderModelList();
+    _workOrderModelList = await WorkOrderService().getWorkOrderModelList(context);
     setState(() {});
     setState(() {
       _loading = false;

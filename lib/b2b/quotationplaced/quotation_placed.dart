@@ -1,10 +1,9 @@
-import 'package:ebuzz/b2b/myquotations/myquotations.dart';
+import 'package:ebuzz/b2b/myquotations/ui/my_quotation_ui.dart';
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/common/navigations.dart';
 import 'package:ebuzz/common/round_button.dart';
 import 'package:ebuzz/common/textstyles.dart';
-import 'package:ebuzz/home/ui/home.dart';
 import 'package:flutter/material.dart';
 
 class QuotationPlaced extends StatelessWidget {
@@ -66,7 +65,7 @@ class QuotationPlaced extends StatelessWidget {
           Column(
             children: [
               button(context, 'Your Quotations', blueAccent, whiteColor, () {
-                pushReplacementScreen(context, MyQuotations());
+                // pushReplacementScreen(context, MyQuotationUi());
               }, TextStyles.t18White),
               button(context, 'Return to Home', whiteColor, blueAccent, () {
                 // pushReplacementScreen(context, Home());

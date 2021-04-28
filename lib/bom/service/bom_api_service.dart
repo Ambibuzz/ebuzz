@@ -5,12 +5,13 @@ import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/exception/custom_exception.dart';
 import 'package:ebuzz/network/base_dio.dart';
 import 'package:ebuzz/util/apiurls.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 //BomApiService class contains function for fetching data or posting  data
 class BomApiService {
   //For fetching list of itemcodes for bom
-  Future<List<String>> getBomItemCodeList(String text) async {
+  Future<List<String>> getBomItemCodeList(String text, BuildContext context) async {
     List<String> bomList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -41,13 +42,13 @@ class BomApiService {
       }
       return bomList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return bomList;
   }
 
   //For fetching list of itemcodes and itemnames for bom
-  Future<List<BomModel>> getBomItemCodeAndNameList(String text) async {
+  Future<List<BomModel>> getBomItemCodeAndNameList(String text, BuildContext context) async {
     List<BomModel> bomNameAndCodeList = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
@@ -77,13 +78,13 @@ class BomApiService {
       }
       return bomNameAndCodeList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return bomNameAndCodeList;
   }
 
   //For fetching itemcode list
-  Future<List<String>> getItemCodeList() async {
+  Future<List<String>> getItemCodeList(BuildContext context) async {
     List listData = [];
     List<String> itemCodeList=[];
     try {
@@ -100,7 +101,7 @@ class BomApiService {
       print(itemCodeList.length);
       return itemCodeList;
     } catch (e) {
-      exception(e);
+      exception(e,context);
     }
     return itemCodeList;
   }
