@@ -2,10 +2,10 @@
 //All fields are  not been used only limited fields which were useful in app have been used
 
 class StockEntry {
-  final String name;
-  final String toWarehouse;
-  final String fromWarehouse;
-  final String postingDate;
+  final String? name;
+  final String? toWarehouse;
+  final String? fromWarehouse;
+  final String? postingDate;
 
   StockEntry(
       {this.name, this.toWarehouse, this.fromWarehouse, this.postingDate});
@@ -20,10 +20,10 @@ class StockEntry {
 }
 
 class PurchaseInvoice {
-  final String name;
-  final String supplierName;
-  final double grandtotal;
-  final double outstanding;
+  final String? name;
+  final String? supplierName;
+  final double? grandtotal;
+  final double? outstanding;
 
   PurchaseInvoice(
       {this.name, this.supplierName, this.grandtotal, this.outstanding});
@@ -37,10 +37,10 @@ class PurchaseInvoice {
 }
 
 class PurchaseReciept {
-  final String name;
-  final String status;
-  final String supplierName;
-  final String postingDate;
+  final String? name;
+  final String? status;
+  final String? supplierName;
+  final String? postingDate;
 
   PurchaseReciept(
       {this.name, this.status, this.supplierName, this.postingDate});
@@ -54,12 +54,12 @@ class PurchaseReciept {
 }
 
 class SalesOrder {
-  final String name;
-  final String customer;
-  final String postingDate;
-  final String dueDate;
-  final double baseTotal;
-  final double roundedTotal;
+  final String? name;
+  final String? customer;
+  final String? postingDate;
+  final String? dueDate;
+  final double? baseTotal;
+  final double? roundedTotal;
 
   SalesOrder(
       {this.name,
@@ -80,11 +80,11 @@ class SalesOrder {
 }
 
 class DeliveryNote {
-  final String name;
-  final String status;
-  final String customerName;
-  final double baseTotal;
-  final String territories;
+  final String? name;
+  final String? status;
+  final String? customerName;
+  final double? baseTotal;
+  final String? territories;
 
   DeliveryNote(
       {this.territories,

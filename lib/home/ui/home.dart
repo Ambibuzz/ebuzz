@@ -1,30 +1,25 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:ebuzz/b2b/cart/model/cart.dart';
-import 'package:ebuzz/b2b/cart/state/state_manager.dart';
-import 'package:ebuzz/b2b/items/ui/items_ui.dart';
 import 'package:ebuzz/common/circular_progress.dart';
 import 'package:ebuzz/common/colors.dart';
+import 'package:ebuzz/common/custom_appbar.dart';
 import 'package:ebuzz/common/navigations.dart';
-// import 'package:ebuzz/fileupload/file_upload.dart';
-import 'package:ebuzz/home/service/home_service.dart';
+import 'package:ebuzz/common_service/common_service.dart';
 import 'package:ebuzz/item/ui/item_ui.dart';
 import 'package:ebuzz/leavebalance/ui/leave_balance_ui.dart';
 import 'package:ebuzz/logout/service/logout_api_service.dart';
 import 'package:ebuzz/purchaseorder/ui/purchase_order_ui.dart';
 import 'package:ebuzz/qualityinspection/ui/quality_inspection_list_ui.dart';
+import 'package:ebuzz/quotation/ui/quotation_list_ui.dart';
 import 'package:ebuzz/salesorder/ui/sales_order_list_ui.dart';
 import 'package:ebuzz/settings/ui/settings.dart';
 import 'package:ebuzz/stockentry/ui/stock_entry_list.dart';
-import 'package:ebuzz/util/constants.dart';
+import 'package:ebuzz/util/doctype_names.dart';
 import 'package:ebuzz/util/preference.dart';
 import 'package:ebuzz/workorder/ui/workorder_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:ebuzz/bom/ui/bom.dart';
+import 'package:ebuzz/bom/ui/bom_ui.dart';
 import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/leavelist/ui/leave_list_ui.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //Home class displays ui of different functionalities in form of cards
 class Home extends StatefulWidget {
@@ -35,12 +30,15 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with WidgetsBindingObserver {
   LogOutApiService _logOutApiProvider = LogOutApiService();
 
-  String apiurl;
-  String cookie;
-  String name;
+  String? apiurl;
+  String? name;
   bool loading = false;
   Choice _selectedChoice = choices[0];
   var storage = FlutterSecureStorage();
+  List<String> modules = [];
+  List<String> labels = [];
+  List<LabelList> widgetsList = [];
+  List<LabelList> widgetsHiddenList = [];
 
   //List of choices when user clicks on menu button in top right
   static List<Choice> choices = <Choice>[
@@ -52,38 +50,118 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     //check login status
-    HomeService().checkLoginStatus('11019', context);
-    WidgetsBinding.instance.addObserver(this);
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      String cartSave = await storage.read(key: cartKey);
-      if (cartSave != null && cartSave.isNotEmpty) {
-        final listCart = json.decode(cartSave) as List<dynamic>;
-        final listCartParsed =
-            listCart.map((model) => Cart.fromJson(model)).toList();
-        if (listCartParsed != null && listCartParsed.length > 0) {
-          context.read(cartListProvider).state = listCartParsed;
-        }
-      }
-    });
+    // HomeService().checkLoginStatus('11019', context);
+    CommonService().getItemList(context);
+    getData();
+    WidgetsBinding.instance?.addObserver(this);
+    // WidgetsBinding.instance?.addPostFrameCallback((_) async {
+    //   String? cartSave = await storage.read(key: Constants.cartKey);
+    //   if (cartSave != null && cartSave.isNotEmpty) {
+    //     final listCart = json.decode(cartSave) as List<dynamic>;
+    //     final listCartParsed =
+    //         listCart.map((model) => Cart.fromJson(model)).toList();
+    //     if (listCartParsed.isNotEmpty && listCartParsed.length > 0) {
+    //       context.read(cartListProvider).state = listCartParsed;
+    //     }
+    //   }
+    // });
     getPrefs();
+  }
+
+  getData() async {
+    setState(() {
+      loading = true;
+    });
+    modules = await CommonService().getModulesList(context);
+    labels = await CommonService().getLabelsList(context, modules);
+    setState(() {
+      loading = false;
+    });
+    // labels.forEach((label) {
+    //   print(label);
+    // });
+    print(labels.length);
+    addLabelListToWidgetList();
+  }
+
+  addLabelListToWidgetList() async {
+    if (labels.contains(DoctypeNames.item) && labels.contains(DoctypeNames.bom))
+      widgetsList.add(LabelList(label: 'BOM', route: BomUi()));
+
+    if (labels.contains(DoctypeNames.item) &&
+        labels.contains(DoctypeNames.stockLedger))
+      widgetsList.add(LabelList(label: 'Item', route: ItemUi()));
+    if (labels.contains(DoctypeNames.purchaseOrder) &&
+        labels.contains(DoctypeNames.purchaseReceipt))
+      widgetsList
+          .add(LabelList(label: 'Purchase Order', route: PurchaseOrderUi()));
+    // if(labels.contains(DoctypeNames.leaveLedgerEntry))
+    widgetsList.add(LabelList(label: 'Leave Balance', route: LeaveUi()));
+    if (labels.contains(DoctypeNames.leaveApplication))
+      widgetsList.add(LabelList(
+          label: 'Leave List', route: EmployeeLeaveUi(name: name ?? '')));
+    if (labels.contains(DoctypeNames.workOrder))
+      widgetsList.add(LabelList(label: 'Work Order', route: WorkOrderUi()));
+    if (labels.contains(DoctypeNames.qualityInspection) &&
+        labels.contains(DoctypeNames.qualityInspectionTemplate) &&
+        labels.contains(DoctypeNames.salesInvoice) &&
+        labels.contains(DoctypeNames.purchaseInvoice) &&
+        labels.contains(DoctypeNames.deliveryNote) &&
+        labels.contains(DoctypeNames.item) &&
+        labels.contains(DoctypeNames.batch))
+      widgetsList.add(LabelList(
+          label: 'Quality Inspection', route: QualityInspectionListUi()));
+    if (labels.contains(DoctypeNames.stockEntry))
+      widgetsList.add(LabelList(label: 'Stock Entry', route: StockEntryList()));
+    if (labels.contains(DoctypeNames.item) &&
+        labels.contains(DoctypeNames.salesOrder) &&
+        labels.contains(DoctypeNames.company) &&
+        labels.contains(DoctypeNames.customer) &&
+        labels.contains(DoctypeNames.warehouse))
+      widgetsList
+          .add(LabelList(label: 'Sales Order', route: SalesOrderListUi()));
+    // widgetsList
+    //     .add(LabelList(label: 'Evaluasi Staff', route: EvaluasiStaffFormUi()));
+    // if (labels.contains(DoctypeNames.item) &&
+    //     labels.contains(DoctypeNames.itemGroup) &&
+    //     labels.contains(DoctypeNames.brand) &&
+    //     labels.contains(DoctypeNames.quotation))
+    //   widgetsList.add(LabelList(label: 'Catalogue', route: ItemsUi()));
+    // if (labels.contains(DoctypeNames.customer) &&
+    //     labels.contains(DoctypeNames.lead) &&
+    //     labels.contains(DoctypeNames.company) &&
+    //     labels.contains(DoctypeNames.currency) &&
+    //     labels.contains(DoctypeNames.quotation) &&
+    //     labels.contains(DoctypeNames.bom) &&
+    //     labels.contains(DoctypeNames.territory) &&
+    //     labels.contains(DoctypeNames.uom) &&
+    //     labels.contains(DoctypeNames.item) &&
+    //     labels.contains(DoctypeNames.itemGroup) &&
+    //     labels.contains(DoctypeNames.customerGroup)) //global defaults
+    //   widgetsList.add(LabelList(label: 'Price Discovery', route: NewBom()));
+    if (labels.contains(DoctypeNames.quotation))
+      widgetsList
+          .add(LabelList(label: 'Quotation List', route: QuotationListUi()));
+    print(widgetsList.length);
+    setState(() {});
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      HomeService().checkLoginStatus('11019', context);
+      // HomeService().checkLoginStatus('11019', context);
+      CommonService().getItemList(context);
     }
   }
 
   getPrefs() async {
     apiurl = await getApiUrl();
-    cookie = await getCookie();
     name = await getName();
     setState(() {});
   }
@@ -92,7 +170,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     setState(() {
       loading = true;
     });
-    await _logOutApiProvider.logOut(context, apiurl);
+    await _logOutApiProvider.logOut(context, apiurl ?? '');
     setState(() {
       loading = false;
     });
@@ -112,15 +190,11 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
             return AlertDialog(
               title: Text(
                 'LogOut?',
-                style: displayWidth(context) > 600
-                    ? TextStyle(fontSize: 30, fontWeight: FontWeight.bold)
-                    : TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style:TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               content: Text(
                 'Are you sure you wan\'t to logout',
-                style: displayWidth(context) > 600
-                    ? TextStyle(fontSize: 26)
-                    : TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16),
               ),
               actions: [
                 TextButton(
@@ -130,9 +204,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                   },
                   child: Text(
                     'Ok',
-                    style: displayWidth(context) > 600
-                        ? TextStyle(fontSize: 26, color: blueAccent)
-                        : TextStyle(fontSize: 16, color: blueAccent),
+                    style: TextStyle(fontSize: 16, color: blueAccent),
                   ),
                 ),
                 TextButton(
@@ -141,9 +213,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                   },
                   child: Text(
                     'Cancel',
-                    style: displayWidth(context) > 600
-                        ? TextStyle(fontSize: 26, color: blueAccent)
-                        : TextStyle(fontSize: 16, color: blueAccent),
+                    style:TextStyle(fontSize: 16, color: blueAccent),
                   ),
                 ),
               ],
@@ -157,83 +227,64 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(displayWidth(context) > 600 ? 80 : 55),
-        child: AppBar(
-          title: Padding(
-            padding: EdgeInsets.only(top: displayWidth(context) > 600 ? 20 : 0),
-            child: Text(
-              'Ebuzz',
-              textAlign: TextAlign.center,
-              style: TextStyle(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(55),
+          child: CustomAppBar(
+            title: Text('Ebuzz', style: TextStyle(color: whiteColor)),
+            actions: [
+              PopupMenuButton<Choice>(
+                icon: Icon(
+                  Icons.more_vert,
                   color: whiteColor,
-                  fontSize: displayWidth(context) > 600 ? 30 : 20),
-            ),
-          ),
-          elevation: Platform.isAndroid ? 1 : 0,
-          centerTitle: Platform.isAndroid ? false : true,
-          backgroundColor: blueAccent,
-          actions: [
-            PopupMenuButton<Choice>(
-              onSelected: _select,
-              itemBuilder: (BuildContext context) {
-                return choices.map((Choice choice) {
-                  return PopupMenuItem<Choice>(
-                    value: choice,
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          choice.icon,
-                          color: Colors.grey[700],
-                        ),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        Text(
-                          choice.title,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: Colors.black,
+                ),
+                onSelected: _select,
+                itemBuilder: (BuildContext context) {
+                  return choices.map((Choice choice) {
+                    return PopupMenuItem<Choice>(
+                      value: choice,
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            choice.icon,
+                            color: Colors.grey[700],
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                }).toList();
-              },
-            ),
-          ],
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Text(
+                            choice.title,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList();
+                },
+              ),
+            ],
+          ),
         ),
-      ),
-      body: loading ? CircularProgress() : _gridViewUi(),
-    );
+        body: loading ? CircularProgress() : _gridViewUi());
   }
 
   //For displaying cards in gridview having row column count as 2
   Widget _gridViewUi() {
     return Padding(
-      padding: EdgeInsets.all(displayWidth(context) > 600 ? 20 : 8),
-      child: GridView(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 16 / 11,
-          crossAxisSpacing: displayWidth(context) > 600 ? 15 : 5,
-          mainAxisSpacing: displayWidth(context) > 600 ? 15 : 5,
-        ),
-        children: [
-          cardUi('BOM', Bom()),
-          cardUi('Item', ItemUi()),
-          cardUi('Purchase Order', PurchaseOrderUi()),
-          cardUi('Leave Balance', LeaveUi()),
-          cardUi('Leave List', EmployeeLeaveUi(name: name)),
-          cardUi('Work Order', WorkOrderUi()),
-          cardUi('Quality Inspection', QualityInspectionListUi()),
-          cardUi('Stock Entry', StockEntryList()),
-          cardUi('Sales Order', SalesOrderListUi()),
-          // cardUi('File Upload', FileUpload()),
-          cardUi('Catalogue', ItemsUi()),
-        ],
-      ),
+      padding: EdgeInsets.all( 8),
+      child: GridView.builder(
+          itemCount: widgetsList.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 16 / 11,
+            crossAxisSpacing:  5,
+            mainAxisSpacing:  5,
+          ),
+          itemBuilder: (context, i) {
+            return cardUi(widgetsList[i].label, widgetsList[i].route);
+          }),
     );
   }
 
@@ -256,11 +307,11 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                 alignment: Alignment.center,
                 child: Text(
                   text,
-                  maxLines: 2,
+                  maxLines: 3,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: blueAccent,
-                      fontSize: displayWidth(context) > 600 ? 34 : 20,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold),
                 ),
               ),
@@ -273,7 +324,14 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
 }
 
 class Choice {
-  const Choice({this.title, this.icon});
+  const Choice({required this.title, required this.icon});
   final String title;
   final IconData icon;
+}
+
+class LabelList {
+  final String label;
+  final Widget route;
+
+  LabelList({required this.label, required this.route});
 }

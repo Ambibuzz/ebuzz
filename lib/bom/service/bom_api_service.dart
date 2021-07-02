@@ -21,7 +21,7 @@ class BomApiService {
       );
       var data = response.data;
       String bomName = data['data']['default_bom'];
-      if (bomName != null) {
+      if (bomName.isNotEmpty) {
         final String bomurl = bomUrl(bomName);
         final bomResponse = await _dio.get(
           bomurl,
@@ -32,7 +32,7 @@ class BomApiService {
           bomList.add(list[i]['item_code']);
         }
       }
-      if (bomName == null) {
+      if (bomName.isEmpty) {
         Fluttertoast.showToast(
             msg: 'No Bom Data Found',
             textColor: whiteColor,
@@ -58,7 +58,7 @@ class BomApiService {
       );
       var data = response.data;
       String bomName = data['data']['default_bom'];
-      if (bomName != null) {
+      if (bomName.isNotEmpty) {
         final String bomurl = bomUrl(bomName);
         final bomResponse = await _dio.get(
           bomurl,
@@ -68,7 +68,7 @@ class BomApiService {
         bomNameAndCodeList =
             list.map((item) => BomModel.fromJson(item)).toList();
       }
-      if (bomName == null) {
+      if (bomName.isEmpty) {
         Fluttertoast.showToast(
             msg: 'No Bom Data Found',
             textColor: whiteColor,
@@ -81,28 +81,5 @@ class BomApiService {
       exception(e,context);
     }
     return bomNameAndCodeList;
-  }
-
-  //For fetching itemcode list
-  Future<List<String>> getItemCodeList(BuildContext context) async {
-    List listData = [];
-    List<String> itemCodeList=[];
-    try {
-      final String itemList = itemListUrl();
-      Dio _dio = await BaseDio().getBaseDio();
-      final response = await _dio.get(
-        itemList,
-      );
-      var data = response.data;
-      listData = data['data'];
-      for (int i = 0; i < listData.length; i++) {
-        itemCodeList.add(listData[i]['item_code']);
-      }
-      print(itemCodeList.length);
-      return itemCodeList;
-    } catch (e) {
-      exception(e,context);
-    }
-    return itemCodeList;
   }
 }

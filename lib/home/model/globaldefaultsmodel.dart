@@ -1,7 +1,7 @@
 class GlobalDefaults {
-  final String currency;
-  final String company;
-  final String distanceunit;
+  final String? currency;
+  final String? company;
+  final String? distanceunit;
 
   GlobalDefaults({this.currency, this.company, this.distanceunit});
 

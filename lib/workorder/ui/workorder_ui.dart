@@ -3,7 +3,6 @@ import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_appbar.dart';
 import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/common/navigations.dart';
-import 'package:ebuzz/common/textstyles.dart';
 import 'package:ebuzz/workorder/model/workorder_model.dart';
 import 'package:ebuzz/workorder/service/workorder_service.dart';
 import 'package:ebuzz/workorder/ui/workorder_detailui.dart';
@@ -30,7 +29,8 @@ class _WorkOrderUiState extends State<WorkOrderUi> {
     setState(() {
       _loading = true;
     });
-    _workOrderModelList = await WorkOrderService().getWorkOrderModelList(context);
+    _workOrderModelList =
+        await WorkOrderService().getWorkOrderModelList(context);
     setState(() {});
     setState(() {
       _loading = false;
@@ -40,13 +40,20 @@ class _WorkOrderUiState extends State<WorkOrderUi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: bgColor,
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(displayWidth(context) > 600 ? 80 : 55),
+          preferredSize: Size.fromHeight( 55),
           child: CustomAppBar(
-            title: 'Work Order',
+            title: Text('Work Order List', style: TextStyle(color: whiteColor)),
+            leading: IconButton(
+              onPressed: () => Navigator.pop(context, false),
+              icon: Icon(
+                Icons.arrow_back,
+                color: whiteColor,
+              ),
+            ),
           )),
       body:
-          //display circular progress indicator when loading is true else display ui
           _loading
               ? CircularProgress()
               : Padding(
@@ -76,18 +83,20 @@ class _WorkOrderUiState extends State<WorkOrderUi> {
 class WorkTileUi extends StatelessWidget {
   final WorkOrderModel workorderData;
 
-  const WorkTileUi({this.workorderData});
+  const WorkTileUi({required this.workorderData});
   @override
   Widget build(BuildContext context) {
     return Container(
       width: displayWidth(context) * 0.99,
-      height: 100,
+      height: 110,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 5),
         child: Card(
-          elevation: 1,
+          elevation: 3,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             child: Row(
               children: [
                 Column(
@@ -95,8 +104,8 @@ class WorkTileUi extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      workorderData.productionItem,
-                      style: TextStyles.t20Black,
+                      workorderData.productionItem!,
+                      style: TextStyle(fontSize: 20, color: blackColor),
                     ),
                     SizedBox(
                       height: 5,
@@ -104,15 +113,16 @@ class WorkTileUi extends StatelessWidget {
                     Container(
                       width: displayWidth(context) * 0.85,
                       child: Text(
-                        workorderData.itemName,
-                        maxLines: 3,
+                        workorderData.itemName!,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     SizedBox(
                       height: 5,
                     ),
                     Text(
-                      'Expected Date : ' + workorderData.expectedDeliveryDate,
+                      'Expected Date : ' + workorderData.expectedDeliveryDate!,
                     ),
                   ],
                 ),
@@ -121,8 +131,8 @@ class WorkTileUi extends StatelessWidget {
                   width: 5,
                 ),
                 Container(
-                  width: displayWidth(context) > 600 ? 30 : 15,
-                  height: displayWidth(context) > 600 ? 30 : 15,
+                  width: 15,
+                  height: 15,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: workorderData.status == 'Completed'

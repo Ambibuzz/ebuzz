@@ -1,9 +1,7 @@
 import 'package:ebuzz/common/circular_progress.dart';
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_appbar.dart';
-import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/common/navigations.dart';
-import 'package:ebuzz/common/textstyles.dart';
 import 'package:ebuzz/purchaseorder/model/purchase_model.dart';
 import 'package:ebuzz/purchaseorder/service/purchase_api_service.dart';
 import 'package:ebuzz/purchaseorder/ui/purchase_order_detail.dart';
@@ -28,11 +26,11 @@ class _PurchaseOrderUiState extends State<PurchaseOrderUi> {
   }
 
   //For fetching list of sorted purchase order names
-  void getNameList() async { 
+  void getNameList() async {
     setState(() {
       loading = true;
     });
-     name = await _purchaseApiService.getNameList(context);
+    name = await _purchaseApiService.getNameList(context);
     setState(() {
       loading = false;
     });
@@ -43,10 +41,18 @@ class _PurchaseOrderUiState extends State<PurchaseOrderUi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: bgColor,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(displayWidth(context) > 600 ? 80 : 55),
+        preferredSize: Size.fromHeight(55),
         child: CustomAppBar(
-          title: 'Purchase Order',
+          title: Text('Purchase Order', style: TextStyle(color: whiteColor)),
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(
+              Icons.arrow_back,
+              color: whiteColor,
+            ),
+          ),
         ),
       ),
       body: loading
@@ -68,7 +74,7 @@ class _PurchaseOrderUiState extends State<PurchaseOrderUi> {
 //PurchaseOrderInfo class is a reusble widget which contains ui of purchase order list
 class PurchaseOrderInfo extends StatefulWidget {
   final String name;
-  const PurchaseOrderInfo({this.name});
+  const PurchaseOrderInfo({required this.name});
   @override
   _PurchaseOrderInfoState createState() => _PurchaseOrderInfoState();
 }
@@ -86,46 +92,37 @@ class _PurchaseOrderInfoState extends State<PurchaseOrderInfo> {
 
   getPurchaseOrderData() async {
     purchaseModelData =
-        await _purchaseApiService.getPurchaseOrderData(widget.name,context);
+        await _purchaseApiService.getPurchaseOrderData(widget.name, context);
     if (!mounted) return;
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return
-    //  purchaseModelData.supplier == ''
-    //     ? CircularProgress()
-    //     : 
-        Card(
-            elevation: 1,
-            child: ListTile(
-              onTap: () {
-                pushScreen(
-                  context,
-                  PurchaseOrderDetail(
-                    name: widget.name,
-                    date: purchaseModelData.date,
-                    requiredDate: purchaseModelData.requiredByDate,
-                    supplier: purchaseModelData.supplier,
-                  ),
-                );
-              },
-              title: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(purchaseModelData.supplier,
-                    style: displayWidth(context) > 600
-                        ? TextStyle(fontSize: 28, color: blackColor)
-                        : TextStyles.t16Black),
-              ),
-              subtitle: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(widget.name,
-                    style: displayWidth(context) > 600
-                        ? TextStyle(fontSize: 28, color: blackColor)
-                        : TextStyles.t16Black),
-              ),
+    return Card(
+      elevation: 3,
+      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: ListTile(
+        onTap: () {
+          pushScreen(
+            context,
+            PurchaseOrderDetail(
+              name: widget.name,
+              date: purchaseModelData.date,
+              requiredDate: purchaseModelData.requiredByDate,
+              supplier: purchaseModelData.supplier,
             ),
           );
+        },
+        title: Padding(
+          padding: const EdgeInsets.only(bottom: 6),
+          child: Text(purchaseModelData.supplier,
+              style: TextStyle(fontSize: 14, color: blackColor)),
+        ),
+        subtitle: Text(widget.name,
+            style: TextStyle(fontSize: 14, color: blackColor)),
+      ),
+    );
   }
 }

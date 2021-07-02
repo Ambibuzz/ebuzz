@@ -1,13 +1,11 @@
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:ebuzz/common/circular_progress.dart';
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/common/round_button.dart';
-import 'package:ebuzz/common/textstyles.dart';
 import 'package:ebuzz/login/service/login_api_service.dart';
 import 'package:ebuzz/util/preference.dart';
+import 'package:ebuzz/widgets/custom_textformformfield.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 //Login class contains ui of login form
 class Login extends StatefulWidget {
@@ -21,10 +19,13 @@ class _LoginState extends State<Login> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController apiBaseUrlController = TextEditingController();
-  GlobalKey<AutoCompleteTextFieldState<String>> key = GlobalKey();
   LoginApiService _loginApiProvider = LoginApiService();
   var _formKey = GlobalKey<FormState>();
-  List<String> list = [];
+  List<String?>? list;
+
+  late FocusNode _baseUrlFocusNode;
+  late FocusNode _usernameFocusNode;
+  late FocusNode _passwordFocusNode;
 
   login() async {
     setState(() {
@@ -41,18 +42,12 @@ class _LoginState extends State<Login> {
     });
   }
 
-  Widget itemUi(String item) {
-    return ListTile(
-      title: Text(item,
-          style: displayWidth(context) > 600
-              ? TextStyle(fontSize: 28, color: blackColor)
-              : TextStyle(color: greyDarkColor, fontSize: 16)),
-    );
-  }
-
   @override
   void initState() {
     super.initState();
+    _baseUrlFocusNode = FocusNode();
+    _usernameFocusNode = FocusNode();
+    _passwordFocusNode = FocusNode();
     baseUrlList();
   }
 
@@ -61,115 +56,125 @@ class _LoginState extends State<Login> {
     setState(() {});
   }
 
-  List<String> _getSuggestions(String query) {
-    List<String> matches = [];
-    matches.addAll(list);
-    matches.retainWhere((s) => s.toLowerCase().contains(query.toLowerCase()));
-    return matches;
+  @override
+  void dispose() {
+    _baseUrlFocusNode.dispose();
+    _usernameFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: bgColor,
       body: loading
           ? CircularProgress()
           : SingleChildScrollView(
-            child: Column(
-              children: [
-                loginHeader(),
-                // ebuzzText(),
-                // SizedBox(
-                //   height: displayHeight(context) * 0.04,
-                // ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: displayWidth(context) > 600 ? 32 : 16,
-                      vertical: displayWidth(context) > 600 ? 40 : 10),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        list == null || list == []
-                            ? baseUrlTextField()
-                            : baseUrlAutoCompleteTextField(),
-                        SizedBox(
-                          height: displayHeight(context) * 0.02,
-                        ),
-                        usernameTextField(),
-                        SizedBox(
-                          height: displayHeight(context) * 0.02,
-                        ),
-                        passwordTextField(),
-                        SizedBox(
-                          height: displayHeight(context) * 0.02,
-                        ),
-                        loginButton(),
-                      ],
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: displayHeight(context) * 0.15,
+                  ),
+                  logo(),
+                  // ambibuzzText(),
+                  SizedBox(
+                    height: displayHeight(context) * 0.05,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          // list == null || list == []
+                          //     ?
+                          baseUrlTextField()
+
+                          // : baseUrlAutoCompleteTextField()
+                          ,
+                          SizedBox(
+                            height: displayHeight(context) * 0.02,
+                          ),
+                          usernameTextField(),
+                          SizedBox(
+                            height: displayHeight(context) * 0.02,
+                          ),
+                          passwordTextField(),
+                          SizedBox(
+                            height: displayHeight(context) * 0.03,
+                          ),
+                          loginButton(),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
     );
   }
 
-  Widget ebuzzText() {
+  Widget logo() {
+    return Image.asset('assets/ambibuzzlogo.png');
+  }
+
+  Widget ambibuzzText() {
     return Text(
-      'Ebuzz',
-      style: TextStyle(fontFamily: 'Roboto',color: blackColor,fontSize: 26,fontWeight: FontWeight.bold),
+      'Ambibuzz',
+      style: TextStyle(
+          fontFamily: 'Roboto',
+          color: blueAccent,
+          fontSize: 26,
+          fontWeight: FontWeight.bold),
     );
   }
 
-  Widget baseurlTextField() {
-    return TypeAheadFormField(
-      hideSuggestionsOnKeyboardHide: false,
-      textFieldConfiguration: TextFieldConfiguration(
-        controller: apiBaseUrlController,
-        style: displayWidth(context) > 600
-            ? TextStyle(fontSize: 28, color: blackColor)
-            : TextStyle(color: blackColor, fontSize: 18),
-        decoration: InputDecoration(
-          disabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: greyColor, width: 1),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: blueAccent, width: 1),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: greyColor, width: 1),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: greyColor, width: 1),
-          ),
-          labelStyle: TextStyle(
-            fontSize: displayWidth(context) > 600 ? 28 : 16,
-          ),
-          contentPadding: EdgeInsets.symmetric(
-              vertical: displayWidth(context) > 600 ? 30 : 20,
-              horizontal: displayWidth(context) > 600 ? 20 : 10),
-          labelText: 'Enter Base url of api',
-        ),
-      ),
-      onSuggestionSelected: (suggestion) {
-        apiBaseUrlController.text = suggestion;
-      },
-      itemBuilder: (context, item) {
-        return itemUi(item);
-      },
-      suggestionsCallback: (pattern) {
-        return _getSuggestions(pattern);
-      },
-      transitionBuilder: (context, suggestionsBox, controller) {
-        return suggestionsBox;
-      },
-      validator: (val) => val.isEmpty ? 'Please enter baseurl...' : null,
-    );
-  }
+  // Widget baseurlTextField() {
+  //   return TypeAheadFormField(
+  //     hideSuggestionsOnKeyboardHide: false,
+  //     textFieldConfiguration: TextFieldConfiguration(
+  //       controller: apiBaseUrlController,
+  //       style: TextStyle(color: blackColor, fontSize: 18),
+  //       decoration: InputDecoration(
+  //         disabledBorder: OutlineInputBorder(
+  //           borderRadius: BorderRadius.circular(10),
+  //           borderSide: BorderSide(color: greyColor, width: 1),
+  //         ),
+  //         focusedBorder: OutlineInputBorder(
+  //           borderRadius: BorderRadius.circular(10),
+  //           borderSide: BorderSide(color: blueAccent, width: 1),
+  //         ),
+  //         enabledBorder: OutlineInputBorder(
+  //           borderRadius: BorderRadius.circular(10),
+  //           borderSide: BorderSide(color: greyColor, width: 1),
+  //         ),
+  //         border: OutlineInputBorder(
+  //           borderRadius: BorderRadius.circular(10),
+  //           borderSide: BorderSide(color: greyColor, width: 1),
+  //         ),
+  //         labelStyle: TextStyle(
+  //           fontSize: 16,
+  //         ),
+  //         contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+  //         labelText: 'Enter Base url of api',
+  //       ),
+  //     ),
+  //     onSuggestionSelected: (String suggestion) {
+  //       apiBaseUrlController.text = suggestion;
+  //     },
+  //     itemBuilder: (context, String item) {
+  //       return itemUi(item);
+  //     },
+  //     suggestionsCallback: (pattern) {
+  //       return _getSuggestions(pattern);
+  //     },
+  //     transitionBuilder: (context, suggestionsBox, controller) {
+  //       return suggestionsBox;
+  //     },
+  //     validator: (val) => val == null ? 'Please enter baseurl...' : null,
+  //   );
+  // }
 
   Widget loginHeader() {
     return Container(
@@ -177,30 +182,20 @@ class _LoginState extends State<Login> {
       height: displayHeight(context) * 0.35,
       width: displayWidth(context),
       child: Padding(
-        padding: EdgeInsets.only(
-            left: displayWidth(context) > 600 ? 32 : 16,
-            bottom: displayHeight(context) * 0.03),
+        padding:
+            EdgeInsets.only(left: 16, bottom: displayHeight(context) * 0.03),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
               'Login  ',
-              style: displayWidth(context) > 600
-                  ? TextStyle(
-                      color: blackColor,
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold)
-                  : TextStyles.t24BlackBold,
+              style: TextStyle(
+                  fontSize: 24, color: blackColor, fontWeight: FontWeight.bold),
             ),
             Text(
               'Please sign in to continue',
-              style: displayWidth(context) > 600
-                  ? TextStyle(
-                      color: blackColor,
-                      fontSize: 30,
-                    )
-                  : TextStyles.t18Black,
+              style: TextStyle(fontSize: 18, color: blackColor),
             ),
           ],
         ),
@@ -209,236 +204,109 @@ class _LoginState extends State<Login> {
   }
 
   Widget loginButton() {
-    return RoundButton(
-      primaryColor: blueAccent,
-      onPrimaryColor: whiteColor,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 10),
-        child: Text(
-          'Login',
-          style: TextStyles.t18WhiteBold,
+    return Container(
+      width: displayWidth(context),
+      height: 50,
+      child: RoundButton(
+        primaryColor: blueAccent,
+        onPrimaryColor: whiteColor,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+          child: Text(
+            'Login',
+            style: TextStyle(fontSize: 18, color: whiteColor),
+          ),
         ),
+        onPressed: () async {
+          if (_formKey.currentState!.validate()) {
+            login();
+          }
+        },
       ),
-      onPressed: () async {
-        if (_formKey.currentState.validate()) {
-          login();
-        }
-      },
-    );
-  }
-
-  Widget passwordTextField() {
-    return TextFormField(
-      key: Key('password-field'),
-      controller: passwordController,
-      validator: (password) {
-        if (password.length == 0) {
-          return 'Password should not be empty';
-        }
-        return null;
-      },
-      obscureText: obscureText,
-      style: displayWidth(context) > 600
-          ? TextStyle(fontSize: 28, color: blackColor)
-          : TextStyles.t16Black,
-      decoration: InputDecoration(
-          prefixIcon: Icon(
-            Icons.lock,
-            color: blackColor,
-            size: displayWidth(context) > 600 ? 33 : 25,
-          ),
-          labelStyle: TextStyle(
-            fontSize: displayWidth(context) > 600 ? 28 : 16,
-            color: blackColor,
-          ),
-          contentPadding: EdgeInsets.symmetric(
-              vertical: displayWidth(context) > 600
-                  ? 30
-                  : displayWidth(context) < 380
-                      ? 15
-                      : 20,
-              horizontal: displayWidth(context) > 600 ? 20 : 10),
-          suffixIcon: IconButton(
-            icon: obscureText
-                ? Icon(
-                    Icons.visibility,
-                    color: blackColor,
-                    size: displayWidth(context) > 600 ? 33 : 25,
-                  )
-                : Icon(
-                    Icons.visibility_off,
-                    color: blackColor,
-                    size: displayWidth(context) > 600 ? 33 : 25,
-                  ),
-            onPressed: () {
-              setState(() {
-                obscureText = !obscureText;
-              });
-            },
-          ),
-          disabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: greyColor, width: 1),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: blueAccent, width: 1),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: greyColor, width: 1),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: greyColor, width: 1),
-          ),
-          labelText: 'Password'),
     );
   }
 
   Widget baseUrlTextField() {
-    return TextFormField(
-      key: Key('baseurl-field'),
+    return CustomTextFormField(
       controller: apiBaseUrlController,
-      validator: (url) {
-        if (url.length == 0) {
-          return 'Baseurl should not be empty';
-        }
-        return null;
-      },
-      style: displayWidth(context) > 600
-          ? TextStyle(fontSize: 28, color: blackColor)
-          : TextStyles.t16Black,
       decoration: InputDecoration(
-          labelStyle: TextStyle(
-            fontSize: displayWidth(context) > 600 ? 28 : 16,
-            color: blackColor,
-          ),
-          contentPadding: EdgeInsets.symmetric(
-              vertical: displayWidth(context) > 600
-                  ? 30
-                  : displayWidth(context) < 380
-                      ? 15
-                      : 20,
-              horizontal: displayWidth(context) > 600 ? 20 : 10),
-          disabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: greyColor, width: 1),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: blueAccent, width: 1),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: greyColor, width: 1),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: greyColor, width: 1),
-          ),
-          labelText: 'Enter Base url of api'),
+        fillColor: greyColor,
+        filled: true,
+        isDense: true,
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(5),
+        ),
+      ),
+      focusNode: _baseUrlFocusNode,
+      label: 'Base Url',
+      labelStyle: TextStyle(color: blackColor),
+      onEditingComplete: () => _usernameFocusNode.requestFocus(),
+      required: false,
+      style: TextStyle(fontSize: 14, color: blackColor),
+      validator: (val) =>
+          val == '' || val == null ? 'Baseurl should not be empty' : null,
     );
   }
 
   Widget usernameTextField() {
-    return TextFormField(
-      key: Key('username-field'),
+    return CustomTextFormField(
       controller: usernameController,
-      validator: (username) {
-        if (username.length == 0) {
-          return 'Username or email should not be empty';
-        }
-        return null;
-      },
-      style: displayWidth(context) > 600
-          ? TextStyle(fontSize: 28, color: blackColor)
-          : TextStyles.t16Black,
       decoration: InputDecoration(
-          prefixIcon: Icon(
-            Icons.supervised_user_circle,
-            color: blackColor,
-            size: displayWidth(context) > 600 ? 33 : 25,
-          ),
-          labelStyle: TextStyle(
-            fontSize: displayWidth(context) > 600 ? 28 : 16,
-            color: blackColor,
-          ),
-          contentPadding: EdgeInsets.symmetric(
-              vertical: displayWidth(context) > 600
-                  ? 30
-                  : displayWidth(context) < 380
-                      ? 15
-                      : 20,
-              horizontal: displayWidth(context) > 600 ? 20 : 10),
-          disabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: greyColor, width: 1),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: blueAccent, width: 1),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: greyColor, width: 1),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: greyColor, width: 1),
-          ),
-          labelText: 'Username or Email'),
+        fillColor: greyColor,
+        filled: true,
+        isDense: true,
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(5),
+        ),
+      ),
+      focusNode: _usernameFocusNode,
+      label: 'Username or Email',
+      labelStyle: TextStyle(color: blackColor),
+      onEditingComplete: () => _passwordFocusNode.requestFocus(),
+      required: false,
+      style: TextStyle(fontSize: 14, color: blackColor),
+      validator: (val) => val == '' || val == null
+          ? 'Username or Email should not be empty'
+          : null,
     );
   }
 
-  Widget baseUrlAutoCompleteTextField() {
-    return AutoCompleteTextField<String>(
-      controller: apiBaseUrlController,
-      itemSubmitted: (item) {
-        apiBaseUrlController.text = item;
-      },
-      onFocusChanged: (hasFocus) {},
-      key: key,
-      clearOnSubmit: false,
-      style: displayWidth(context) > 600
-          ? TextStyle(fontSize: 28, color: blackColor)
-          : TextStyle(color: blackColor, fontSize: 18),
+  Widget passwordTextField() {
+    return CustomTextFormField(
+      controller: passwordController,
       decoration: InputDecoration(
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: greyColor, width: 1),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: blueAccent, width: 1),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: greyColor, width: 1),
-        ),
+        fillColor: greyColor,
+        filled: true,
+        isDense: true,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: greyColor, width: 1),
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(5),
         ),
-        labelStyle: TextStyle(
-          fontSize: displayWidth(context) > 600 ? 28 : 16,
-          color: blackColor,
+        suffix: GestureDetector(
+          onTap: () {
+            setState(() {
+              obscureText = !obscureText;
+            });
+          },
+          child: Text(
+            obscureText ? 'SHOW' : 'HIDE',
+            style: TextStyle(color: greyDarkColor),
+          ),
         ),
-        contentPadding: EdgeInsets.symmetric(
-            vertical: displayWidth(context) > 600 ? 30 : 20,
-            horizontal: displayWidth(context) > 600 ? 20 : 10),
-        labelText: 'Enter Base url of api',
       ),
-      suggestions: list,
-      itemBuilder: (context, item) {
-        return itemUi(item);
-      },
-      itemSorter: (a, b) {
-        return a.compareTo(b);
-      },
-      itemFilter: (item, query) {
-        return item.toLowerCase().startsWith(query.toLowerCase());
-      },
+      focusNode: _passwordFocusNode,
+      label: 'Password',
+      labelStyle: TextStyle(color: blackColor),
+      obscureText: obscureText,
+      onEditingComplete: () => _passwordFocusNode.unfocus(),
+      required: false,
+      style: TextStyle(fontSize: 14, color: blackColor),
+      textInputAction: TextInputAction.done,
+      validator: (val) =>
+          val == '' || val == null ? 'Password should not be empty' : null,
     );
   }
+
 }

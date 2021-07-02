@@ -2,8 +2,8 @@
 //All fields are  not been used only limited fields which were useful in app have been used
 
 class BomModel {
-  final String itemCode;
-  final String name;
+  final String? itemCode;
+  final String? name;
   BomModel({this.itemCode, this.name});
 
   //For fetching json data from bom api and storing it in bom model

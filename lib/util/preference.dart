@@ -2,39 +2,46 @@
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<String> getApiUrl() async {
+Future<String?> getApiUrl() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.getString('apiUrl');
 }
 
-Future<List<String>> getBaseUrlList() async {
+Future<List<String>?> getBaseUrlList() async {
+  List<String>? list =[];
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  return prefs.getStringList('url');
+  list= prefs.getStringList('url');
+  return list;
 }
 
-Future<String> getCookie() async {
+Future<String?> getCookie() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.getString('cookie');
 }
 
-Future<String> getCompany() async {
+Future<String?> getCompany() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.getString('company');
 }
 
-Future<String> getCurrency() async {
+Future<String?> getCurrency() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.getString('currency');
 }
 
-Future<String> getName() async {
+Future<String?> getName() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.getString('name');
 }
 
-Future<bool> getLoggedIn() async {
+Future<bool?> getLoggedIn() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.getBool('loggedIn');
+}
+
+Future<String?> getUserName() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('username');
 }
 
 setApiUrl(String apiurl) async {
@@ -72,6 +79,11 @@ setLoggedIn(bool value) async {
   prefs.setBool('loggedIn', value);
 }
 
+setUserName(String name) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString('username', name);
+}
+
 removeApiUrl() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.remove('apiUrl');
@@ -100,4 +112,9 @@ removeName() async {
 removeLoggedIn() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.remove('loggedIn');
+}
+
+removeUserName() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.remove('username');
 }

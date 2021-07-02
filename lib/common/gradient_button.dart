@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class GradientButton extends StatefulWidget {
-  final Function onPressed;
-  final Widget child;
-  final Gradient gradient;
-  final double width;
-  final double height;
+  final void Function()? onPressed;
+  final Widget? child;
+  final Gradient? gradient;
+  final double? width;
+  final double? height;
   const GradientButton(
       {@required this.onPressed,
       @required this.child,

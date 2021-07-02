@@ -33,7 +33,7 @@ class PurchaseRecieptService {
   }
 
   //for posting data to purchase receipt item api
-  Future post({List<PRItem> items, String supplier,BuildContext context}) async {
+  Future post({required List<PRItem> items,required String supplier,required BuildContext context}) async {
     try {
       Dio _dio = await BaseDio().getBaseDio();
       PurchaseReceiptModel purchaseRecieptModel = PurchaseReceiptModel(

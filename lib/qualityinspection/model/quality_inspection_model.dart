@@ -2,22 +2,22 @@
 //All fields are  not been used only limited fields which were useful in app have been used
 
 class QualityInspectionModel {
-  final String batchNo;
-  final String description;
-  final String itemCode;
-  final String itemname;
-  final String inspectionType;
-  final String inspectedBy;
-  final String name;
-  final String qualityInspectionTemplate;
-  final String referenceType;
-  final String referenceName;
-  final String reportDate;
-  final String remarks;
-  final double sampleSize;
-  final String status;
-  final List<QualityInspectionReadings> qiReadings;
-  final int docstatus;
+  final String? batchNo;
+  final String? description;
+  final String? itemCode;
+  final String? itemname;
+  final String? inspectionType;
+  final String? inspectedBy;
+  final String? name;
+  final String? qualityInspectionTemplate;
+  final String? referenceType;
+  final String? referenceName;
+  final String? reportDate;
+  final String? remarks;
+  final double? sampleSize;
+  final String? status;
+  final List<QualityInspectionReadings>? qiReadings;
+  final int? docstatus;
 
   QualityInspectionModel(
       {this.batchNo,
@@ -59,8 +59,8 @@ class QualityInspectionModel {
   }
   //For converting model to json format for storing it in quality inspection model
   Map toJson() {
-    List<Map> qualityInspectionReadings = this.qiReadings != null
-        ? this.qiReadings.map((i) => i.toJson()).toList()
+    List<Map>? qualityInspectionReadings = this.qiReadings != null
+        ? this.qiReadings!.map((i) => i.toJson()).toList()
         : null;
     return {
       'docstatus': docstatus,
@@ -82,15 +82,15 @@ class QualityInspectionModel {
 }
 //QualityInspectionReadings class contains model to store data of quality inspection api
 class QualityInspectionReadings {
-  String parameter;
-  String acceptanceCriteria;
-  String status;
-  String reading1;
-  String reading2;
-  String reading3;
-  String reading4;
-  String reading5;
-  String reading6;
+  String? parameter;
+  String? acceptanceCriteria;
+  String? status;
+  String? reading1;
+  String? reading2;
+  String? reading3;
+  String? reading4;
+  String? reading5;
+  String? reading6;
 
   QualityInspectionReadings({
     this.parameter,

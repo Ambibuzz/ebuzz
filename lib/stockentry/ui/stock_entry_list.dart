@@ -3,7 +3,6 @@ import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_appbar.dart';
 import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/common/navigations.dart';
-import 'package:ebuzz/common/textstyles.dart';
 import 'package:ebuzz/stockentry/service/stock_entry_service.dart';
 import 'package:ebuzz/stockentry/ui/stock_entry_detail.dart';
 import 'package:flutter/material.dart';
@@ -38,10 +37,18 @@ class _StockEntryListState extends State<StockEntryList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: bgColor,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(displayWidth(context) > 600 ? 80 : 55),
+        preferredSize: Size.fromHeight(55),
         child: CustomAppBar(
-          title: 'Stock Entry',
+          title: Text('Stock Entry List', style: TextStyle(color: whiteColor)),
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(
+              Icons.arrow_back,
+              color: whiteColor,
+            ),
+          ),
         ),
       ),
       body: _loading
@@ -57,7 +64,7 @@ class _StockEntryListState extends State<StockEntryList> {
                         pushScreen(
                           context,
                           StockEntryDetail(
-                            name: list[index].name,
+                            name: list[index].name!,
                             stockEntryModelData: list[index],
                           ),
                         );
@@ -74,7 +81,7 @@ class _StockEntryListState extends State<StockEntryList> {
 
 class StockEntryTileUi extends StatelessWidget {
   final StockEntryModel seData;
-  const StockEntryTileUi({this.seData});
+  const StockEntryTileUi({required this.seData});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -83,7 +90,9 @@ class StockEntryTileUi extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 5),
         child: Card(
-          elevation: 1,
+          elevation: 3,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -93,14 +102,14 @@ class StockEntryTileUi extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      seData.stockEntryType,
-                      style: TextStyles.t18Black,
+                      'Type : ' + seData.stockEntryType!,
+                      style: TextStyle(fontSize: 14, color: blackColor),
                     ),
                     SizedBox(
                       height: 5,
                     ),
                     Text(
-                      'Posting Date : ' + seData.postingDate,
+                      'Posting Date : ' + seData.postingDate!,
                     ),
                   ],
                 ),
@@ -109,8 +118,8 @@ class StockEntryTileUi extends StatelessWidget {
                   width: 5,
                 ),
                 Container(
-                  width: displayWidth(context) > 600 ? 30 : 15,
-                  height: displayWidth(context) > 600 ? 30 : 15,
+                  width: 15,
+                  height: 15,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: seData.workflowState == 'Submitted'

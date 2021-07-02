@@ -2,12 +2,12 @@
 //All fields are  not been used only limited fields which were useful in app have been used
 
 class PRItem {
-  String itemName;
-  String itemCode;
-  double quantity;
-  double quantityRecieved;
-  String purchaseOrder;
-  String purchaseOrderItem;
+  String? itemName;
+  String? itemCode;
+  double? quantity;
+  double? quantityRecieved;
+  String? purchaseOrder;
+  String? purchaseOrderItem;
 
   PRItem(
       {this.itemName,
@@ -40,18 +40,18 @@ class PRItem {
 
 //PurchaseRecieptModel class contains model to store data of purchase receipt api
 class PurchaseReceiptModel {
-  int docStatus;
-  String workflowState;
-  String supplier;
-  List<PRItem> prItems;
+  int? docStatus;
+  String? workflowState;
+  String? supplier;
+  List<PRItem>? prItems;
 
   PurchaseReceiptModel(
       {this.docStatus, this.workflowState, this.supplier, this.prItems});
 
   //For converting model to json format for storing it in purchase receipt model
   Map toJson() {
-    List<Map> prItems = this.prItems != null
-        ? this.prItems.map((i) => i.toJson()).toList()
+    List<Map>? prItems = this.prItems != null
+        ? this.prItems!.map((i) => i.toJson()).toList()
         : null;
     return {
       'docstatus': docStatus,

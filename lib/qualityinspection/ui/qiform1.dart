@@ -1,11 +1,11 @@
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:ebuzz/common/circular_progress.dart';
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_appbar.dart';
 import 'package:ebuzz/common/custom_toast.dart';
-import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/common/navigations.dart';
 import 'package:ebuzz/qualityinspection/ui/qiform2.dart';
+import 'package:ebuzz/widgets/custom_dropdown.dart';
+import 'package:ebuzz/widgets/custom_textformformfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -21,27 +21,37 @@ class _QiForm1State extends State<QiForm1> {
   TextEditingController inspectionTypeController = TextEditingController();
   TextEditingController referenceTypeController = TextEditingController();
 
-  String inspectionType;
-  String referenceType;
+  String inspectionType = 'Incoming';
+  String referenceType = 'Purchase Receipt';
+  List<String> inspectionTypeList = [
+    'Incoming',
+    'Outgoing',
+    'In Process',
+  ];
+  List<String> referenceTypeList = [
+    'Purchase Receipt',
+    'Purchase Invoice',
+    'Delivery Note',
+    'Sales Invoice',
+    'Stock Entry',
+  ];
   String date = DateTime.now().day.toString();
   String month = DateTime.now().month.toString();
   String year = DateTime.now().year.toString();
   bool loading = false;
-  GlobalKey<AutoCompleteTextFieldState<String>> referenceNameKey = GlobalKey();
-
   var _formKey = GlobalKey<FormState>();
 
   String username = '';
 
   Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
+    final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
         firstDate: DateTime(1901, 1),
         lastDate: DateTime(2100));
     if (picked != null && picked != selectedDate) if (!mounted) return;
     setState(() {
-      selectedDate = picked;
+      selectedDate = picked!;
       dateController.text = DateFormat('d-M-y').format(picked).toString();
     });
   }
@@ -52,30 +62,29 @@ class _QiForm1State extends State<QiForm1> {
     dateController.text = '$date-$month-$year';
   }
 
-  Widget itemUi(String item) {
-    return ListTile(
-      title: Text(item,
-          style: displayWidth(context) > 600
-              ? TextStyle(fontSize: 28, color: blackColor)
-              : TextStyle(color: greyDarkColor, fontSize: 16)),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: bgColor,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(displayWidth(context) > 600 ? 80 : 55),
+        preferredSize: Size.fromHeight(55),
         child: CustomAppBar(
-          title: 'Quality Inspection Form',
+          title: Text('Quality Inspection Form',
+              style: TextStyle(color: whiteColor)),
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(
+              Icons.arrow_back,
+              color: whiteColor,
+            ),
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: blueAccent,
         onPressed: () {
-          if (_formKey.currentState.validate()) {
-            if ((inspectionType != null || inspectionType != '') &&
-                (referenceType != null || referenceType != '')) {
+          if (_formKey.currentState!.validate()) {
+            if ((inspectionType.isNotEmpty) && (referenceType.isNotEmpty)) {
               pushScreen(
                 context,
                 QiForm2(
@@ -84,10 +93,10 @@ class _QiForm1State extends State<QiForm1> {
                   referenceType: referenceType,
                 ),
               );
-            } else if (inspectionType == null || inspectionType == '') {
+            } else if (inspectionType.isEmpty) {
               fluttertoast(whiteColor, blueAccent,
                   'Inspection Type should not be empty');
-            } else if (referenceType == null || referenceType == '') {
+            } else if (referenceType.isEmpty) {
               fluttertoast(
                   whiteColor, blueAccent, 'Reference Type should not be empty');
             } else {}
@@ -103,25 +112,18 @@ class _QiForm1State extends State<QiForm1> {
           : SingleChildScrollView(
               child: Form(
                 key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 30,
-                    ),
-                    dateField(),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    inspectionTypeField(),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    referenceTypeField(),
-                    SizedBox(
-                      height: 13,
-                    ),
-                  ],
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      dateField(),
+                      SizedBox(height: 15),
+                      inspectionTypeField(),
+                      SizedBox(height: 15),
+                      referenceTypeField(),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -132,19 +134,13 @@ class _QiForm1State extends State<QiForm1> {
     return GestureDetector(
       onTap: () => _selectDate(context),
       child: AbsorbPointer(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: TextFormField(
-            key: Key('date-field-form1'),
-            keyboardType: TextInputType.datetime,
-            controller: dateController,
-            validator: (value) {
-              if (value.length == 0 || value == '') {
-                return 'Date should not be empty';
-              }
-              return null;
-            },
-            decoration: InputDecoration(
+        child: CustomTextFormField(
+          controller: dateController,
+          keyboardType: TextInputType.datetime,
+          decoration: InputDecoration(
+              fillColor: greyColor,
+              filled: true,
+              isDense: true,
               suffixIcon: GestureDetector(
                 onTap: () => _selectDate(context),
                 child: Icon(
@@ -153,106 +149,69 @@ class _QiForm1State extends State<QiForm1> {
                   size: 25,
                 ),
               ),
-              labelText: 'Date',
               border: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: blackColor,
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-          ),
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(5),
+              )),
+          label: 'Date',
+          labelStyle: TextStyle(color: blackColor),
+          style: TextStyle(fontSize: 14, color: blackColor),
+          validator: (val) =>
+              val == '' || val == null ? 'Date should not be empty' : null,
         ),
       ),
     );
   }
 
   Widget inspectionTypeField() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      child: Container(
-        key: Key('inspection-type-field-form1'),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.grey, width: 1)),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              hint: Text('Inspection Type'),
-              value: inspectionType,
-              icon: Icon(Icons.keyboard_arrow_down),
-              iconSize: 24,
-              elevation: 16,
-              underline: Container(
-                height: 2,
-                color: Colors.blueAccent,
-              ),
-              onChanged: (String newValue) {
-                setState(() {
-                  inspectionType = newValue;
-                });
-              },
-              items: <String>[
-                "Incoming",
-                "Outgoing",
-                "In Process",
-              ].map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
+    return CustomDropDown(
+      value: inspectionType,
+      decoration: BoxDecoration(
+          color: greyColor, borderRadius: BorderRadius.circular(5)),
+      items: inspectionTypeList.map<DropdownMenuItem<String>>((value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(
+            value.toString(),
+            style: TextStyle(fontSize: 14),
           ),
-        ),
-      ),
+        );
+      }).toList(),
+      alignment: CrossAxisAlignment.start,
+      onChanged: (String? newValue) {
+        setState(() {
+          inspectionType = newValue!;
+        });
+      },
+      label: 'Inspection Type',
+      labelStyle: TextStyle(fontSize: 14),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
     );
   }
 
   Widget referenceTypeField() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      child: Container(
-        key: Key('reference-type-field-form1'),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.grey, width: 1)),
-        child: DropdownButtonHideUnderline(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: DropdownButton<String>(
-              hint: Text('Reference Type'),
-              value: referenceType,
-              icon: Icon(Icons.keyboard_arrow_down),
-              iconSize: 24,
-              elevation: 16,
-              underline: Container(
-                height: 2,
-                color: Colors.blueAccent,
-              ),
-              onChanged: (String newValue) async {
-                setState(() {
-                  referenceType = newValue;
-                });
-              },
-              items: <String>[
-                "Purchase Receipt",
-                "Purchase Invoice",
-                "Delivery Note",
-                "Sales Invoice",
-                "Stock Entry",
-              ].map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
+    return CustomDropDown(
+      value: referenceType,
+      decoration: BoxDecoration(
+          color: greyColor, borderRadius: BorderRadius.circular(5)),
+      items: referenceTypeList.map<DropdownMenuItem<String>>((value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(
+            value.toString(),
+            style: TextStyle(fontSize: 14),
           ),
-        ),
-      ),
+        );
+      }).toList(),
+      alignment: CrossAxisAlignment.start,
+      onChanged: (String? newValue) {
+        setState(() {
+          referenceType = newValue!;
+        });
+      },
+      label: 'Reference Type',
+      labelStyle: TextStyle(fontSize: 14),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
     );
   }
 }

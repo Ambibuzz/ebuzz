@@ -3,11 +3,11 @@ import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_appbar.dart';
 import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/common/navigations.dart';
-import 'package:ebuzz/common/textstyles.dart';
 import 'package:ebuzz/common/ui_reusable_widget.dart';
 import 'package:ebuzz/purchaseorder/model/purchase_model.dart';
 import 'package:ebuzz/purchaseorder/service/purchase_api_service.dart';
 import 'package:ebuzz/purchasereciept/ui/purchase_reciept_Form_ui.dart';
+import 'package:ebuzz/widgets/custom_textformformfield.dart';
 import 'package:flutter/material.dart';
 
 //PurchaseOrderDetail class contains details of particular purchase order
@@ -16,7 +16,11 @@ class PurchaseOrderDetail extends StatefulWidget {
   final String supplier;
   final String date;
   final String requiredDate;
-  PurchaseOrderDetail({this.name, this.supplier, this.date, this.requiredDate});
+  PurchaseOrderDetail(
+      {required this.name,
+      required this.supplier,
+      required this.date,
+      required this.requiredDate});
   @override
   _PurchaseOrderDetailState createState() => _PurchaseOrderDetailState();
 }
@@ -32,7 +36,8 @@ class _PurchaseOrderDetailState extends State<PurchaseOrderDetail> {
   }
 
   getData() async {
-    items = await _purchaseApiService.getPurchaseOrderItemList(widget.name,context);
+    items = await _purchaseApiService.getPurchaseOrderItemList(
+        widget.name, context);
     if (!mounted) return;
     setState(() {});
   }
@@ -40,10 +45,19 @@ class _PurchaseOrderDetailState extends State<PurchaseOrderDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: bgColor,
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(displayWidth(context) > 600 ? 80 : 55),
           child: CustomAppBar(
-            title: 'Purchase Order Detail',
+            title: Text('Purchase Order Detail',
+                style: TextStyle(color: whiteColor)),
+            leading: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: Icon(
+                Icons.arrow_back,
+                color: whiteColor,
+              ),
+            ),
           )),
       body: PurchaseOrderDetailUi(
         date: widget.date,
@@ -53,11 +67,11 @@ class _PurchaseOrderDetailState extends State<PurchaseOrderDetail> {
         supplier: widget.supplier,
       ),
       floatingActionButton: Container(
-        width: displayWidth(context) > 600 ? 100 : 50,
-        height: displayWidth(context) > 600 ? 100 : 50,
+        width: 50,
+        height: 50,
         child: FittedBox(
           child: FloatingActionButton(
-            child: Icon(Icons.add, size: displayWidth(context) > 600 ? 35 : 25),
+            child: Icon(Icons.add, size: 25),
             backgroundColor: blueAccent,
             onPressed: () {
               pushScreen(
@@ -81,7 +95,11 @@ class PurchaseOrderDetailUi extends StatelessWidget {
   final String requiredDate;
   final List<ItemsModel> itemList;
   PurchaseOrderDetailUi(
-      {this.name, this.supplier, this.date, this.requiredDate, this.itemList});
+      {required this.name,
+      required this.supplier,
+      required this.date,
+      required this.requiredDate,
+      required this.itemList});
 
   @override
   Widget build(BuildContext context) {
@@ -89,78 +107,70 @@ class PurchaseOrderDetailUi extends StatelessWidget {
         ? CircularProgress()
         : SingleChildScrollView(
             scrollDirection: Axis.vertical,
-            child: Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Supplier : ' + supplier,
-                    style: displayWidth(context) > 600
-                        ? TextStyle(
-                            fontSize: 32,
-                            color: blackColor,
-                            fontWeight: FontWeight.bold)
-                        : TextStyles.t20BlackBold,
-                    maxLines: 3,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      purchaseOrderDetailWidget('Supplier', supplier),
+                      SizedBox(height: 15),
+                      purchaseOrderDetailWidget('Name', name),
+                      SizedBox(height: 15),
+                      purchaseOrderDetailWidget('Date', date),
+                      SizedBox(height: 15),
+                      purchaseOrderDetailWidget('Required Date', requiredDate),
+                      SizedBox(height: 15),
+                    ],
                   ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    'Name : ' + name,
-                    style: displayWidth(context) > 600
-                        ? TextStyle(fontSize: 28, color: blackColor)
-                        : TextStyles.t18Black,
-                  ),
-                  SizedBox(
-                    height: 3,
-                  ),
-                  Text(
-                    'Date : ' + date,
-                    style: displayWidth(context) > 600
-                        ? TextStyle(fontSize: 28, color: blackColor)
-                        : TextStyles.t18Black,
-                  ),
-                  SizedBox(
-                    height: 3,
-                  ),
-                  Text(
-                    'Required Date : ' + requiredDate,
-                    style: displayWidth(context) > 600
-                        ? TextStyle(fontSize: 28, color: blackColor)
-                        : TextStyles.t18Black,
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  scrollToViewTableBelow(context),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: DataTable(
-                        columns: <DataColumn>[
-                          tableColumnText(context, 'Name'),
-                          tableColumnText(context, 'Item Code'),
-                          tableColumnText(context, 'Quantity'),
-                          tableColumnText(context, 'Recieved'),
-                        ],
-                        rows: itemList
-                            .map((data) => DataRow(cells: <DataCell>[
-                                  dataCellText(context, data.itemName),
-                                  dataCellText(context, data.itemCode),
-                                  dataCellText(
-                                      context, data.quantity.toString()),
-                                  dataCellText(context,
-                                      data.quantityRecieved.toString()),
-                                ]))
-                            .toList()),
-                  ),
-                ],
-              ),
+                ),
+                scrollToViewTableBelow(context),
+                SizedBox(height: 5),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                      columns: <DataColumn>[
+                        tableColumnText(context, 'Name'),
+                        tableColumnText(context, 'Item Code'),
+                        tableColumnText(context, 'Quantity'),
+                        tableColumnText(context, 'Recieved'),
+                      ],
+                      rows: itemList
+                          .map((data) => DataRow(cells: <DataCell>[
+                                dataCellText(context, data.itemName!,
+                                    displayWidth(context) * 0.7),
+                                dataCellText(context, data.itemCode!,
+                                    displayWidth(context) * 0.3),
+                                dataCellText(context, data.quantity.toString(),
+                                    displayWidth(context) * 0.3),
+                                dataCellText(
+                                    context,
+                                    data.quantityRecieved.toString(),
+                                    displayWidth(context) * 0.3),
+                              ]))
+                          .toList()),
+                ),
+              ],
             ),
           );
+  }
+
+  Widget purchaseOrderDetailWidget(String label, String value) {
+    return CustomTextFormField(
+      decoration: InputDecoration(
+          fillColor: greyColor,
+          filled: true,
+          isDense: true,
+          border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(5),
+          )),
+      label: label,
+      readOnly: true,
+      initialValue: value,
+      labelStyle: TextStyle(color: blackColor),
+      style: TextStyle(fontSize: 14, color: blackColor),
+    );
   }
 }

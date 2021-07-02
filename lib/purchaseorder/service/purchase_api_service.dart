@@ -9,13 +9,12 @@ import 'package:flutter/cupertino.dart';
 class PurchaseApiService {
   //For fetching purchase order data
   Future<PurchaseModel> getPurchaseOrderData(String name,BuildContext context) async {
-    PurchaseModel purchaseModelData;
+    PurchaseModel purchaseModelData=PurchaseModel(supplier: '', date: '', requiredByDate: '');
     try {
       Dio dio = await BaseDio().getBaseDio();
       final String pourl = purchaseOrderDetailUrl(name);
       final response = await dio.get(pourl);
       var decData = response.data;
-
       var data = decData['data'];
       purchaseModelData = PurchaseModel.fromJson(data);
       return purchaseModelData;

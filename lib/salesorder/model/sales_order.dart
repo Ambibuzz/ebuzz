@@ -1,24 +1,24 @@
 class SalesOrder {
-  final String name;
-  final int docstatus;
-  final double perbilled;
-  final double perdelivered;
-  final String customer;
-  final String company;
-  final String ordertype;
-  final String transactiondate;
-  final String deliverydate;
-  final double advancepaid;
-  final double grandtotal;
-  final double basegrandtotal;
-  final String portofdischarge;
-  final double totalnetweight;
-  final double totalqty;
-  final String status;
-  final String podate;
-  final String pono;
-  final String setwarehouse;
-  final List<SalesOrderItems> salesOrderItems;
+  final String? name;
+  final int? docstatus;
+  final double? perbilled;
+  final double? perdelivered;
+  final String? customer;
+  final String? company;
+  final String? ordertype;
+  final String? transactiondate;
+  final String? deliverydate;
+  final double? advancepaid;
+  final double? grandtotal;
+  final double? basegrandtotal;
+  final String? portofdischarge;
+  final double? totalnetweight;
+  final double? totalqty;
+  final String? status;
+  final String? podate;
+  final String? pono;
+  final String? setwarehouse;
+  final List<SalesOrderItems>? salesOrderItems;
 
   SalesOrder(
       {this.docstatus,
@@ -67,8 +67,8 @@ class SalesOrder {
 
   //For converting model to json format for storing it in quality inspection model
   Map toJson() {
-    List<Map> salesOrderItemsList = this.salesOrderItems != null
-        ? this.salesOrderItems.map((i) => i.toJson()).toList()
+    List<Map>? salesOrderItemsList = this.salesOrderItems != null
+        ? this.salesOrderItems!.map((i) => i.toJson()).toList()
         : null;
     return {
       'docstatus': docstatus,
@@ -82,12 +82,12 @@ class SalesOrder {
 }
 
 class SalesOrderItems {
-  double qty;
-  String deliverydate;
-  String itemcode;
-  String itemname;
-  double amount;
-  double rate;
+  double? qty;
+  String? deliverydate;
+  String? itemcode;
+  String? itemname;
+  double? amount;
+  double? rate;
 
   SalesOrderItems({
     this.qty,
@@ -119,11 +119,11 @@ class SalesOrderItems {
 }
 
 class SalesOrderPaymentSchedule {
-  final String paymentterm;
-  final double paymentamount;
-  final String duedate;
-  final double invoiceportion;
-  final String description;
+  final String? paymentterm;
+  final double? paymentamount;
+  final String? duedate;
+  final double? invoiceportion;
+  final String? description;
 
   SalesOrderPaymentSchedule(
       {this.paymentterm,

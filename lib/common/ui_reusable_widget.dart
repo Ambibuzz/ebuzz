@@ -1,6 +1,5 @@
 import 'package:ebuzz/common/colors.dart';
-import 'package:ebuzz/common/display_helper.dart';
-import 'package:ebuzz/common/textstyles.dart';
+import 'package:ebuzz/util/version.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,11 +9,7 @@ Widget textFieldName(BuildContext context, String name) {
     height: 40,
     child: Text(
       name,
-      style: displayWidth(context) > 600
-          ? TextStyle(
-              fontSize: 28,
-            )
-          : TextStyle(fontSize: 16),
+      style: TextStyle(fontSize: 16),
       overflow: TextOverflow.ellipsis,
       maxLines: 2,
     ),
@@ -26,11 +21,7 @@ Widget colon(BuildContext context) {
     height: 40,
     child: Text(
       ':',
-      style: displayWidth(context) > 600
-          ? TextStyle(
-              fontSize: 28,
-            )
-          : TextStyle(fontSize: 16),
+      style: TextStyle(fontSize: 16),
     ),
   );
 }
@@ -42,31 +33,25 @@ Widget scrollToViewTableBelow(BuildContext context) {
       children: [
         Text(
           'Scroll ',
-          style: displayWidth(context) > 600
-              ? TextStyle(fontSize: 28, color: blackColor)
-              : TextStyles.t18Black,
+          style: TextStyle(fontSize: 18, color: blackColor),
         ),
         Icon(
           Icons.arrow_back,
           color: blackColor,
-          size: displayWidth(context) > 600 ? 35 : 25,
+          size: 25,
         ),
         Text(
           ' or ',
-          style: displayWidth(context) > 600
-              ? TextStyle(fontSize: 28, color: blackColor)
-              : TextStyles.t18Black,
+          style: TextStyle(fontSize: 18, color: blackColor),
         ),
         Icon(
           Icons.arrow_forward,
           color: blackColor,
-          size: displayWidth(context) > 600 ? 35 : 25,
+          size: 25,
         ),
         Text(
           ' to view table below',
-          style: displayWidth(context) > 600
-              ? TextStyle(fontSize: 28, color: blackColor)
-              : TextStyles.t18Black,
+          style: TextStyle(fontSize: 18, color: blackColor),
         ),
       ],
     ),
@@ -75,27 +60,25 @@ Widget scrollToViewTableBelow(BuildContext context) {
 
 DataColumn tableColumnText(BuildContext context, String text) {
   return DataColumn(
-    label: Text(
-      text,
-      style: displayWidth(context) > 600
-          ? TextStyle(
-              fontSize: 32,
-              fontStyle: FontStyle.italic,
-              fontWeight: FontWeight.bold)
-          : TextStyle(
-              fontStyle: FontStyle.italic,
-            ),
-    ),
+    label: Text(text),
   );
 }
 
-DataCell dataCellText(BuildContext context, String text) {
-  return DataCell(
-    Text(
+DataCell dataCellText(BuildContext context, String text, double width,
+    {int? maxlines = 5, TextOverflow? overflow = TextOverflow.ellipsis}) {
+  return DataCell(Container(
+    width: width,
+    child: Text(
       text,
-      style: displayWidth(context) > 600
-          ? TextStyle(fontSize: 26, color: blackColor)
-          : TextStyles.t16Black,
+      maxLines: maxlines,
+      overflow: overflow,
     ),
+  ));
+}
+
+Widget versionText() {
+  return Text(
+    version,
+    style: TextStyle(fontSize: 10),
   );
 }

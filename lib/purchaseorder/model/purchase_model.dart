@@ -5,7 +5,7 @@ class PurchaseModel {
   final String supplier;
   final String date;
   final String requiredByDate;
-  PurchaseModel({this.supplier, this.date, this.requiredByDate});
+  PurchaseModel({required this.supplier,required this.date,required this.requiredByDate});
 
   //For fetching json data from purchase order api and storing it in purchase model
   factory PurchaseModel.fromJson(Map<String, dynamic> json) {
@@ -19,12 +19,12 @@ class PurchaseModel {
 
 //ItemsModel class contains model to store data of Purchase Order api
 class ItemsModel {
-  final String itemCode;
-  final String itemName;
-  final double quantity;
-  final double quantityRecieved;
-  final String purchaseOrder;
-  final String purchaseOrderModel;
+  final String? itemCode;
+  final String? itemName;
+  final double? quantity;
+  final double? quantityRecieved;
+  final String? purchaseOrder;
+  final String? purchaseOrderModel;
   ItemsModel(
       {this.purchaseOrder,
       this.purchaseOrderModel,

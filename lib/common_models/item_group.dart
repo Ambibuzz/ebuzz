@@ -1,5 +1,5 @@
 class ItemGroupModel{
-  final String name;
+  final String? name;
 
   ItemGroupModel({this.name});
 

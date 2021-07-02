@@ -1,7 +1,6 @@
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_appbar.dart';
 import 'package:ebuzz/common/display_helper.dart';
-import 'package:ebuzz/common/textstyles.dart';
 import 'package:ebuzz/leavebalance/service/leave_balance_api_service.dart';
 import 'package:flutter/material.dart';
 
@@ -69,10 +68,18 @@ class _LeaveUiState extends State<LeaveUi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: bgColor,
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(displayWidth(context) > 600 ? 80 : 55),
+          preferredSize: Size.fromHeight( 55),
           child: CustomAppBar(
-            title: 'Leave Balance',
+            title: Text('Leave Balance', style: TextStyle(color: whiteColor)),
+            leading: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: Icon(
+                Icons.arrow_back,
+                color: whiteColor,
+              ),
+            ),
           )),
       body: Padding(
         padding: EdgeInsets.all(10.0),
@@ -104,12 +111,10 @@ class _LeaveUiState extends State<LeaveUi> {
               alignment: Alignment.topCenter,
               child: Padding(
                 padding:
-                    EdgeInsets.only(top: displayWidth(context) > 600 ? 20 : 15),
+                    EdgeInsets.only(top:  15),
                 child: Text(
                   text,
-                  style: displayWidth(context) > 600
-                      ? TextStyle(fontSize: 26)
-                      : TextStyles.t16Black,
+                  style: TextStyle(fontSize: 16, color: blackColor),
                   maxLines: 3,
                 ),
               ),
@@ -120,7 +125,7 @@ class _LeaveUiState extends State<LeaveUi> {
                 leaveType.toString(),
                 style: TextStyle(
                     color: blueAccent,
-                    fontSize: displayWidth(context) > 600 ? 55 : 35,
+                    fontSize:  35,
                     fontWeight: FontWeight.bold),
               ),
             ),

@@ -23,67 +23,6 @@ class SalesOrderService {
     }
   }
 
-  //for fetching company list
-  Future<List<String>> getCompanyList(BuildContext context) async {
-    List<String> companylist = [];
-    List list;
-    try {
-      Dio _dio = await BaseDio().getBaseDio();
-      final String so = companyListUrl();
-      final response = await _dio.get(so);
-      var data = response.data;
-      list = data['data'];
-      for (var listJson in list) {
-        companylist.add(listJson['name']);
-      }
-      return companylist;
-    } catch (e) {
-      exception(e,context);
-    }
-    return companylist;
-  }
-
-  //for fetching warehouse list
-  Future<List<String>> getWarehouseList(String company, BuildContext context) async {
-    List<String> warehouselist = [];
-    List list;
-    try {
-      Dio _dio = await BaseDio().getBaseDio();
-      final String so = warehouseList(company);
-      final response = await _dio.get(so);
-      var data = response.data;
-      list = data['data'];
-      for (var listJson in list) {
-        warehouselist.add(listJson['name']);
-      }
-      return warehouselist;
-    } catch (e) {
-      exception(e,context);
-    }
-    return warehouselist;
-  }
-
-  //for fetching customer list
-  Future<List<String>> getCustomerList(BuildContext context) async {
-    List<String> customerlist = [];
-    List list;
-    try {
-      Dio _dio = await BaseDio().getBaseDio();
-      final String so = customerListUrl();
-      final response = await _dio.get(so);
-      var data = response.data;
-      list = data['data'];
-      for (var listJson in list) {
-        customerlist.add(listJson['name']);
-      }
-      return customerlist;
-    } catch (e) {
-      exception(e,context);
-    }
-    return customerlist;
-  }
-
-
   //for fetching sales order list
   Future<List<SalesOrder>> getSalesOrderList(BuildContext context) async {
     List list = [];

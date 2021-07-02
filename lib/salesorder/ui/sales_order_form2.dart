@@ -1,30 +1,35 @@
 import 'package:dio/dio.dart';
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_appbar.dart';
-import 'package:ebuzz/common/display_helper.dart';
-import 'package:ebuzz/common/textstyles.dart';
+import 'package:ebuzz/common_models/product.dart';
+import 'package:ebuzz/common_service/common_service.dart';
+import 'package:ebuzz/config/color_palette.dart';
 import 'package:ebuzz/exception/custom_exception.dart';
-import 'package:ebuzz/item/model/product.dart';
-import 'package:ebuzz/item/service/item_api_service.dart';
 import 'package:ebuzz/network/base_dio.dart';
 import 'package:ebuzz/salesorder/model/sales_order.dart';
 import 'package:ebuzz/salesorder/service/sales_order_service.dart';
 import 'package:ebuzz/util/apiurls.dart';
+import 'package:ebuzz/widgets/custom_card.dart';
+import 'package:ebuzz/widgets/custom_textformformfield.dart';
+import 'package:ebuzz/widgets/custom_typeahead_formfield.dart';
+import 'package:ebuzz/widgets/typeahead_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 
 List<SalesOrderItems> soilist = [];
 List<String> itemCodeList = [];
+List<TextEditingController> itemcodecontrollerlist = <TextEditingController>[];
+List<TextEditingController> quantitycontrollerlist = <TextEditingController>[];
+List<TextEditingController> datecontrollerlist = <TextEditingController>[];
 
 class SalesOrderForm2 extends StatefulWidget {
-  final String date;
-  final String company;
-  final String customer;
-  final String warehouse;
-  final String purchaseorder;
-  final String portOfDischarge;
-  final String orderType;
+  final String? date;
+  final String? company;
+  final String? customer;
+  final String? warehouse;
+  final String? purchaseorder;
+  final String? portOfDischarge;
+  final String? orderType;
   SalesOrderForm2(
       {this.date,
       this.company,
@@ -54,7 +59,7 @@ class _SalesOrderForm2State extends State<SalesOrderForm2> {
 
   getItemList() async {
     try {
-      List listData = await ItemApiService().getItemList(context);
+      List listData = await CommonService().getItemList(context);
       for (int i = 0; i < listData.length; i++) {
         itemCodeList.add(listData[i]['item_code']);
       }
@@ -69,9 +74,16 @@ class _SalesOrderForm2State extends State<SalesOrderForm2> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(displayWidth(context) > 600 ? 80 : 55),
+        preferredSize: Size.fromHeight(55),
         child: CustomAppBar(
-          title: 'Sales Order Form',
+          title: Text('Sales Order Form', style: TextStyle(color: whiteColor)),
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(
+              Icons.arrow_back,
+              color: whiteColor,
+            ),
+          ),
         ),
       ),
       floatingActionButton: Column(
@@ -89,6 +101,9 @@ class _SalesOrderForm2State extends State<SalesOrderForm2> {
                   itemname: '',
                   qty: 0,
                   rate: 0));
+              itemcodecontrollerlist.add(TextEditingController());
+              quantitycontrollerlist.add(TextEditingController());
+              datecontrollerlist.add(TextEditingController());
               setState(() {});
             },
             child: Icon(
@@ -114,7 +129,7 @@ class _SalesOrderForm2State extends State<SalesOrderForm2> {
           ? Center(
               child: Text(
               'List is empty',
-              style: TextStyles.t18Black,
+              style: TextStyle(fontSize: 18, color: blackColor),
             ))
           : Column(
               children: [
@@ -125,23 +140,19 @@ class _SalesOrderForm2State extends State<SalesOrderForm2> {
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         final item = soilist[index];
+                        int lastElement = soilist.length - 1;
                         return Column(
                           children: [
                             SOItemsForm(
                               key: ObjectKey(item),
                               soi: item,
                               i: index,
-                              onDelete: () => onDelete(index),
+                              onDelete: () => onDelete(index, lastElement),
                             ),
                           ],
                         );
                       }),
                 ),
-                soilist.length >= 8
-                    ? SizedBox(
-                        height: 120,
-                      )
-                    : Container()
               ],
             ),
     );
@@ -173,15 +184,35 @@ class _SalesOrderForm2State extends State<SalesOrderForm2> {
     setState(() {
       _postButtonDisabled = true;
     });
-    await SalesOrderService().post(salesOrderModel,context);
+    await SalesOrderService().post(salesOrderModel, context);
     if (!mounted) return;
     setState(() {
       _postButtonDisabled = false;
     });
   }
 
-  void onDelete(int index) {
+  void assignIndex(int index, int lastElement) {
+    for (int i = index; i < lastElement; i++) {
+      setState(() {
+        soilist[i].itemcode = soilist[i + 1].itemcode;
+        soilist[i].deliverydate = soilist[i + 1].deliverydate;
+        soilist[i].qty = soilist[i + 1].qty;
+
+        itemcodecontrollerlist[i].text = soilist[i + 1].itemcode!;
+        datecontrollerlist[i].text = soilist[i + 1].deliverydate!;
+        quantitycontrollerlist[i].text = soilist[i + 1].qty!.toString();
+      });
+    }
+  }
+
+  void onDelete(int index, int lastElement) {
+    if (index != lastElement) {
+      assignIndex(index, lastElement);
+    }
     soilist.removeAt(index);
+    itemcodecontrollerlist.removeAt(index);
+    quantitycontrollerlist.removeAt(index);
+    datecontrollerlist.removeAt(index);
     if (!mounted) return;
     setState(() {});
   }
@@ -194,72 +225,48 @@ class SOItemsForm extends StatefulWidget {
   final OnDelete onDelete;
   final int i;
 
-  SOItemsForm({Key key, this.soi, this.onDelete, this.i}) : super(key: key);
+  SOItemsForm(
+      {required Key key,
+      required this.soi,
+      required this.onDelete,
+      required this.i})
+      : super(key: key);
   @override
   _SOItemsFormState createState() => _SOItemsFormState();
 }
 
-class _SOItemsFormState extends State<SOItemsForm> {
-  TextEditingController itemcodeController;
-  // TextEditingController itemnameController;
-  // TextEditingController amountController;
-  // TextEditingController rateController;
-  TextEditingController quantityController;
-  TextEditingController deliveryDateController;
+class _SOItemsFormState extends State<SOItemsForm>
+    with AutomaticKeepAliveClientMixin {
   int count = 0;
   Product product = Product();
   DateTime selectedDate = DateTime.now();
   @override
   void initState() {
     super.initState();
-    itemcodeController = TextEditingController();
-    // itemnameController = TextEditingController();
-    // amountController = TextEditingController();
-    // rateController = TextEditingController();
-    quantityController = TextEditingController();
-    deliveryDateController = TextEditingController();
-  }
-
-  Widget itemUi(String item) {
-    return ListTile(
-      title: Text(item,
-          style: displayWidth(context) > 600
-              ? TextStyle(fontSize: 28, color: blackColor)
-              : TextStyle(color: greyDarkColor, fontSize: 16)),
-    );
   }
 
   Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
+    final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
         firstDate: DateTime(1901, 1),
         lastDate: DateTime(2100));
     if (picked != null && picked != selectedDate) if (!mounted) return;
     setState(() {
-      selectedDate = picked;
-      deliveryDateController.text =
-          DateFormat('y-M-d').format(picked).toString();
-      soilist[widget.i].deliverydate =
-          DateFormat('y-M-d').format(picked).toString();
+      selectedDate = picked!;
+      String date = DateFormat('y-M-d').format(picked).toString();
+      soilist[widget.i].deliverydate = date;
+      datecontrollerlist[widget.i].text = date;
     });
-  }
-
-  List<String> _getSuggestions(String query, List<String> list) {
-    List<String> matches = [];
-    matches.addAll(list);
-    matches.retainWhere((s) => s.toLowerCase().contains(query.toLowerCase()));
-    return matches;
   }
 
   setItemData(String itemCode, int index) async {
     product = await getData(itemCode);
-    // rateController.text = product.valuationRate.toString();
-    quantityController.text = 1.0.toString();
     soilist[index].rate = double.parse(product.valuationRate.toString());
     soilist[index].qty = 1.0;
-    soilist[index].amount = soilist[index].rate * soilist[index].qty;
-    // amountController.text = soilist[index].amount.toString();
+    soilist[index].amount = soilist[index].rate! * soilist[index].qty!;
+    quantitycontrollerlist[index].text = 1.0.toString();
+    itemcodecontrollerlist[index].text = itemCode;
     setState(() {});
   }
 
@@ -273,258 +280,157 @@ class _SOItemsFormState extends State<SOItemsForm> {
         url,
       );
       if (response.statusCode == 200) {
-        return Product.fromJson(response.data);
+        return Product.fromJson(response.data['data']);
       } else {
         throw Exception('Failed to load data');
       }
     } catch (e) {
-      exception(e,context);
+      exception(e, context);
     }
     return Product();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-      child: Column(
-        children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                // Container(
-                //   width: displayWidth(context) * 0.25,
-                //   child: TextFormField(
-                //     controller: itemcodeController,
-                //     decoration: InputDecoration(
-                //       hintText: 'ItemCode',
-                //       border: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(10),
-                //       ),
-                //     ),
-                //     onChanged: (value) {
-                //       if (!mounted) return;
-                //       setState(() {
-                //         soilist[widget.i].itemcode = value;
-                //       });
-                //     },
-                //   ),
-                // ),
-                Container(
-                  width: displayWidth(context) * 0.3,
-                  child: TypeAheadFormField(
-                    key: Key('item-code-field'),
-                    hideSuggestionsOnKeyboardHide: false,
-                    textFieldConfiguration: TextFieldConfiguration(
-                      controller: itemcodeController,
-                      style: displayWidth(context) > 600
-                          ? TextStyle(fontSize: 28, color: blackColor)
-                          : TextStyle(color: blackColor, fontSize: 18),
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                              color: blackColor,
-                              width: 1,
-                              style: BorderStyle.solid),
-                        ),
-                        labelStyle: TextStyle(
-                          fontSize: displayWidth(context) > 600 ? 28 : 16,
-                        ),
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: displayWidth(context) > 600 ? 30 : 20,
-                            horizontal: displayWidth(context) > 600 ? 20 : 10),
-                        hintText: 'Item Code',
-                      ),
-                    ),
-                    onSuggestionSelected: (suggestion) {
-                      itemcodeController.text = suggestion;
-                      setItemData(suggestion, widget.i);
-                      if (!mounted) return;
-                      setState(() {
-                        soilist[widget.i].itemcode = suggestion;
-                      });
-                    },
-                    itemBuilder: (context, item) {
-                      return itemUi(item);
-                    },
-                    suggestionsCallback: (pattern) {
-                      return _getSuggestions(pattern, itemCodeList);
-                    },
-                    transitionBuilder: (context, suggestionsBox, controller) {
-                      return suggestionsBox;
-                    },
-                    validator: (val) =>
-                        val.isEmpty ? 'Please enter item code...' : null,
-                  ),
-                ),
-                SizedBox(
-                  width: 3,
-                ),
-                // Container(
-                //   width: displayWidth(context) * 0.25,
-                //   child: TextFormField(
-                //     controller: itemnameController,
-                //     decoration: InputDecoration(
-                //       hintText: 'ItemName',
-                //       border: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(10),
-                //       ),
-                //     ),
-                //     onChanged: (value) {
-                //       setState(() {
-                //         soilist[widget.i].itemname = value;
-                //       });
-                //     },
-                //   ),
-                // ),
-                // SizedBox(
-                //   width: 3,
-                // ),
-                // Container(
-                //   width: displayWidth(context) * 0.24,
-                //   child: TextFormField(
-                //     controller: deliveryDateController,
-                //     decoration: InputDecoration(
-                //       hintText: 'Delivery Date',
-                //       border: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(10),
-                //       ),
-                //     ),
-                //     onChanged: (value) {
-                //       if (value != '') {
-                //         soilist[widget.i].deliverydate = value;
-                //         if (!mounted) return;
-                //         setState(() {});
-                //       }
-                //     },
-                //   ),
-                // ),
-                GestureDetector(
-                  onTap: () => _selectDate(context),
-                  child: AbsorbPointer(
-                    child: Container(
-                      width: displayWidth(context) * 0.35,
-                      child: TextFormField(
-                        keyboardType: TextInputType.datetime,
-                        controller: deliveryDateController,
-                        validator: (value) {
-                          if (value.length == 0 || value == '') {
-                            return 'Date should not be empty';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          suffixIcon: GestureDetector(
-                            onTap: () => _selectDate(context),
-                            child: Icon(
-                              Icons.date_range,
-                              color: blackColor,
-                              size: 25,
-                            ),
-                          ),
-                          hintText: 'Date',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: blackColor,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 3,
-                ),
-                Container(
-                  width: displayWidth(context) * 0.2,
-                  child: TextFormField(
-                    controller: quantityController,
-                    decoration: InputDecoration(
-                      hintText: 'Quantity',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onChanged: (value) {
-                      if (value != '') {
-                        soilist[widget.i].qty = double.parse(value);
-                        // soilist[widget.i].amount =
-                        //     double.parse(value) * soilist[widget.i].rate;
-                        // quantityController.text = value;
-                        // amountController.text =
-                        //     (double.parse(value) * soilist[widget.i].rate)
-                        //         .toString();
-                        if (!mounted) return;
-                        setState(() {});
-                      }
-                    },
-                  ),
-                ),
-                // SizedBox(
-                //   width: 3,
-                // ),
-                // Container(
-                //   width: displayWidth(context) * 0.24,
-                //   child: TextFormField(
-                //     controller: rateController,
-                //     decoration: InputDecoration(
-                //       hintText: 'Rate',
-                //       border: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(10),
-                //       ),
-                //     ),
-                //     onChanged: (value) {
-                //       if (value != '') {
-                //         soilist[widget.i].rate = double.parse(value);
-                //         rateController.text = value;
-                //         if (!mounted) return;
-                //         setState(() {});
-                //       }
-                //     },
-                //   ),
-                // ),
-                // SizedBox(
-                //   width: 3,
-                // ),
-                // Container(
-                //   width: displayWidth(context) * 0.24,
-                //   child: TextFormField(
-                //     controller: amountController,
-                //     decoration: InputDecoration(
-                //       hintText: 'Amount',
-                //       border: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(10),
-                //       ),
-                //     ),
-                //     onChanged: (value) {
-                //       soilist[widget.i].amount =
-                //           soilist[widget.i].rate * soilist[widget.i].qty;
-                //       amountController.text =
-                //           (double.parse(value) * soilist[widget.i].rate)
-                //               .toString();
-                //       if (value != '') {
-                //         soilist[widget.i].amount = double.parse(value);
-                //         if (!mounted) return;
-                //         setState(() {});
-                //       }
-                //     },
-                //   ),
-                // ),
-                SizedBox(
-                  width: 0,
-                ),
-                IconButton(
-                    icon: Icon(Icons.delete), onPressed: widget.onDelete),
-              ],
+      padding: EdgeInsets.only(left: 6, top: 4, right: 6, bottom: 4),
+      child: CustomCard(
+        elevation: 3,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: deleteWidget(),
             ),
-          ),
-        ],
+            Padding(
+              padding: EdgeInsets.only(bottom: 10, left: 8, right: 8, top: 25),
+              child: Column(
+                children: [
+                  itemCodeField(),
+                  Row(
+                    children: [
+                      Expanded(child: dateField()),
+                      SizedBox(width: 5),
+                      Expanded(child: quantityField()),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+
+  Widget dateField() {
+    return GestureDetector(
+      onTap: () => _selectDate(context),
+      child: AbsorbPointer(
+        child: CustomTextFormField(
+          controller: datecontrollerlist[widget.i],
+          keyboardType: TextInputType.datetime,
+          decoration: InputDecoration(
+              fillColor: greyColor,
+              filled: true,
+              isDense: true,
+              suffixIcon: GestureDetector(
+                onTap: () => _selectDate(context),
+                child: Icon(
+                  Icons.date_range,
+                  color: blackColor,
+                  size: 25,
+                ),
+              ),
+              border: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(5),
+              )),
+          label: 'Date',
+          labelStyle: TextStyle(color: blackColor),
+          style: TextStyle(fontSize: 14, color: blackColor),
+          validator: (val) =>
+              val == '' || val == null ? 'Date should not be empty' : null,
+        ),
+      ),
+    );
+  }
+
+  Widget deleteWidget() {
+    return IconButton(
+        icon: Icon(Icons.cancel_sharp, color: ColorPalette.red),
+        onPressed: widget.onDelete);
+  }
+
+  Widget itemCodeField() {
+    return CustomTypeAheadFormField(
+      controller: itemcodecontrollerlist[widget.i],
+      decoration: InputDecoration(
+          fillColor: greyColor,
+          filled: true,
+          isDense: true,
+          border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(5),
+          )),
+      label: 'Item Code',
+      labelStyle: TextStyle(color: blackColor),
+      required: true,
+      style: TextStyle(fontSize: 14, color: blackColor),
+      itemBuilder: (context, item) {
+        return TypeAheadWidgets.itemUi(item);
+      },
+      onSuggestionSelected: (suggestion) async {
+        setItemData(suggestion, widget.i);
+        if (!mounted) return;
+        setState(() {
+          soilist[widget.i].itemcode = suggestion;
+        });
+      },
+      suggestionsCallback: (pattern) {
+        return TypeAheadWidgets.getSuggestions(pattern, itemCodeList);
+      },
+      transitionBuilder: (context, suggestionsBox, controller) {
+        return suggestionsBox;
+      },
+      validator: (val) =>
+          val == '' || val == null ? 'Item Code should not be empty' : null,
+    );
+  }
+
+  Widget quantityField() {
+    return CustomTextFormField(
+      controller: quantitycontrollerlist[widget.i],
+      onChanged: (value) {
+        if (value != '') {
+          soilist[widget.i].qty = double.parse(value);
+          // soilist[widget.i].amount =
+          //     double.parse(value) * soilist[widget.i].rate;
+          // quantityController.text = value;
+          // amountController.text =
+          //     (double.parse(value) * soilist[widget.i].rate)
+          //         .toString();
+          if (!mounted) return;
+          setState(() {});
+        }
+      },
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+          fillColor: greyColor,
+          filled: true,
+          isDense: true,
+          border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(5),
+          )),
+      label: 'Quantity',
+      labelStyle: TextStyle(color: blackColor),
+      style: TextStyle(fontSize: 14, color: blackColor),
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
 }

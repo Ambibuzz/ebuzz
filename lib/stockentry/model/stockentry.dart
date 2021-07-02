@@ -2,22 +2,22 @@
 //All fields are  not been used only limited fields which were useful in app have been used
 
 class StockEntryModel {
-  final String stockEntryType;
-  final String postingDate;
-  final String company;
-  final String postingTime;
-  final String workOrder;
-  final String bomNo;
-  final String purchaseOrder;
-  final double forQuantity;
-  final String defaultSourceWarehouse;
-  final String defaultTargetWarehouse;
-  final double totalIncomingValue;
-  final double totalOutgoingValue;
-  final double totalValueDifference;
-  final double totalAdditionalCosts;
-  final String name;
-  final String workflowState;
+  final String? stockEntryType;
+  final String? postingDate;
+  final String? company;
+  final String? postingTime;
+  final String? workOrder;
+  final String? bomNo;
+  final String? purchaseOrder;
+  final double? forQuantity;
+  final String? defaultSourceWarehouse;
+  final String? defaultTargetWarehouse;
+  final double? totalIncomingValue;
+  final double? totalOutgoingValue;
+  final double? totalValueDifference;
+  final double? totalAdditionalCosts;
+  final String? name;
+  final String? workflowState;
 
   StockEntryModel({
     this.stockEntryType,
@@ -62,12 +62,12 @@ class StockEntryModel {
 
 //StockEntryItem class contains model to store item data of stock entry api
 class StockEntryItem {
-  final String defaultSourceWarehouse;
-  final String defaultTargetWarehouse;
-  final String itemCode;
-  final String itemName;
-  final String itemGroup;
-  final double quantity;
+  final String? defaultSourceWarehouse;
+  final String? defaultTargetWarehouse;
+  final String? itemCode;
+  final String? itemName;
+  final String? itemGroup;
+  final double? quantity;
 
   StockEntryItem(
       {this.defaultSourceWarehouse,

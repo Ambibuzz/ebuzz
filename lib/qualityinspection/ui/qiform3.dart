@@ -1,14 +1,14 @@
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:ebuzz/common/circular_progress.dart';
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_appbar.dart';
 import 'package:ebuzz/common/custom_toast.dart';
-import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/common/navigations.dart';
-import 'package:ebuzz/qualityinspection/service/quality_inspection_service.dart';
+import 'package:ebuzz/common_service/common_service.dart';
 import 'package:ebuzz/qualityinspection/ui/qiform4.dart';
+import 'package:ebuzz/widgets/custom_textformformfield.dart';
+import 'package:ebuzz/widgets/custom_typeahead_formfield.dart';
+import 'package:ebuzz/widgets/typeahead_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 //Quality Inspection form 3
 class QiForm3 extends StatefulWidget {
@@ -18,7 +18,10 @@ class QiForm3 extends StatefulWidget {
   final String referenceName;
 
   QiForm3(
-      {this.date, this.referenceType, this.inspectionType, this.referenceName});
+      {required this.date,
+      required this.referenceType,
+      required this.inspectionType,
+      required this.referenceName});
   @override
   _QiForm3State createState() => _QiForm3State();
 }
@@ -27,7 +30,6 @@ class _QiForm3State extends State<QiForm3> {
   TextEditingController itemCodeController = TextEditingController();
   bool loading = false;
   List<String> listItemCode = [];
-  GlobalKey<AutoCompleteTextFieldState<String>> itemCodeKey = GlobalKey();
   var _formKey = GlobalKey<FormState>();
 
   @override
@@ -41,31 +43,31 @@ class _QiForm3State extends State<QiForm3> {
       loading = true;
     });
     if (widget.referenceType == 'Purchase Receipt') {
-      listItemCode = await QualityInspectionService()
-          .getPurchaseRecieptData(widget.referenceName,context);
+      listItemCode = await CommonService()
+          .getPurchaseRecieptListFromReference(widget.referenceName, context);
       setState(() {});
     }
     if (widget.referenceType == 'Purchase Invoice') {
-      listItemCode = await QualityInspectionService()
-          .getPurchaseInvoiceData(widget.referenceName,context);
+      listItemCode = await CommonService()
+          .getPurchaseInvoiceListFromReference(widget.referenceName, context);
       if (!mounted) return;
       setState(() {});
     }
     if (widget.referenceType == 'Delivery Note') {
-      listItemCode = await QualityInspectionService()
-          .getDeliveryNoteData(widget.referenceName,context);
+      listItemCode = await CommonService()
+          .getDeliveryNoteListFromRefernce(widget.referenceName, context);
       if (!mounted) return;
       setState(() {});
     }
     if (widget.referenceType == 'Sales Invoice') {
-      listItemCode = await QualityInspectionService()
-          .getSalesInvoiceData(widget.referenceName,context);
+      listItemCode = await CommonService()
+          .getSalesInvoiceList(widget.referenceName, context);
       if (!mounted) return;
       setState(() {});
     }
     if (widget.referenceType == 'Stock Entry') {
-      listItemCode = await QualityInspectionService()
-          .getStockEntryData(widget.referenceName,context);
+      listItemCode = await CommonService()
+          .getStockEntryListFromReference(widget.referenceName, context);
       if (!mounted) return;
       setState(() {});
     }
@@ -74,22 +76,22 @@ class _QiForm3State extends State<QiForm3> {
     });
   }
 
-  Widget itemUi(String item) {
-    return ListTile(
-      title: Text(item,
-          style: displayWidth(context) > 600
-              ? TextStyle(fontSize: 28, color: blackColor)
-              : TextStyle(color: greyDarkColor, fontSize: 16)),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: bgColor,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(displayWidth(context) > 600 ? 80 : 55),
+        preferredSize: Size.fromHeight(55),
         child: CustomAppBar(
-          title: 'Quality Inspection Form',
+          title: Text('Quality Inspection Form',
+              style: TextStyle(color: whiteColor)),
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(
+              Icons.arrow_back,
+              color: whiteColor,
+            ),
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -119,280 +121,78 @@ class _QiForm3State extends State<QiForm3> {
           : SingleChildScrollView(
               child: Form(
                 key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: displayWidth(context) * 0.32,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  height: 30,
-                                  child: Text(
-                                    'Report Date',
-                                    style: displayWidth(context) > 600
-                                        ? TextStyle(
-                                            fontSize: 28,
-                                          )
-                                        : TextStyle(fontSize: 16),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  height: 30,
-                                  child: Text(
-                                    'Inspection Type',
-                                    style: displayWidth(context) > 600
-                                        ? TextStyle(
-                                            fontSize: 28,
-                                          )
-                                        : TextStyle(fontSize: 16),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  height: 30,
-                                  child: Text(
-                                    'Reference Type',
-                                    style: displayWidth(context) > 600
-                                        ? TextStyle(
-                                            fontSize: 28,
-                                          )
-                                        : TextStyle(fontSize: 16),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  height: 30,
-                                  child: Text(
-                                    'Reference Name',
-                                    style: displayWidth(context) > 600
-                                        ? TextStyle(
-                                            fontSize: 28,
-                                          )
-                                        : TextStyle(fontSize: 16),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Column(
-                            children: [
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Container(
-                                height: 30,
-                                child: Text(
-                                  ':',
-                                  style: displayWidth(context) > 600
-                                      ? TextStyle(
-                                          fontSize: 28,
-                                        )
-                                      : TextStyle(fontSize: 16),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                height: 30,
-                                child: Text(
-                                  ':',
-                                  style: displayWidth(context) > 600
-                                      ? TextStyle(
-                                          fontSize: 28,
-                                        )
-                                      : TextStyle(fontSize: 16),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                height: 30,
-                                child: Text(
-                                  ':',
-                                  style: displayWidth(context) > 600
-                                      ? TextStyle(
-                                          fontSize: 28,
-                                        )
-                                      : TextStyle(fontSize: 16),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                height: 30,
-                                child: Text(
-                                  ':',
-                                  style: displayWidth(context) > 600
-                                      ? TextStyle(
-                                          fontSize: 28,
-                                        )
-                                      : TextStyle(fontSize: 16),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            width: displayWidth(context) * 0.5,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  height: 30,
-                                  child: Text(
-                                    widget.date,
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: displayWidth(context) > 600
-                                        ? TextStyle(
-                                            fontSize: 28,
-                                          )
-                                        : TextStyle(fontSize: 16),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  height: 30,
-                                  child: Text(
-                                    widget.inspectionType,
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: displayWidth(context) > 600
-                                        ? TextStyle(
-                                            fontSize: 28,
-                                          )
-                                        : TextStyle(fontSize: 16),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  height: 30,
-                                  child: Text(
-                                    widget.referenceType,
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: displayWidth(context) > 600
-                                        ? TextStyle(
-                                            fontSize: 28,
-                                          )
-                                        : TextStyle(fontSize: 16),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  height: 30,
-                                  child: Text(
-                                    widget.referenceName,
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: displayWidth(context) > 600
-                                        ? TextStyle(
-                                            fontSize: 28,
-                                          )
-                                        : TextStyle(fontSize: 16),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    itemNameField(),
-                  ],
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      qualityInspectionDetailWidget('Report Date', widget.date),
+                      SizedBox(height: 15),
+                      qualityInspectionDetailWidget(
+                          'Inspection Type', widget.inspectionType),
+                      SizedBox(height: 15),
+                      qualityInspectionDetailWidget(
+                          'Reference Type', widget.referenceType),
+                      SizedBox(height: 15),
+                      qualityInspectionDetailWidget(
+                          'Reference Name', widget.referenceName),
+                      SizedBox(height: 15),
+                      itemNameField(),
+                    ],
+                  ),
                 ),
               ),
             ),
     );
   }
 
-  List<String> _getSuggestions(String query, List<String> list) {
-    List<String> matches = [];
-    matches.addAll(list);
-    matches.retainWhere((s) => s.toLowerCase().contains(query.toLowerCase()));
-    return matches;
+  Widget itemNameField() {
+    return CustomTypeAheadFormField(
+      controller: itemCodeController,
+      decoration: InputDecoration(
+          fillColor: greyColor,
+          filled: true,
+          isDense: true,
+          border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(5),
+          )),
+      label: 'Item Name',
+      labelStyle: TextStyle(color: blackColor),
+      required: true,
+      style: TextStyle(fontSize: 14, color: blackColor),
+      itemBuilder: (context, item) {
+        return TypeAheadWidgets.itemUi(item);
+      },
+      onSuggestionSelected: (suggestion) async {
+        itemCodeController.text = suggestion;
+      },
+      suggestionsCallback: (pattern) {
+        return TypeAheadWidgets.getSuggestions(pattern, listItemCode);
+      },
+      transitionBuilder: (context, suggestionsBox, controller) {
+        return suggestionsBox;
+      },
+      validator: (val) =>
+          val == '' || val == null ? 'Item Name should not be empty' : null,
+    );
   }
 
-  Widget itemNameField() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      child: TypeAheadFormField(
-        key: Key('item-name-field-form3'),
-                        hideSuggestionsOnKeyboardHide: false,
-
-        textFieldConfiguration: TextFieldConfiguration(
-          controller: itemCodeController,
-          style: displayWidth(context) > 600
-              ? TextStyle(fontSize: 28, color: blackColor)
-              : TextStyle(color: blackColor, fontSize: 18),
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(
-                  color: blackColor, width: 1, style: BorderStyle.solid),
-            ),
-            labelStyle: TextStyle(
-              fontSize: displayWidth(context) > 600 ? 28 : 16,
-            ),
-            contentPadding: EdgeInsets.symmetric(
-                vertical: displayWidth(context) > 600 ? 30 : 20,
-                horizontal: displayWidth(context) > 600 ? 20 : 10),
-            labelText: 'Item Name',
-          ),
-        ),
-        onSuggestionSelected: (suggestion) {
-          itemCodeController.text = suggestion;
-        },
-        itemBuilder: (context, item) {
-          return itemUi(item);
-        },
-        suggestionsCallback: (pattern) {
-          return _getSuggestions(pattern, listItemCode);
-        },
-        transitionBuilder: (context, suggestionsBox, controller) {
-          return suggestionsBox;
-        },
-        validator: (val) => val.isEmpty ? 'Please enter itemcode...' : null,
-      ),
+  Widget qualityInspectionDetailWidget(String label, String? value) {
+    return CustomTextFormField(
+      decoration: InputDecoration(
+          fillColor: greyColor,
+          filled: true,
+          isDense: true,
+          border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(5),
+          )),
+      label: label,
+      readOnly: true,
+      initialValue: value,
+      labelStyle: TextStyle(color: blackColor),
+      style: TextStyle(fontSize: 14, color: blackColor),
     );
   }
 }

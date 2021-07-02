@@ -1,9 +1,5 @@
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
-import 'package:ebuzz/common/circular_progress.dart';
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_appbar.dart';
-import 'package:ebuzz/common/display_helper.dart';
-import 'package:ebuzz/common/textstyles.dart';
 import 'package:ebuzz/leavelist/service/leave_list_api_service.dart';
 import 'package:ebuzz/leavelist/model/employee_leave.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +7,7 @@ import 'package:flutter/material.dart';
 //EmployeeLeaveUi class contains ui for displaying leaves list from leave application api
 class EmployeeLeaveUi extends StatefulWidget {
   final String name;
-  EmployeeLeaveUi({this.name});
+  EmployeeLeaveUi({required this.name});
   @override
   _EmployeeLeaveUiState createState() => _EmployeeLeaveUiState();
 }
@@ -20,9 +16,8 @@ class _EmployeeLeaveUiState extends State<EmployeeLeaveUi> {
   List<String> employeeDuplicteList = [];
   List<String> employeeList = [];
   TextEditingController searchController = TextEditingController();
-  GlobalKey<AutoCompleteTextFieldState<String>> key = GlobalKey();
   bool apicall = false;
-  List<EmployeeLeave> employeeLeaveList;
+  List<EmployeeLeave> employeeLeaveList = [];
   EmployeeApiService _employeeApiService = EmployeeApiService();
 
   @override
@@ -33,26 +28,35 @@ class _EmployeeLeaveUiState extends State<EmployeeLeaveUi> {
 
   _fetchEmployeeLeaveList() async {
     employeeLeaveList =
-        await _employeeApiService.fetchEmployeeLeavelist(widget.name,context);
+        await _employeeApiService.fetchEmployeeLeavelist(widget.name, context);
     setState(() {});
-  }
-
-  Widget itemUi(String item) {
-    return ListTile(
-      title: Text(item),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: bgColor,
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(displayWidth(context) > 600 ? 80 : 55),
+          preferredSize: Size.fromHeight( 55),
           child: CustomAppBar(
-            title: 'Leave List',
+            title: Text('Leave List', style: TextStyle(color: whiteColor)),
+            leading: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: Icon(
+                Icons.arrow_back,
+                color: whiteColor,
+              ),
+            ),
           )),
-      body: employeeLeaveList == null
-          ? CircularProgress()
+      body: employeeLeaveList.isEmpty
+          ?
+          // CircularProgress()
+           Center(
+              child: Text(
+                'No Data',
+                style: TextStyle(fontSize: 20, color: blackColor),
+              ),
+            )
           : EmployeeLeaveList(
               employeeLeave: employeeLeaveList,
             ),
@@ -63,35 +67,20 @@ class _EmployeeLeaveUiState extends State<EmployeeLeaveUi> {
 //EmployeeLeaveList is a reusable widget for displaying leaves of employee
 class EmployeeLeaveList extends StatelessWidget {
   final List<EmployeeLeave> employeeLeave;
-  EmployeeLeaveList({this.employeeLeave});
+  EmployeeLeaveList({required this.employeeLeave});
   @override
   Widget build(BuildContext context) {
-    return employeeLeave.length == 0
-        ? Center(
-            child: Text(
-              'No Data',
-              style: displayWidth(context) > 600
-                  ? TextStyle(
-                      fontSize: 28,
-                    )
-                  : TextStyles.t20Black,
-            ),
-          )
-        : ListView.builder(
+    return  ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemCount: employeeLeave.length,
             itemBuilder: (context, index) {
               return Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: displayWidth(context) > 600 ? 16 : 8,
-                    vertical: displayWidth(context) > 600 ? 6 : 2),
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 child: Card(
                   elevation: 2,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: displayWidth(context) > 600 ? 14 : 8,
-                        horizontal: displayWidth(context) > 600 ? 18 : 12),
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     child: Row(
                       children: [
                         Column(
@@ -99,44 +88,33 @@ class EmployeeLeaveList extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              employeeLeave[index].employeeName,
-                              style: displayWidth(context) > 600
-                                  ? TextStyle(
-                                      fontSize: 28, fontWeight: FontWeight.bold)
-                                  : TextStyles.t20BlackBold,
+                              employeeLeave[index].employeeName!,
+                              style: TextStyle(fontSize: 20, color: blackColor),
                             ),
                             SizedBox(
-                              height: displayWidth(context) > 600 ? 8 : 5,
+                              height: 5,
                             ),
                             Row(
                               children: [
                                 Text(
-                                  'From : ' + employeeLeave[index].fromDate,
-                                  style: displayWidth(context) > 600
-                                      ? TextStyle(
-                                          fontSize: 24,
-                                        )
-                                      : TextStyles.t16Black,
+                                  'From : ' + employeeLeave[index].fromDate!,
+                                  style: TextStyle(
+                                      fontSize: 16, color: blackColor),
                                 ),
                                 Text(
-                                  ' To : ' + employeeLeave[index].toDate,
-                                  style: displayWidth(context) > 600
-                                      ? TextStyle(
-                                          fontSize: 24,
-                                        )
-                                      : TextStyles.t16Black,
+                                  ' To : ' + employeeLeave[index].toDate!,
+                                  style: TextStyle(
+                                      fontSize: 16, color: blackColor),
                                 ),
                               ],
                             ),
                             SizedBox(
                               height: 5,
                             ),
-                            Text('Reason : ' + employeeLeave[index].description,
-                                style: displayWidth(context) > 600
-                                    ? TextStyle(
-                                        fontSize: 24,
-                                      )
-                                    : TextStyles.t16Black,
+                            Text(
+                                'Reason : ' + employeeLeave[index].description!,
+                                style:
+                                    TextStyle(fontSize: 16, color: blackColor),
                                 maxLines: 3,
                                 overflow: TextOverflow.ellipsis),
                             SizedBox(
@@ -149,11 +127,8 @@ class EmployeeLeaveList extends StatelessWidget {
                                       employeeLeave[index]
                                           .leaveBalance
                                           .toString(),
-                                  style: displayWidth(context) > 600
-                                      ? TextStyle(
-                                          fontSize: 24,
-                                        )
-                                      : TextStyles.t16Black,
+                                  style: TextStyle(
+                                      fontSize: 16, color: blackColor),
                                 ),
                                 SizedBox(
                                   width: 10,
@@ -161,11 +136,8 @@ class EmployeeLeaveList extends StatelessWidget {
                                 Text(
                                   'Half Day : ' +
                                       employeeLeave[index].halfDay.toString(),
-                                  style: displayWidth(context) > 600
-                                      ? TextStyle(
-                                          fontSize: 24,
-                                        )
-                                      : TextStyles.t16Black,
+                                  style: TextStyle(
+                                      fontSize: 16, color: blackColor),
                                 ),
                               ],
                             ),
@@ -177,11 +149,7 @@ class EmployeeLeaveList extends StatelessWidget {
                                   employeeLeave[index]
                                       .totalLeaveDays
                                       .toString(),
-                              style: displayWidth(context) > 600
-                                  ? TextStyle(
-                                      fontSize: 24,
-                                    )
-                                  : TextStyles.t16Black,
+                              style: TextStyle(fontSize: 16, color: blackColor),
                             ),
                             SizedBox(
                               height: 5,
@@ -190,19 +158,16 @@ class EmployeeLeaveList extends StatelessWidget {
                                 ? Container()
                                 : Text(
                                     'Approved by : ' +
-                                        employeeLeave[index].leaveApprover,
-                                    style: displayWidth(context) > 600
-                                        ? TextStyle(
-                                            fontSize: 24,
-                                          )
-                                        : TextStyles.t16Black,
+                                        employeeLeave[index].leaveApprover!,
+                                    style: TextStyle(
+                                        fontSize: 16, color: blackColor),
                                   ),
                           ],
                         ),
                         Spacer(),
                         Container(
-                          width: displayWidth(context) > 600 ? 30 : 15,
-                          height: displayWidth(context) > 600 ? 30 : 15,
+                          width: 15,
+                          height: 15,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: employeeLeave[index].status == 'Approved'

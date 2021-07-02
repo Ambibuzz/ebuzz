@@ -1,15 +1,15 @@
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_appbar.dart';
 import 'package:ebuzz/common/display_helper.dart';
-import 'package:ebuzz/common/textstyles.dart';
 import 'package:ebuzz/common/ui_reusable_widget.dart';
 import 'package:ebuzz/salesorder/model/sales_order.dart';
 import 'package:ebuzz/salesorder/service/sales_order_service.dart';
+import 'package:ebuzz/widgets/custom_textformformfield.dart';
 import 'package:flutter/material.dart';
 
 class SalesOrderDetail extends StatefulWidget {
   final SalesOrder salesOrder;
-  SalesOrderDetail({this.salesOrder});
+  SalesOrderDetail({required this.salesOrder});
   @override
   _SalesOrderDetailState createState() => _SalesOrderDetailState();
 }
@@ -25,10 +25,10 @@ class _SalesOrderDetailState extends State<SalesOrderDetail> {
   }
 
   getSalesOrderItemsAndPaymentSchedule() async {
-    _salesOrderItems =
-        await SalesOrderService().getSalesOrderItemList(widget.salesOrder.name,context);
+    _salesOrderItems = await SalesOrderService()
+        .getSalesOrderItemList(widget.salesOrder.name!, context);
     _salesOrderPaymentSchedule = await SalesOrderService()
-        .getSalesOrderPaymentScheduleList(widget.salesOrder.name,context);
+        .getSalesOrderPaymentScheduleList(widget.salesOrder.name!, context);
     print(_salesOrderItems.length);
     print(_salesOrderPaymentSchedule.length);
     setState(() {});
@@ -38,299 +38,158 @@ class _SalesOrderDetailState extends State<SalesOrderDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(displayWidth(context) > 600 ? 80 : 55),
+        preferredSize: Size.fromHeight(55),
         child: CustomAppBar(
-          title: 'Sales Order Detail',
+          title:
+              Text('Sales Order Detail', style: TextStyle(color: whiteColor)),
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(
+              Icons.arrow_back,
+              color: whiteColor,
+            ),
+          ),
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SODetailUiWidget(
-              soData: widget.salesOrder,
-              salesOrderItemsList: _salesOrderItems,
-              salesOrderPaymentScheduleList: _salesOrderPaymentSchedule,
+            Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  salesOrderDetailWidget(
+                      'Customer', widget.salesOrder.customer),
+                  SizedBox(height: 15),
+                  salesOrderDetailWidget('Company', widget.salesOrder.customer),
+                  SizedBox(height: 15),
+                  salesOrderDetailWidget(
+                      'Order Type', widget.salesOrder.customer),
+                  SizedBox(height: 15),
+                  salesOrderDetailWidget(
+                      'Transaction Date', widget.salesOrder.customer),
+                  SizedBox(height: 15),
+                  salesOrderDetailWidget(
+                      'Delivery Date', widget.salesOrder.customer),
+                  SizedBox(height: 15),
+                  salesOrderDetailWidget(
+                      'Purchase Order Date', widget.salesOrder.customer),
+                  SizedBox(height: 15),
+                  salesOrderDetailWidget(
+                      'Purchase Order No', widget.salesOrder.customer),
+                  SizedBox(height: 15),
+                  salesOrderDetailWidget(
+                      'Port of Discharge', widget.salesOrder.customer),
+                  SizedBox(height: 15),
+                  salesOrderDetailWidget(
+                      'Total Quantity', widget.salesOrder.customer),
+                  SizedBox(height: 15),
+                  salesOrderDetailWidget(
+                      'Total Net Weight', widget.salesOrder.customer),
+                  SizedBox(height: 15),
+                  salesOrderDetailWidget(
+                      'Grand Total (INR)', widget.salesOrder.customer),
+                  SizedBox(height: 15),
+                  salesOrderDetailWidget(
+                      'Grand Total (USD)', widget.salesOrder.customer),
+                  SizedBox(height: 15),
+                  salesOrderDetailWidget('Status', widget.salesOrder.customer),
+                  SizedBox(height: 15),
+                  salesOrderDetailWidget(
+                      'Advance Paid', widget.salesOrder.customer),
+                  SizedBox(height: 15),
+                ],
+              ),
+            ),
+            Column(
+              children: [
+                scrollToViewTableBelow(context),
+                SizedBox(height: 5),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    columns: <DataColumn>[
+                      tableColumnText(context, 'Item Code'),
+                      tableColumnText(context, 'ItemName'),
+                      tableColumnText(context, 'Delivery Date'),
+                      tableColumnText(context, 'Quantity'),
+                      tableColumnText(context, 'Rate'),
+                      tableColumnText(context, 'Amount'),
+                    ],
+                    rows: _salesOrderItems
+                        .map((data) => DataRow(cells: <DataCell>[
+                              dataCellText(context, data.itemcode ?? '',
+                                  displayWidth(context) * 0.3),
+                              dataCellText(context, data.itemname ?? '',
+                                  displayWidth(context) * 0.7),
+                              dataCellText(
+                                  context,
+                                  data.deliverydate.toString(),
+                                  displayWidth(context) * 0.3),
+                              dataCellText(context, data.qty.toString(),
+                                  displayWidth(context) * 0.3),
+                              dataCellText(context, data.rate.toString(),
+                                  displayWidth(context) * 0.3),
+                              dataCellText(context, data.amount.toString(),
+                                  displayWidth(context) * 0.3),
+                            ]))
+                        .toList(),
+                  ),
+                ),
+                SizedBox(height: 5),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    columns: <DataColumn>[
+                      tableColumnText(context, 'Payment Term'),
+                      tableColumnText(context, 'Description'),
+                      tableColumnText(context, 'Due Date'),
+                      tableColumnText(context, 'Invoice Portion'),
+                      tableColumnText(context, 'Payment Amount'),
+                    ],
+                    rows: _salesOrderPaymentSchedule
+                        .map((data) => DataRow(cells: <DataCell>[
+                              dataCellText(context, data.paymentterm ?? '',
+                                  displayWidth(context) * 0.3),
+                              dataCellText(context, data.description ?? '',
+                                  displayWidth(context) * 0.7),
+                              dataCellText(context, data.duedate.toString(),
+                                  displayWidth(context) * 0.4),
+                              dataCellText(
+                                  context,
+                                  data.invoiceportion.toString(),
+                                  displayWidth(context) * 0.3),
+                              dataCellText(
+                                  context,
+                                  data.paymentamount.toString(),
+                                  displayWidth(context) * 0.4),
+                            ]))
+                        .toList(),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
       ),
     );
   }
-}
 
-//SODetailUiWidget class is a reusable widget which contains detail of sales order
-class SODetailUiWidget extends StatelessWidget {
-  final SalesOrder soData;
-  final List<SalesOrderItems> salesOrderItemsList;
-  final List<SalesOrderPaymentSchedule> salesOrderPaymentScheduleList;
-
-  SODetailUiWidget(
-      {this.soData,
-      this.salesOrderItemsList,
-      this.salesOrderPaymentScheduleList});
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 16),
-          child: Row(
-            children: [
-              Container(
-                width: displayWidth(context) * 0.32,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Customer'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Company'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Order Type'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Transaction Date'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Delivery Date'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Purchase Order Date'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Purchase Order Number'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Port Of Discharge'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Total Quantity'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Total Net Weight'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Grand Total (INR)'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Grand Total (USD)'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Status'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Advance Paid'),
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              Column(
-                children: [
-                  SizedBox(
-                    height: 15,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                ],
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Container(
-                width: displayWidth(context) * 0.5,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, soData.customer),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, soData.company),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, soData.ordertype),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, soData.transactiondate),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, soData.deliverydate),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, soData.pono),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, soData.podate),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, soData.portofdischarge),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, soData.totalqty.toString()),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, soData.totalnetweight.toString()),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(
-                        context, '₹' + soData.basegrandtotal.toString()),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, '\$' + soData.grandtotal.toString()),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, soData.status),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, soData.advancepaid.toString()),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        scrollToViewTableBelow(context),
-        SizedBox(
-          height: 5,
-        ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: DataTable(
-            columns: <DataColumn>[
-              tableColumnText(context, 'Item Code'),
-              tableColumnText(context, 'ItemName'),
-              tableColumnText(context, 'Delivery Date'),
-              tableColumnText(context, 'Quantity'),
-              tableColumnText(context, 'Rate'),
-              tableColumnText(context, 'Amount'),
-            ],
-            rows: salesOrderItemsList
-                .map((data) => DataRow(cells: <DataCell>[
-                      dataCellText(context, data.itemcode),
-                      dataCellText(context, data.itemname),
-                      dataCellText(context, data.deliverydate),
-                      dataCellText(context, data.qty.toString()),
-                      dataCellText(context, '\$' + data.rate.toString()),
-                      dataCellText(context, '\$' + data.amount.toString()),
-                    ]))
-                .toList(),
-          ),
-        ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: DataTable(
-            columns: <DataColumn>[
-              tableColumnText(context, 'Payment Term'),
-              tableColumnText(context, 'Description'),
-              tableColumnText(context, 'Due Date'),
-              tableColumnText(context, 'Invoice Portion'),
-              tableColumnText(context, 'Payment Amount'),
-            ],
-            rows: salesOrderPaymentScheduleList
-                .map((data) => DataRow(cells: <DataCell>[
-                      dataCellText(context, data.paymentterm),
-                      dataCellText(context, data.description),
-                      dataCellText(context, data.duedate),
-                      dataCellText(
-                          context, data.invoiceportion.toString() + '%'),
-                      dataCellText(
-                          context, '\$' + data.paymentamount.toString()),
-                    ]))
-                .toList(),
-          ),
-        ),
-      ],
+  Widget salesOrderDetailWidget(String label, String? value) {
+    return CustomTextFormField(
+      decoration: InputDecoration(
+          fillColor: greyColor,
+          filled: true,
+          isDense: true,
+          border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(5),
+          )),
+      label: label,
+      readOnly: true,
+      initialValue: value,
+      labelStyle: TextStyle(color: blackColor),
+      style: TextStyle(fontSize: 14, color: blackColor),
     );
   }
 }

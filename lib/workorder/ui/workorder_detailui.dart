@@ -1,5 +1,7 @@
+import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_appbar.dart';
 import 'package:ebuzz/common/display_helper.dart';
+import 'package:ebuzz/widgets/custom_textformformfield.dart';
 import 'package:ebuzz/workorder/model/workorder_model.dart';
 import 'package:ebuzz/workorder/service/workorder_service.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,7 @@ import 'package:ebuzz/common/ui_reusable_widget.dart';
 
 class WorkOrderDetailUi extends StatefulWidget {
   final WorkOrderModel workOrderData;
-  const WorkOrderDetailUi({this.workOrderData});
+  const WorkOrderDetailUi({required this.workOrderData});
   @override
   _WorkOrderDetailUiState createState() => _WorkOrderDetailUiState();
 }
@@ -24,7 +26,7 @@ class _WorkOrderDetailUiState extends State<WorkOrderDetailUi> {
 
   getWorkOrderItemListData() async {
     _workOrderItemsList = await WorkOrderService()
-        .getWorkOrderItemList(widget.workOrderData.name,context);
+        .getWorkOrderItemList(widget.workOrderData.name!, context);
     setState(() {});
   }
 
@@ -32,269 +34,140 @@ class _WorkOrderDetailUiState extends State<WorkOrderDetailUi> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(displayWidth(context) > 600 ? 80 : 55),
+          preferredSize: Size.fromHeight(55),
           child: CustomAppBar(
-            title: 'Work Order',
-          )),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            WODetailUiWidget(
-              workOrderModelData: widget.workOrderData,
-              workOrderItemsList: _workOrderItemsList,
+            title:
+                Text('Work Order Detail', style: TextStyle(color: whiteColor)),
+            leading: IconButton(
+              onPressed: () => Navigator.pop(context, false),
+              icon: Icon(
+                Icons.arrow_back,
+                color: whiteColor,
+              ),
             ),
-          ],
-        ),
+          )),
+      body: Stack(
+        children: [
+          Align(
+            alignment: Alignment.bottomRight,
+            child: versionText(),
+          ),
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      workOrderDetailWidget(
+                          'Company', widget.workOrderData.company),
+                      SizedBox(height: 15),
+                      workOrderDetailWidget('Item to Manufacture',
+                          widget.workOrderData.productionItem),
+                      SizedBox(height: 15),
+                      workOrderDetailWidget(
+                          'Item Name', widget.workOrderData.itemName),
+                      SizedBox(height: 15),
+                      workOrderDetailWidget(
+                          'Bom no', widget.workOrderData.bomNo),
+                      SizedBox(height: 15),
+                      workOrderDetailWidget('Quantity to Manufacture',
+                          widget.workOrderData.qtyToManufacture.toString()),
+                      SizedBox(height: 15),
+                      workOrderDetailWidget(
+                          'Material Transfered for Manufacturing',
+                          widget.workOrderData.materialTransfForManuf
+                              .toString()),
+                      SizedBox(height: 15),
+                      workOrderDetailWidget('Manufactured Quantity',
+                          widget.workOrderData.manufacturedQty.toString()),
+                      SizedBox(height: 15),
+                      workOrderDetailWidget(
+                          'Status', widget.workOrderData.status),
+                      SizedBox(height: 15),
+                      workOrderDetailWidget(
+                          'Start Date', widget.workOrderData.plannedStartDate),
+                      SizedBox(height: 15),
+                      workOrderDetailWidget('Delivery Date',
+                          widget.workOrderData.expectedDeliveryDate),
+                      SizedBox(height: 15),
+                      workOrderDetailWidget('Target Warehouse',
+                          widget.workOrderData.targetWarehouse),
+                      SizedBox(height: 15),
+                      workOrderDetailWidget('Work in Progress Warehouse',
+                          widget.workOrderData.workInProgressWarehouse),
+                      SizedBox(height: 15),
+                    ],
+                  ),
+                ),
+                Column(
+                  children: [
+                    scrollToViewTableBelow(context),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: DataTable(
+                        columns: <DataColumn>[
+                          tableColumnText(context, 'Item Code'),
+                          tableColumnText(context, 'Source Warehouse'),
+                          tableColumnText(context, 'Required Quantity'),
+                          tableColumnText(context, 'Transfered Quantity'),
+                          tableColumnText(context, 'Consumed Quantity'),
+                        ],
+                        rows: _workOrderItemsList
+                            .map((data) => DataRow(cells: <DataCell>[
+                                  dataCellText(
+                                      context,
+                                      data.itemCode ??
+                                          '' + ': ' + data.itemName!,
+                                      displayWidth(context) * 0.5),
+                                  dataCellText(
+                                      context,
+                                      data.sourceWarehouse ?? '',
+                                      displayWidth(context) * 0.7),
+                                  dataCellText(
+                                      context,
+                                      data.requiredQty.toString(),
+                                      displayWidth(context) * 0.3),
+                                  dataCellText(
+                                      context,
+                                      data.transferedQuantity.toString(),
+                                      displayWidth(context) * 0.3),
+                                  dataCellText(
+                                      context,
+                                      data.consumedQuantity.toString(),
+                                      displayWidth(context) * 0.3),
+                                ]))
+                            .toList(),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
-}
 
-// WODetailUiWidget consist of data of work order
-
-class WODetailUiWidget extends StatelessWidget {
-  final WorkOrderModel workOrderModelData;
-  final List<WorkOrderItems> workOrderItemsList;
-  WODetailUiWidget({this.workOrderModelData, this.workOrderItemsList});
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 16),
-          child: Row(
-            children: [
-              Container(
-                width: displayWidth(context) * 0.32,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    textFieldName(context, 'Company'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Item to Manufacture'),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    textFieldName(context, 'Item Name'),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    textFieldName(context, 'Bom No'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Qty to Manufacture'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(
-                        context, 'Material Transfered for Manufacturing'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Manufactured Quantity'),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    textFieldName(context, 'Sales Order'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Status'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Start Date'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Delivery Date'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Target Warehouse'),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, 'Work in progress Warehouse'),
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              Column(
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  colon(context),
-                  SizedBox(
-                    height: 10,
-                  ),
-                ],
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Container(
-                width: displayWidth(context) * 0.5,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, workOrderModelData.company),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(
-                        context,
-                        workOrderModelData.productionItem +
-                            ' : ' +
-                            workOrderModelData.itemName),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, workOrderModelData.itemName),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    textFieldName(context, workOrderModelData.bomNo),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context,
-                        workOrderModelData.qtyToManufacture.toString()),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context,
-                        workOrderModelData.materialTransfForManuf.toString()),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(
-                        context, workOrderModelData.manufacturedQty.toString()),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, workOrderModelData.salesOrder),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, workOrderModelData.status),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, workOrderModelData.plannedStartDate),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(
-                        context, workOrderModelData.expectedDeliveryDate),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(context, workOrderModelData.targetWarehouse),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    textFieldName(
-                        context, workOrderModelData.workInProgressWarehouse),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        scrollToViewTableBelow(context),
-        SizedBox(
-          height: 5,
-        ),
-        //WorkOrderItem list data displayed in tabular form
-
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: DataTable(
-              columns: <DataColumn>[
-                tableColumnText(context, 'Item Code'),
-                tableColumnText(context, 'Source Warehouse'),
-                tableColumnText(context, 'Required Quantity'),
-                tableColumnText(context, 'Transfered Quantity'),
-                tableColumnText(context, 'Consumed Quantity'),
-              ],
-              rows: workOrderItemsList
-                  .map((data) => DataRow(cells: <DataCell>[
-                        dataCellText(
-                            context, data.itemCode + ': ' + data.itemName),
-                        dataCellText(context, data.sourceWarehouse),
-                        dataCellText(context, data.requiredQty.toString()),
-                        dataCellText(
-                            context, data.transferedQuantity.toString()),
-                        dataCellText(
-                            context, data.transferedQuantity.toString()),
-                      ]))
-                  .toList()),
-        ),
-      ],
+  Widget workOrderDetailWidget(String label, String? value) {
+    return CustomTextFormField(
+      decoration: InputDecoration(
+          fillColor: greyColor,
+          filled: true,
+          isDense: true,
+          border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(5),
+          )),
+      label: label,
+      readOnly: true,
+      initialValue: value,
+      labelStyle: TextStyle(color: blackColor),
+      style: TextStyle(fontSize: 14, color: blackColor),
     );
   }
 }

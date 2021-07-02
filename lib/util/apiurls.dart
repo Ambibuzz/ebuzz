@@ -1,6 +1,3 @@
-String bomUrl(String text) {
-  return '/api/resource/BOM/$text';
-}
 
 String batchUrl() {
   return '/api/resource/Batch/?fields=["*"]&limit_page_length=*';
@@ -14,6 +11,30 @@ String barcodeUrl(String text) {
   return '/api/method/erpnext.stock.doctype.quick_stock_balance.quick_stock_balance.get_stock_item_details?warehouse=&date=&barcode=$text';
 }
 
+String bomItemDetailUrl(String text) {
+  return '/api/resource/BOM/$text';
+}
+
+String bomListUrl() {
+  return '/api/resource/BOM/?fields=["*"]&limit_page_length=*';
+}
+
+String bomNameFromItemNameUrl(String text) {
+  return '/api/resource/BOM/?fields=["*"]&filters=[["BOM","item_name","=","$text"]]&limit_page_length=*';
+}
+
+String bomNameFromItemUrl(String text) {
+  return '/api/resource/BOM/?fields=["*"]&filters=[["BOM","item","=","$text"]]&limit_page_length=*';
+}
+
+String bomUrl(String text) {
+  return '/api/resource/BOM/$text';
+}
+
+String bomPostUrl() {
+  return '/api/resource/BOM';
+}
+
 String brandDataUrl(String text) {
   return '/api/resource/Item/?fields=["item_code","item_name","image"]&filters=[["Item","brand","=","$text"]]&limit_page_length=*';
 }
@@ -22,8 +43,28 @@ String brandListUrl() {
   return '/api/resource/Brand?fields=["name"]&limit_page_length=*';
 }
 
+String customerGroupUrl() {
+  return '/api/resource/Customer%20Group?fields=["*"]&limit_page_length=*';
+}
+
+String customerPostUrl() {
+  return '/api/resource/Customer';
+}
+
+String customerDetailUrl(String text) {
+  return '/api/resource/Customer/$text';
+}
+
 String companyListUrl() {
   return '/api/resource/Company?fields=["*"]&limit_page_length=*';
+}
+
+String customerUrl() {
+  return '/api/resource/Customer/?fields=["name"]&filters=[["Customer","disabled","=","No"]]&limit_page_length=*';
+}
+
+String currencyListUrl() {
+  return '/api/resource/Currency/?fields=["name"]&filters=[["Currency","enabled","=","Yes"]]&limit_page_length=*';
 }
 
 String customerListUrl() {
@@ -38,8 +79,16 @@ String deliveryNoteDataUrl(String text) {
   return '/api/resource/Delivery%20Note/$text';
 }
 
-String fileUploadUrl2() {
-  return '/api/resource/Image%20Upload';
+String evaluassiStaffUrl() {
+  return '/api/resource/Evaluasi%20Staff';
+}
+
+String evaluassiStaffListUrl() {
+  return '/api/resource/Evaluasi%20Staff/?fields=["*"]&limit_page_length=*';
+}
+
+String evaluassiStaffDetailUrl(String text) {
+  return '/api/resource/Evaluasi%20Staff/$text';
 }
 
 String fileUploadUrl() {
@@ -64,6 +113,10 @@ String qualityInspectionTemplateUrl(String text) {
 
 String qualityInspectionDetailUrl(String text) {
   return '/api/resource/Quality%20Inspection/$text';
+}
+
+String itemUrl() {
+  return '/api/resource/Item';
 }
 
 String itemDataUrl(String text) {
@@ -105,11 +158,15 @@ String itemBrandAndWeightDataSeriesUrl(
 }
 
 String itemGroupUrl() {
-  return '/api/resource/Item%20Group?fields=["name"]&limit_page_length=*';
+  return '/api/resource/Item%20Group?fields=["*"]&limit_page_length=*';
 }
 
 String itemNameSearchUrl(String text) {
-  return '/api/resource/Item/?fields=["item_code","item_name"]&filters=[["Item","item_name","like","%$text%"]]';
+  return '/api/resource/Item/?fields=["item_code","item_name"]&filters=[["Item","item_name","like","%$text%"]]&limit_page_length=*';
+}
+
+String itemNameBasedOnItemGroupUrl(String text) {
+  return '/api/resource/Item/?fields=["item_name"]&filters=[["Item","item_group","=","$text"]]&limit_page_length=*';
 }
 
 String itemPriceUrl() {
@@ -132,8 +189,32 @@ String itemListForSalesItemUrl() {
   return '/api/resource/Item/?fields=["item_code","item_name"]&filters=[["Item","is_sales_item","=","Yes"]]&limit_page_length=*';
 }
 
+String labelsListUrl() {
+  return '/api/method/frappe.desk.desktop.get_desktop_page';
+}
+
 String leaveLedgerEntryUrl(String name) {
-  return '/api/resource/Leave%20Ledger%20Entry/?fields=["*"]&filters=[["Leave%20Ledger%20Entry","employee_name","like","$name"]]';
+  return '/api/resource/Leave%20Ledger%20Entry/?fields=["*"]&filters=[["Leave%20Ledger%20Entry","employee_name","like","$name"]]&limit_page_length=*';
+}
+
+String leadDetailUrl(String text) {
+  return '/api/resource/Lead/$text';
+}
+
+String leadDetailFromLeadNameUrl(String text) {
+  return '/api/resource/Lead/?fields=["*"]&filters=[["Lead","lead_name","=","$text"]]';
+}
+
+String leadListUrl() {
+  return '/api/resource/Lead?fields=["*"]&limit_page_length=*';
+}
+
+String leadPostUrl() {
+  return '/api/resource/Lead';
+}
+
+String locationUrl() {
+  return '/api/resource/Location/?fields=["*"]&limit_page_length=*';
 }
 
 String loginUrl(String baseurl) {
@@ -144,8 +225,16 @@ String logoutUrl(String baseurl) {
   return '$baseurl/api/method/logout';
 }
 
+String modulesListUrl() {
+  return '/api/method/frappe.desk.desktop.get_desk_sidebar_items';
+}
+
 String particularEmployeeListUrl(String employeeName) {
   return '/api/resource/Leave%20Application/?fields=["*"]&filters=[["Leave%20Application","employee_name","like","$employeeName"]]&limit_page_length=*';
+}
+
+String pdfUrl(String doctype, String docname) {
+  return '/api/method/frappe.utils.print_format.download_pdf?doctype=$doctype&name=$docname&format=Standard&no_letterhead=1&letterhead=No%20Letterhead&settings=%7B%7D&_lang=en';
 }
 
 String purchaseInvoiceSubmittedUrl() {
@@ -196,9 +285,9 @@ String quotationListUrl() {
   return '/api/resource/Quotation/?fields=["*"]&limit_page_length=*';
 }
 
-// String qualityinspectionTemplateUrl(String text) {
-//  return '/api/resource/Quality%20Inspection%20Template?fields=[%22*%22]&filters=[[%Quality%20Inspection%20Template%22,%22item%22,%22like%22,%22$text%22]]&limit_page_length=*';
-// }
+String quotationIndividualUrl(String text) {
+  return '/api/resource/Quotation/$text';
+}
 
 String salesInvoiceSubmittedUrl() {
   return '/api/resource/Sales%20Invoice/?fields=["*"]&filters=[["Sales%20Invoice","workflow_state","like","%Submitted%"]]&limit_page_length=*';
@@ -252,6 +341,10 @@ String stockLedgerUrl(String text) {
   return '/api/resource/Stock%20Ledger%20Entry/?fields=["*"]&filters=[["Stock%20Ledger%20Entry","item_code","=","$text"]]';
 }
 
+String territoryUrl() {
+  return '/api/resource/Territory?fields=["*"]&limit_page_length=*';
+}
+
 String workOrderListUrl() {
   return '/api/resource/Work%20Order/?fields=["*"]&limit_page_length=*';
 }
@@ -260,10 +353,22 @@ String usernameUrl() {
   return '/api/method/frappe.auth.get_logged_user';
 }
 
+String userListUrl() {
+  return '/api/resource/User/?fields=["*"]&limit_page_length=*';
+}
+
+String userEmailFromUserName(String username) {
+  return '/api/resource/User?fields=["*"]&filters=[["User","username","=","$username"]]&limit_page_length=*';
+}
+
+String uomUrl() {
+  return '/api/resource/UOM/?fields=["*"]&limit_page_length=*';
+}
+
 String workOrderUrl(String text) {
   return '/api/resource/Work%20Order/$text';
 }
 
 String warehouseList(String text) {
-  return 'http://agfsandbox.ambibuzz.com/api/resource/Warehouse/?fields=["*"]&filters=[["Warehouse","disabled","=","0"],["Warehouse","company","=","$text"]]&limit_page_length=*';
+  return '/api/resource/Warehouse/?fields=["*"]&filters=[["Warehouse","disabled","=","0"],["Warehouse","company","=","$text"]]&limit_page_length=*';
 }

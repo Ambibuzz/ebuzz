@@ -12,8 +12,8 @@ class LeaveApiService {
     List list = [];
     try {
       Dio _dio = await BaseDio().getBaseDio();
-      String name = await getName();
-      final String itemList = leaveLedgerEntryUrl(name);
+      String? name = await getName();
+      final String itemList = leaveLedgerEntryUrl(name!);
       final response = await _dio.get(itemList);
       var data = response.data;
       list = data['data'];

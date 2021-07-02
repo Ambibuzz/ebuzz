@@ -6,8 +6,8 @@ class WarehouseQuantity {
     this.warehouse,
   });
 
-  double actualQty;
-  String warehouse;
+  double? actualQty;
+  String? warehouse;
 
   //For fetching json data from stock ledger entry api and storing it in warehouse quantity model
   factory WarehouseQuantity.fromJson(Map<String, dynamic> json) =>

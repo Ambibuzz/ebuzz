@@ -1,8 +1,8 @@
 //Item class contains model to store data of Item api
 //All fields are  not been used only limited fields which were useful in app have been used
 class Item {
-  final String itemName;
-  final String itemCode;
+  final String? itemName;
+  final String? itemCode;
 
   Item({
     this.itemCode,

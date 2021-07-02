@@ -2,19 +2,19 @@
 //All fields are  not been used only limited fields which were useful in app have been used
 
 class EmployeeLeave {
-  final String postingDate;
-  final String status;
-  final String leaveApprover;
-  final String description;
-  final double totalLeaveDays;
-  final String fromDate;
-  final String toDate;
-  final int halfDay;
-  final String halfDayDate;
-  final String leaveType;
-  final double leaveBalance;
-  final String employeeName;
-  final String employee;
+  final String? postingDate;
+  final String? status;
+  final String? leaveApprover;
+  final String? description;
+  final double? totalLeaveDays;
+  final String? fromDate;
+  final String? toDate;
+  final int? halfDay;
+  final String? halfDayDate;
+  final String? leaveType;
+  final double? leaveBalance;
+  final String? employeeName;
+  final String? employee;
 
   EmployeeLeave(
       {this.postingDate,

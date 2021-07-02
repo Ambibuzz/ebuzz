@@ -13,8 +13,9 @@ class LogOutApiService {
   Future logOut(BuildContext context, String apiurl) async {
     try {
       final String logOutUrl = logoutUrl(apiurl);
+      var uri = Uri.parse(logOutUrl);
       var response = await http.get(
-        logOutUrl,
+        uri,
       );
       if (response.statusCode == 200) {
         removeLoggedIn();
@@ -23,6 +24,7 @@ class LogOutApiService {
         removeName();
         removeCompany();
         removeCurrency();
+        removeUserName();
         pushReplacementScreen(context, Login());
       } else {
         if (response.statusCode == 400) {

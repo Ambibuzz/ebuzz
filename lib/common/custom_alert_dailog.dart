@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 void customAlertDialog({
-    BuildContext context, Widget content, Widget title, List<Widget> actions}) {
+   required BuildContext context,
+    required Widget content,
+    required  Widget title,
+    required  List<Widget> actions}) {
   showDialog(
       context: context,
       builder: (ctx) {

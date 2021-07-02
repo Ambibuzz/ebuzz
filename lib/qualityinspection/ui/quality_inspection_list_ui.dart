@@ -1,9 +1,7 @@
 import 'package:ebuzz/common/circular_progress.dart';
 import 'package:ebuzz/common/colors.dart';
 import 'package:ebuzz/common/custom_appbar.dart';
-import 'package:ebuzz/common/display_helper.dart';
 import 'package:ebuzz/common/navigations.dart';
-import 'package:ebuzz/common/textstyles.dart';
 import 'package:ebuzz/qualityinspection/model/quality_inspection_model.dart';
 import 'package:ebuzz/qualityinspection/service/quality_inspection_service.dart';
 import 'package:ebuzz/qualityinspection/ui/qiform1.dart';
@@ -42,10 +40,19 @@ class _QualityInspectionListUiState extends State<QualityInspectionListUi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: bgColor,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(displayWidth(context) > 600 ? 80 : 55),
+        preferredSize: Size.fromHeight(55),
         child: CustomAppBar(
-          title: 'Quality Inspection',
+          title:
+              Text('Quality Inspection', style: TextStyle(color: whiteColor)),
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(
+              Icons.arrow_back,
+              color: whiteColor,
+            ),
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -89,63 +96,59 @@ class _QualityInspectionListUiState extends State<QualityInspectionListUi> {
 
 class QITileUi extends StatelessWidget {
   final QualityInspectionModel qiData;
-  const QITileUi({this.qiData});
+  const QITileUi({required this.qiData});
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: displayWidth(context) * 0.99,
-      height: 120,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 5),
-        child: Card(
-          elevation: 1,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      qiData.name,
-                      style: TextStyles.t18Black,
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      'Report Date : ' + qiData.reportDate,
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      'Inspection Type : ' + qiData.inspectionType,
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      'Item Code : ' + qiData.itemCode,
-                    ),
-                  ],
-                ),
-                Spacer(),
-                SizedBox(
-                  width: 5,
-                ),
-                Container(
-                  width: displayWidth(context) > 600 ? 30 : 15,
-                  height: displayWidth(context) > 600 ? 30 : 15,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: qiData.status == 'Accepted'
-                          ? greenColor
-                          : blackColor),
-                ),
-              ],
-            ),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 5),
+      child: Card(
+        elevation: 3,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          child: Row(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    qiData.name!,
+                    style: TextStyle(fontSize: 18, color: blackColor),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    'Report Date : ' + qiData.reportDate!,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    'Inspection Type : ' + qiData.inspectionType!,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    'Item Code : ' + qiData.itemCode!,
+                  ),
+                ],
+              ),
+              Spacer(),
+              SizedBox(
+                width: 5,
+              ),
+              Container(
+                width: 15,
+                height: 15,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color:
+                        qiData.status == 'Accepted' ? greenColor : blackColor),
+              ),
+            ],
           ),
         ),
       ),

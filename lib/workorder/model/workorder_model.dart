@@ -2,21 +2,21 @@
 //All fields are  not been used only limited fields which were useful in app have been used
 
 class WorkOrderModel {
-  final String status;
-  final String company;
-  final String productionItem;
-  final String description;
-  final double qtyToManufacture;
-  final String itemName;
-  final double materialTransfForManuf;
-  final String bomNo;
-  final double manufacturedQty;
-  final String salesOrder;
-  final String workInProgressWarehouse;
-  final String targetWarehouse;
-  final String plannedStartDate;
-  final String expectedDeliveryDate;
-  final String name;
+  final String? status;
+  final String? company;
+  final String? productionItem;
+  final String? description;
+  final double? qtyToManufacture;
+  final String? itemName;
+  final double? materialTransfForManuf;
+  final String? bomNo;
+  final double? manufacturedQty;
+  final String? salesOrder;
+  final String? workInProgressWarehouse;
+  final String? targetWarehouse;
+  final String? plannedStartDate;
+  final String? expectedDeliveryDate;
+  final String? name;
 
   WorkOrderModel(
       {this.productionItem,
@@ -60,12 +60,12 @@ class WorkOrderModel {
 
 //WorkOrderItems class contains model to store item data of work order api
 class WorkOrderItems {
-  final String itemCode;
-  final String itemName;
-  final String sourceWarehouse;
-  final double requiredQty;
-  final double transferedQuantity;
-  final double consumedQuantity;
+  final String? itemCode;
+  final String? itemName;
+  final String? sourceWarehouse;
+  final double? requiredQty;
+  final double? transferedQuantity;
+  final double? consumedQuantity;
 
   WorkOrderItems(
       {this.itemCode,

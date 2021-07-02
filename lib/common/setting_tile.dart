@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 //It contains ui of tile used in settings
 class SettingsTile extends StatelessWidget {
   final String text;
-  SettingsTile({this.text});
+  SettingsTile({this.text=''});
   @override
   Widget build(BuildContext context) {
     return Column(
